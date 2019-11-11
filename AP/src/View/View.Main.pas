@@ -50,7 +50,6 @@ type
     procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
   private
     FAP: TAP;
-    FTransitions: TTransitions;
     function GetAuxSymbols: TArray<TSymbol>;
     function GetBase: TSymbol;
     function GetInitialState: TState;
@@ -128,7 +127,6 @@ end;
 
 procedure TMain.ActionClearExecute(Sender: TObject);
 begin
-  FTransitions.Clear;
   FAP.Clear;
   EditSymbols.Text := string.Empty;
   EditStates.Text := string.Empty;
@@ -182,12 +180,14 @@ end;
 
 function TMain.GetTransitions: TTransitions;
 var
-  Transition: TTransition;
+  Transitions: TTransitions;
 begin
-  FTransitions.Clear;
+  Transitions.Clear;
 
   Grid.ForEach(
     procedure
+    var
+      Transition: TTransition;
     begin
       Transition.Source := Grid.Value[ColumnSource];
       Transition.Target := Grid.Value[ColumnTarget];
@@ -195,10 +195,10 @@ begin
       Transition.Push   := Grid.Value[ColumnPush];
       Transition.Pop    := Grid.Value[ColumnPop];
 
-      FTransitions.Add(Transition);
+      Transitions.Add(Transition);
     end);
 
-  Result := FTransitions;
+  Result := Transitions;
 end;
 
 function TMain.GetWord: TWord;
