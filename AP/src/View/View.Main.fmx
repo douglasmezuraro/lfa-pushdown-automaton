@@ -1,47 +1,224 @@
 object Main: TMain
   Left = 0
   Top = 0
-  Caption = 'Form1'
-  ClientHeight = 480
-  ClientWidth = 640
+  Caption = 'AP'
+  ClientHeight = 511
+  ClientWidth = 580
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnShow = FormShow
   DesignerMasterStyle = 0
-  object EditValue: TEdit
-    Touch.InteractiveGestures = [LongTap, DoubleTap]
-    TabOrder = 0
-    Position.X = 56.000000000000000000
-    Position.Y = 40.000000000000000000
-    Size.Width = 177.000000000000000000
-    Size.Height = 22.000000000000000000
+  object TabControlView: TTabControl
+    Align = Client
+    Size.Width = 580.000000000000000000
+    Size.Height = 466.000000000000000000
     Size.PlatformDefault = False
-  end
-  object MemoValues: TMemo
-    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-    DataDetectorTypes = []
-    Position.X = 56.000000000000000000
-    Position.Y = 88.000000000000000000
-    Size.Width = 513.000000000000000000
-    Size.Height = 361.000000000000000000
-    Size.PlatformDefault = False
+    TabIndex = 1
     TabOrder = 1
-    Viewport.Width = 509.000000000000000000
-    Viewport.Height = 357.000000000000000000
+    TabPosition = PlatformDefault
+    Sizes = (
+      580s
+      440s
+      580s
+      440s)
+    object TabItemInput: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 48.000000000000000000
+      Size.Height = 26.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'Input'
+      object EditSymbols: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 0
+        Position.X = 16.000000000000000000
+        Position.Y = 38.000000000000000000
+        Size.Width = 545.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Symbols'
+      end
+      object LabelSymbols: TLabel
+        FocusControl = EditSymbols
+        Position.X = 16.000000000000000000
+        Position.Y = 22.000000000000000000
+        Text = #931
+        TabOrder = 1
+      end
+      object EditStates: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 2
+        Position.X = 16.000000000000000000
+        Position.Y = 86.000000000000000000
+        Size.Width = 545.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'States'
+      end
+      object LabelStates: TLabel
+        FocusControl = EditStates
+        Position.X = 16.000000000000000000
+        Position.Y = 70.000000000000000000
+        Text = 'E'
+        TabOrder = 3
+      end
+      object LabelInitialState: TLabel
+        FocusControl = EditInitialState
+        Position.X = 16.000000000000000000
+        Position.Y = 118.000000000000000000
+        Text = 'i'
+        TabOrder = 4
+      end
+      object EditInitialState: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 5
+        Position.X = 16.000000000000000000
+        Position.Y = 134.000000000000000000
+        Size.Width = 545.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Initial state'
+      end
+      object LabelBase: TLabel
+        FocusControl = EditBase
+        Position.X = 16.000000000000000000
+        Position.Y = 166.000000000000000000
+        Text = 'B'
+        TabOrder = 6
+      end
+      object EditBase: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 7
+        Position.X = 16.000000000000000000
+        Position.Y = 182.000000000000000000
+        Size.Width = 545.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Base'
+      end
+      object LabelAuxSymbols: TLabel
+        FocusControl = EditAuxSymbols
+        Position.X = 16.000000000000000000
+        Position.Y = 214.000000000000000000
+        Text = #1043
+        TabOrder = 8
+      end
+      object EditAuxSymbols: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 9
+        Position.X = 16.000000000000000000
+        Position.Y = 230.000000000000000000
+        Size.Width = 545.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+      end
+    end
+    object TabItemOutput: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = True
+      Size.Width = 58.000000000000000000
+      Size.Height = 26.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'Output'
+      object LabelWord: TLabel
+        FocusControl = EditWord
+        Position.X = 16.000000000000000000
+        Position.Y = 14.000000000000000000
+        Text = 'Word'
+        TabOrder = 0
+      end
+      object EditWord: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 1
+        Position.X = 16.000000000000000000
+        Position.Y = 30.000000000000000000
+        Size.Width = 465.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object ButtonCheck: TButton
+        Action = ActionCheck
+        Enabled = True
+        ImageIndex = -1
+        Position.X = 488.000000000000000000
+        Position.Y = 30.000000000000000000
+        TabOrder = 2
+      end
+      object LabelWords: TLabel
+        FocusControl = ListWords
+        Position.X = 16.000000000000000000
+        Position.Y = 62.000000000000000000
+        Text = 'Words'
+        TabOrder = 3
+      end
+      object ListWords: TListBox
+        Position.X = 16.000000000000000000
+        Position.Y = 78.000000000000000000
+        Size.Width = 553.000000000000000000
+        Size.Height = 347.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 4
+        DisableFocusEffect = True
+        DefaultItemStyles.ItemStyle = ''
+        DefaultItemStyles.GroupHeaderStyle = ''
+        DefaultItemStyles.GroupFooterStyle = ''
+        Viewport.Width = 549.000000000000000000
+        Viewport.Height = 343.000000000000000000
+      end
+    end
   end
-  object ButtonPush: TButton
-    Position.X = 312.000000000000000000
-    Position.Y = 24.000000000000000000
-    TabOrder = 3
-    Text = 'Push'
-    OnClick = ButtonPushClick
+  object PanelButtons: TPanel
+    Align = Bottom
+    Position.Y = 466.000000000000000000
+    Size.Width = 580.000000000000000000
+    Size.Height = 45.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object ButtonBuildAP: TButton
+      Action = ActionBuildAP
+      Align = Left
+      Enabled = True
+      ImageIndex = -1
+      Size.Width = 100.000000000000000000
+      Size.Height = 45.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+    end
+    object ButtonClear: TButton
+      Action = ActionClear
+      Align = Right
+      Enabled = True
+      ImageIndex = -1
+      Position.X = 480.000000000000000000
+      Size.Width = 100.000000000000000000
+      Size.Height = 45.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+    end
   end
-  object ButtonPop: TButton
-    Position.X = 312.000000000000000000
-    Position.Y = 56.000000000000000000
-    TabOrder = 2
-    Text = 'Pop'
-    OnClick = ButtonPopClick
+  object ActionList: TActionList
+    Left = 512
+    Top = 160
+    object ActionBuildAP: TAction
+      Text = '&Build AP'
+      OnExecute = ActionBuildAPExecute
+    end
+    object ActionClear: TAction
+      Text = 'Cl&ear'
+      OnExecute = ActionClearExecute
+    end
+    object ActionCheck: TAction
+      Text = '&Check'
+      OnExecute = ActionCheckExecute
+    end
   end
 end
