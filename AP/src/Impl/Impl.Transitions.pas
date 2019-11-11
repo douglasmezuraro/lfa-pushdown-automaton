@@ -16,12 +16,12 @@ type
 
   TTransitions = record
   private
-    FValues: TArray<TTransition>;
-    function GetValues: TArray<TTransition>;
+    FTransitions: TArray<TTransition>;
   public
+    function IsEmpty: Boolean;
+    function ToArray: TArray<TTransition>;
     procedure Add(const Transition: TTransition);
     procedure Clear;
-    property Values: TArray<TTransition> read GetValues;
   end;
 
 implementation
@@ -30,18 +30,23 @@ implementation
 
 procedure TTransitions.Add(const Transition: TTransition);
 begin
-  SetLength(FValues, Length(FValues) + 1);
-  FValues[High(FValues)] := Transition;
+  SetLength(FTransitions, Length(FTransitions) + 1);
+  FTransitions[High(FTransitions)] := Transition;
 end;
 
 procedure TTransitions.Clear;
 begin
-  SetLength(FValues, 0);
+  SetLength(FTransitions, 0);
 end;
 
-function TTransitions.GetValues: TArray<TTransition>;
+function TTransitions.ToArray: TArray<TTransition>;
 begin
-  Result := FValues;
+  Result := FTransitions;
+end;
+
+function TTransitions.IsEmpty: Boolean;
+begin
+  Result := Length(FTransitions) = 0;
 end;
 
 end.

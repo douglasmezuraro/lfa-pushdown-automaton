@@ -9,15 +9,14 @@ type
   TStack = class sealed
   private
     FStack: TArray<string>;
-    function GetCount: Integer;
-    function GetIsEmpty: Boolean;
   public
-    procedure Clear;
-    procedure Push(const Value: string);
+    function Count: Integer;
+    function IsEmpty: Boolean;
     function Pop: string;
     function ToArray: TArray<string>;
-    property Count: Integer read GetCount;
-    property IsEmpty: Boolean read GetIsEmpty;
+    function ToString: string; override;
+    procedure Clear;
+    procedure Push(const Value: string);
   end;
 
 implementation
@@ -29,12 +28,12 @@ begin
   SetLength(FStack, 0);
 end;
 
-function TStack.GetCount: Integer;
+function TStack.Count: Integer;
 begin
   Result := Length(FStack);
 end;
 
-function TStack.GetIsEmpty: Boolean;
+function TStack.IsEmpty: Boolean;
 begin
   Result := Count = 0;
 end;
@@ -57,6 +56,21 @@ end;
 function TStack.ToArray: TArray<string>;
 begin
   Result := FStack;
+end;
+
+function TStack.ToString: string;
+var
+  Item: string;
+begin
+  for Item in FStack do
+  begin
+    if Result.Trim.IsEmpty then
+      Result := Item
+    else
+      Result := Result + ', ' + Item;
+  end;
+
+  Result := '[' + Result + ']';
 end;
 
 end.

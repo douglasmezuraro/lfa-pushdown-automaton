@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.StrUtils, System.UITypes, System.Classes, System.Rtti, System.Actions,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.StdCtrls, FMX.ScrollBox, FMX.Controls.Presentation,
   FMX.Edit, FMX.TabControl, FMX.ActnList, FMX.Layouts, FMX.ListBox, FMX.Grid, FMX.Grid.Style,
-  Helper.FMX, Impl.AP, Impl.Types, Impl.Transitions, Impl.Dialogs;
+  Helper.FMX, Impl.AP, Impl.AP.Validator, Impl.Types, Impl.Transitions, Impl.Dialogs;
 
 type
   TMain = class sealed(TForm)
@@ -87,24 +87,27 @@ begin
 end;
 
 procedure TMain.ActionBuildAPExecute(Sender: TObject);
+var
+  Validator: TAPValidator;
+  Msg: string;
 begin
   EditWord.Text := TWord.Empty;
   ListWords.Items.Clear;
-  try
-    FAP := FAP.AddSymbols(Symbols)
-              .AddStates(States)
-              .AddInitialState(InitialState)
-              .AddBase(Base)
-              .AddAuxSymbols(AuxSymbols)
-              .AddTransitions(Transitions);
 
-    TabControlView.Next;
-  except
-    on E: Exception do
-    begin
-      TDialogs.Warning(E.Message);
-    end;
-  end;
+  FAP.Clear;
+  FAP.Symbols      := Symbols;
+  FAP.States       := States;
+  FAP.InitialState := InitialState;
+  FAP.AuxSymbols   := AuxSymbols;
+  FAP.Base         := Base;
+  FAP.Transitions  := Transitions;
+
+  Validator := TAPValidator.Create(FAP);
+
+  if Validator.Validate(Msg) then
+    TabControlView.Next
+  else
+    TDialogs.Warning(Msg);
 end;
 
 procedure TMain.ActionCheckExecute(Sender: TObject);
@@ -114,7 +117,7 @@ begin
   Item := TListBoxItem.Create(ListWords);
   try
     Item.Check(FAP.Accept(Word));
-    Item.Text := IfThen(Word.IsEmpty, Impl.AP.TAP.EmptySymbol, Word);
+    Item.Text := IfThen(Word.IsEmpty, Impl.AP.TAP.Empty, Word);
 
     ListWords.AddObject(Item);
   except

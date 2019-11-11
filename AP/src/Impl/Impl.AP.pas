@@ -3,83 +3,49 @@
 interface
 
 uses
-  Impl.Types, Impl.Transitions, System.SysUtils;
+  System.SysUtils, Impl.Stack, Impl.Types, Impl.Transitions;
 
 type
   TAP = class sealed
+  private
+    FSymbols: TArray<TState>;
+    FStates: TArray<TState>;
+    FTransitions: TTransitions;
+    FInitialState: TState;
+    FBase: TSymbol;
+    FAuxSymbols: TArray<TState>;
   public const
-    EmptySymbol: TSymbol = 'ʎ';
+    Empty: TSymbol = 'ʎ';
   public
-    constructor Create;
-    destructor Destroy; override;
     procedure Clear;
-    function IsDefined: Boolean;
-    function AddSymbols(const Symbols: TArray<TSymbol>): TAP;
-    function AddStates(const States: TArray<TState>): TAP;
-    function AddTransitions(const Transitions: TTransitions): TAP;
-    function AddInitialState(const State: TState): TAP;
-    function AddBase(const Base: TSymbol): TAP;
-    function AddAuxSymbols(const Symbols: TArray<TSymbol>): TAP;
     function Accept(const Word: TWord): Boolean;
+  published
+    property Symbols: TArray<TSymbol> read FSymbols write FSymbols;
+    property States: TArray<TState> read FStates write FStates;
+    property InitialState: TState read FInitialState write FInitialState;
+    property AuxSymbols: TArray<TSymbol> read FAuxSymbols write FAuxSymbols;
+    property Base: TSymbol read FBase write FBase;
+    property Transitions: TTransitions read FTransitions write FTransitions;
   end;
 
 implementation
 
 { TAP }
 
-constructor TAP.Create;
-begin
-
-end;
-
-destructor TAP.Destroy;
-begin
-  inherited Destroy;
-end;
-
 function TAP.Accept(const Word: TWord): Boolean;
 begin
-  raise ENotImplemented.Create('The method "TAP.Accept" is not implemented!');
-end;
-
-function TAP.AddAuxSymbols(const Symbols: TArray<TSymbol>): TAP;
-begin
-  raise ENotImplemented.Create('The method "TAP.AddAuxSymbols" is not implemented!');
-end;
-
-function TAP.AddBase(const Base: TSymbol): TAP;
-begin
-  raise ENotImplemented.Create('The method "TAP.AddBase" is not implemented!');
-end;
-
-function TAP.AddInitialState(const State: TState): TAP;
-begin
-  raise ENotImplemented.Create('The method "TAP.AddInitialState" is not implemented!');
-end;
-
-function TAP.AddStates(const States: TArray<TState>): TAP;
-begin
-  raise ENotImplemented.Create('The method "TAP.AddStates" is not implemented!');
-end;
-
-function TAP.AddSymbols(const Symbols: TArray<TSymbol>): TAP;
-begin
-  raise ENotImplemented.Create('The method "TAP.AddSymbols" is not implemented!');
-end;
-
-function TAP.AddTransitions(const Transitions: TTransitions): TAP;
-begin
-  raise ENotImplemented.Create('The method "TAP.AddTransitions" is not implemented!');
+  result := true;
 end;
 
 procedure TAP.Clear;
 begin
-  raise ENotImplemented.Create('The method "TAP.Clear" is not implemented!');
-end;
-
-function TAP.IsDefined: Boolean;
-begin
-  raise ENotImplemented.Create('The method "TAP.IsDefined" is not implemented!');
+  SetLength(FSymbols, 0);
+  SetLength(FStates, 0);
+  SetLength(FAuxSymbols, 0);
+  FTransitions.Clear;
+  FInitialState := TState.Empty;
+  FBase := TSymbol.Empty;
 end;
 
 end.
+
