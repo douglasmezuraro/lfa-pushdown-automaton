@@ -4,7 +4,8 @@ uses
   System.StartUpCopy,
   FMX.Forms,
   View.Main in '..\src\View\View.Main.pas' {Main},
-  Impl.Stack in '..\src\Impl\Impl.Stack.pas';
+  Impl.Stack in '..\src\Impl\Impl.Stack.pas',
+  Impl.AP in '..\src\Impl\Impl.AP.pas';
 
 {$R *.res}
 
