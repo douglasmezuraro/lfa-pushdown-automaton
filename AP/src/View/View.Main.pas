@@ -3,48 +3,51 @@ unit View.Main;
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
-  FMX.ScrollBox, FMX.Memo, FMX.Controls.Presentation, FMX.Edit, Impl.AP,
-  FMX.TabControl, System.Actions, FMX.ActnList, Impl.Types, Impl.Transitions,
-  FMX.Layouts, FMX.ListBox, Impl.Dialogs, Helper.FMX, System.StrUtils,
-  System.Rtti, FMX.Grid.Style, FMX.Grid;
+  System.SysUtils, System.StrUtils, System.UITypes, System.Classes, System.Rtti, System.Actions,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.StdCtrls, FMX.ScrollBox, FMX.Controls.Presentation,
+  FMX.Edit, FMX.TabControl, FMX.ActnList, FMX.Layouts, FMX.ListBox, FMX.Grid, FMX.Grid.Style,
+  Helper.FMX, Impl.AP, Impl.Types, Impl.Transitions, Impl.Dialogs;
 
 type
   TMain = class sealed(TForm)
+    ActionBuildAP: TAction;
+    ActionCheck: TAction;
+    ActionClear: TAction;
+    ActionList1: TActionList;
+    ActionList: TActionList;
+    ButtonBuildAP: TButton;
+    ButtonCheck: TButton;
+    ButtonClear: TButton;
+    ColumnPop: TStringColumn;
+    ColumnPush: TStringColumn;
+    ColumnSource: TStringColumn;
+    ColumnSymbol: TStringColumn;
+    ColumnTarget: TStringColumn;
+    EditAuxSymbols: TEdit;
+    EditBase: TEdit;
+    EditInitialState: TEdit;
+    EditStates: TEdit;
+    EditSymbols: TEdit;
+    EditWord: TEdit;
+    Grid: TStringGrid;
+    LabelAuxSymbols: TLabel;
+    LabelBase: TLabel;
+    LabelInitialState: TLabel;
+    LabelStates: TLabel;
+    LabelSymbols: TLabel;
+    LabelTransitions: TLabel;
+    LabelWord: TLabel;
+    LabelWords: TLabel;
+    ListWords: TListBox;
+    PanelButtons: TPanel;
     TabControlView: TTabControl;
     TabItemInput: TTabItem;
     TabItemOutput: TTabItem;
-    PanelButtons: TPanel;
-    ButtonBuildAP: TButton;
-    ActionList: TActionList;
-    ActionBuildAP: TAction;
-    ButtonClear: TButton;
-    ActionClear: TAction;
-    EditSymbols: TEdit;
-    LabelSymbols: TLabel;
-    EditStates: TEdit;
-    LabelStates: TLabel;
-    LabelInitialState: TLabel;
-    EditInitialState: TEdit;
-    LabelBase: TLabel;
-    EditBase: TEdit;
-    LabelAuxSymbols: TLabel;
-    EditAuxSymbols: TEdit;
-    LabelWord: TLabel;
-    EditWord: TEdit;
-    ButtonCheck: TButton;
-    ActionCheck: TAction;
-    LabelWords: TLabel;
-    ListWords: TListBox;
-    LabelTransitions: TLabel;
-    MemoTransitions: TMemo;
-    ButtonFoo: TButton;
     procedure ActionBuildAPExecute(Sender: TObject);
     procedure ActionClearExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ActionCheckExecute(Sender: TObject);
-    procedure ButtonFooClick(Sender: TObject);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
   private
     FAP: TAP;
     FTransitions: TTransitions;
@@ -71,6 +74,18 @@ type
 implementation
 
 {$R *.fmx}
+
+constructor TMain.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FAP := Impl.AP.TAP.Create;
+end;
+
+destructor TMain.Destroy;
+begin
+  FAP.Free;
+  inherited Destroy;
+end;
 
 procedure TMain.ActionBuildAPExecute(Sender: TObject);
 begin
@@ -124,25 +139,15 @@ begin
   ListWords.Items.Clear;
 end;
 
-procedure TMain.ButtonFooClick(Sender: TObject);
-var
-  a: TTransitions;
+procedure TMain.FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
 begin
-  a := Transitions;
-end;
+  if not (ssCtrl in Shift) then
+    Exit;
 
-constructor TMain.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  FAP := Impl.AP.TAP.Create;
-  FTransitions := TTransitions.Create;
-end;
-
-destructor TMain.Destroy;
-begin
-  FTransitions.Free;
-  FAP.Free;
-  inherited Destroy;
+  case Key of
+    vkInsert: Grid.Insert;
+    vkDelete: Grid.Delete;
+  end;
 end;
 
 procedure TMain.FormShow(Sender: TObject);
@@ -177,12 +182,21 @@ end;
 
 function TMain.GetTransitions: TTransitions;
 var
-  Line: string;
+  Transition: TTransition;
 begin
   FTransitions.Clear;
 
-  for Line in MemoTransitions.Lines.ToStringArray do
-    FTransitions.Add(Line);
+  Grid.ForEach(
+    procedure
+    begin
+      Transition.Source := Grid.Value[ColumnSource];
+      Transition.Target := Grid.Value[ColumnTarget];
+      Transition.Symbol := Grid.Value[ColumnSymbol];
+      Transition.Push   := Grid.Value[ColumnPush];
+      Transition.Pop    := Grid.Value[ColumnPop];
+
+      FTransitions.Add(Transition);
+    end);
 
   Result := FTransitions;
 end;
@@ -193,3 +207,4 @@ begin
 end;
 
 end.
+

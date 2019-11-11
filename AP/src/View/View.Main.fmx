@@ -7,6 +7,7 @@ object Main: TMain
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
+  OnKeyUp = FormKeyUp
   OnShow = FormShow
   DesignerMasterStyle = 0
   object TabControlView: TTabControl
@@ -33,6 +34,8 @@ object Main: TMain
       StyleLookup = ''
       TabOrder = 0
       Text = 'Input'
+      ExplicitSize.cx = 48.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
       object EditSymbols: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
         TabOrder = 0
@@ -119,30 +122,38 @@ object Main: TMain
         TextPrompt = 'Aux symbols'
       end
       object LabelTransitions: TLabel
-        FocusControl = MemoTransitions
         Position.X = 16.000000000000000000
         Position.Y = 262.000000000000000000
         Text = #948
         TabOrder = 10
       end
-      object MemoTransitions: TMemo
-        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-        DataDetectorTypes = []
-        Position.X = 16.000000000000000000
-        Position.Y = 286.000000000000000000
-        Size.Width = 545.000000000000000000
-        Size.Height = 267.000000000000000000
+      object Grid: TStringGrid
+        CanFocus = True
+        ClipChildren = True
+        Position.X = 18.000000000000000000
+        Position.Y = 284.000000000000000000
+        Size.Width = 543.000000000000000000
+        Size.Height = 305.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 11
-        Viewport.Width = 541.000000000000000000
-        Viewport.Height = 263.000000000000000000
-      end
-      object ButtonFoo: TButton
-        Position.X = 176.000000000000000000
-        Position.Y = 606.000000000000000000
-        TabOrder = 12
-        Text = 'ButtonFoo'
-        OnClick = ButtonFooClick
+        RowCount = 0
+        Viewport.Width = 539.000000000000000000
+        Viewport.Height = 280.000000000000000000
+        object ColumnSource: TStringColumn
+          Header = 'Source'
+        end
+        object ColumnSymbol: TStringColumn
+          Header = 'Symbol'
+        end
+        object ColumnPop: TStringColumn
+          Header = 'Pop'
+        end
+        object ColumnTarget: TStringColumn
+          Header = 'Target'
+        end
+        object ColumnPush: TStringColumn
+          Header = 'Push'
+        end
       end
     end
     object TabItemOutput: TTabItem
@@ -156,6 +167,8 @@ object Main: TMain
       StyleLookup = ''
       TabOrder = 0
       Text = 'Output'
+      ExplicitSize.cx = 58.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
       object LabelWord: TLabel
         FocusControl = EditWord
         Position.X = 16.000000000000000000
@@ -247,5 +260,9 @@ object Main: TMain
       Text = '&Check'
       OnExecute = ActionCheckExecute
     end
+  end
+  object ActionList1: TActionList
+    Left = 355
+    Top = 616
   end
 end
