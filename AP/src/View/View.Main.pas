@@ -7,7 +7,8 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
   FMX.ScrollBox, FMX.Memo, FMX.Controls.Presentation, FMX.Edit, Impl.AP,
   FMX.TabControl, System.Actions, FMX.ActnList, Impl.Types, Impl.Transitions,
-  FMX.Layouts, FMX.ListBox, Impl.Dialogs, Helper.FMX, System.StrUtils;
+  FMX.Layouts, FMX.ListBox, Impl.Dialogs, Helper.FMX, System.StrUtils,
+  System.Rtti, FMX.Grid.Style, FMX.Grid;
 
 type
   TMain = class sealed(TForm)
@@ -36,12 +37,17 @@ type
     ActionCheck: TAction;
     LabelWords: TLabel;
     ListWords: TListBox;
+    LabelTransitions: TLabel;
+    MemoTransitions: TMemo;
+    ButtonFoo: TButton;
     procedure ActionBuildAPExecute(Sender: TObject);
     procedure ActionClearExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ActionCheckExecute(Sender: TObject);
+    procedure ButtonFooClick(Sender: TObject);
   private
     FAP: TAP;
+    FTransitions: TTransitions;
     function GetAuxSymbols: TArray<TSymbol>;
     function GetBase: TSymbol;
     function GetInitialState: TState;
@@ -107,25 +113,34 @@ end;
 
 procedure TMain.ActionClearExecute(Sender: TObject);
 begin
+  FTransitions.Clear;
   FAP.Clear;
   EditSymbols.Text := string.Empty;
   EditStates.Text := string.Empty;
   EditInitialState.Text := string.Empty;
   EditBase.Text := string.Empty;
   EditAuxSymbols.Text := string.Empty;
-  //Transitions.Clear
   EditWord.Text := string.Empty;
   ListWords.Items.Clear;
+end;
+
+procedure TMain.ButtonFooClick(Sender: TObject);
+var
+  a: TTransitions;
+begin
+  a := Transitions;
 end;
 
 constructor TMain.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FAP := Impl.AP.TAP.Create;
+  FTransitions := TTransitions.Create;
 end;
 
 destructor TMain.Destroy;
 begin
+  FTransitions.Free;
   FAP.Free;
   inherited Destroy;
 end;
@@ -161,8 +176,15 @@ begin
 end;
 
 function TMain.GetTransitions: TTransitions;
+var
+  Line: string;
 begin
-  raise ENotImplemented.Create('Method "TMain.GetTransitions" is not implemented');
+  FTransitions.Clear;
+
+  for Line in MemoTransitions.Lines.ToStringArray do
+    FTransitions.Add(Line);
+
+  Result := FTransitions;
 end;
 
 function TMain.GetWord: TWord;

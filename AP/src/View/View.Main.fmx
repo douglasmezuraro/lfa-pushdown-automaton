@@ -2,7 +2,7 @@ object Main: TMain
   Left = 0
   Top = 0
   Caption = 'AP'
-  ClientHeight = 511
+  ClientHeight = 727
   ClientWidth = 580
   FormFactor.Width = 320
   FormFactor.Height = 480
@@ -12,21 +12,21 @@ object Main: TMain
   object TabControlView: TTabControl
     Align = Client
     Size.Width = 580.000000000000000000
-    Size.Height = 466.000000000000000000
+    Size.Height = 682.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 1
     TabPosition = PlatformDefault
     Sizes = (
       580s
-      440s
+      656s
       580s
-      440s)
+      656s)
     object TabItemInput: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 48.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
@@ -116,13 +116,40 @@ object Main: TMain
         Size.Width = 545.000000000000000000
         Size.Height = 22.000000000000000000
         Size.PlatformDefault = False
+        TextPrompt = 'Aux symbols'
+      end
+      object LabelTransitions: TLabel
+        FocusControl = MemoTransitions
+        Position.X = 16.000000000000000000
+        Position.Y = 262.000000000000000000
+        Text = #948
+        TabOrder = 10
+      end
+      object MemoTransitions: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        DataDetectorTypes = []
+        Position.X = 16.000000000000000000
+        Position.Y = 286.000000000000000000
+        Size.Width = 545.000000000000000000
+        Size.Height = 267.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 11
+        Viewport.Width = 541.000000000000000000
+        Viewport.Height = 263.000000000000000000
+      end
+      object ButtonFoo: TButton
+        Position.X = 176.000000000000000000
+        Position.Y = 606.000000000000000000
+        TabOrder = 12
+        Text = 'ButtonFoo'
+        OnClick = ButtonFooClick
       end
     end
     object TabItemOutput: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 58.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
@@ -178,7 +205,7 @@ object Main: TMain
   end
   object PanelButtons: TPanel
     Align = Bottom
-    Position.Y = 466.000000000000000000
+    Position.Y = 682.000000000000000000
     Size.Width = 580.000000000000000000
     Size.Height = 45.000000000000000000
     Size.PlatformDefault = False
