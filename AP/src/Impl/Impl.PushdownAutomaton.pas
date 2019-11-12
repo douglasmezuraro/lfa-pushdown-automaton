@@ -14,8 +14,6 @@ type
     FInitialState: TState;
     FBase: TSymbol;
     FAuxSymbols: TArray<TState>;
-  public const
-    Empty: TSymbol = 'ʎ';
   public
     constructor Create;
     destructor Destroy; override;

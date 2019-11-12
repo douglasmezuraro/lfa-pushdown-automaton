@@ -123,7 +123,7 @@ begin
   Item := TListBoxItem.Create(ListWords);
   try
     Item.Check(FAutomaton.Accept(Word));
-    Item.Text := IfThen(Word.IsEmpty, TPushdownAutomaton.Empty, Word);
+    Item.Text := IfThen(Word.IsEmpty, Empty, Word);
 
     ListWords.AddObject(Item);
   except
