@@ -91,7 +91,7 @@ begin
 
   if FSymbols.HasDuplicated(Symbol) then
   begin
-    FError := Format('The aux symbol %s is duplicated.', [Symbol.Trim.QuotedString]);
+    FError := Format('The aux symbol %s is duplicated.', [Symbol.QuotedString]);
     Exit;
   end;
 
@@ -102,7 +102,7 @@ function TAPValidator.ValidateBase: Boolean;
 begin
   Result := False;
 
-  if FBase.Trim.IsEmpty then
+  if FBase.IsEmpty then
   begin
     FError := 'The base is not defined.';
     Exit;
@@ -110,7 +110,7 @@ begin
 
   if not FAuxSymbols.Contains(FBase) then
   begin
-    FError := Format('The base %s is not in aux symbols %s.', [FBase.Trim.QuotedString, FAuxSymbols.ToString]);
+    FError := Format('The base %s is not in aux symbols %s.', [FBase.QuotedString, FAuxSymbols.ToString]);
     Exit;
   end;
 
@@ -127,9 +127,9 @@ begin
     Exit;
   end;
 
-  if not FStates.Contains(FInitialState.Trim) then
+  if not FStates.Contains(FInitialState) then
   begin
-    FError := Format('The state %s is not in states list %s.', [FInitialState.Trim.QuotedString, FStates.ToString]);
+    FError := Format('The state %s is not in states list %s.', [FInitialState.QuotedString, FStates.ToString]);
     Exit;
   end;
 
@@ -150,7 +150,7 @@ begin
 
   if FStates.HasDuplicated(State) then
   begin
-    FError := Format('The state %s is duplicated.', [State.Trim.QuotedString]);
+    FError := Format('The state %s is duplicated.', [State.QuotedString]);
     Exit;
   end;
 
@@ -171,7 +171,7 @@ begin
 
   if FSymbols.HasDuplicated(Symbol) then
   begin
-    FError := Format('The symbol %s is duplicated.', [Symbol.Trim.QuotedString]);
+    FError := Format('The symbol %s is duplicated.', [Symbol.QuotedString]);
     Exit;
   end;
 
@@ -181,6 +181,7 @@ end;
 function TAPValidator.ValidateTransitions: Boolean;
 var
   Transition: TTransition;
+  Symbol: TSymbol;
 begin
   Result := False;
 
@@ -192,34 +193,40 @@ begin
 
   for Transition in FTransitions.ToArray do
   begin
-    if not FStates.Contains(Transition.Source.Trim) then
+    if not FStates.Contains(Transition.Source) then
     begin
-      FError := Format('The source state %s is not in states list %s.', [Transition.Source.Trim.QuotedString, FStates.ToString]);
+      FError := Format('The source state %s is not in states list %s.', [Transition.Source.QuotedString, FStates.ToString]);
       Exit;
     end;
 
-    if not FSymbols.Contains(Transition.Symbol.Trim) then
+    if not FSymbols.Contains(Transition.Symbol) then
     begin
-      FError := Format('The symbol %s is not in symbols list %s.', [Transition.Symbol.Trim.QuotedString, FSymbols.ToString]);
+      FError := Format('The symbol %s is not in symbols list %s.', [Transition.Symbol.QuotedString, FSymbols.ToString]);
       Exit;
     end;
 
-    if not FAuxSymbols.Contains(Transition.Pop.Trim.Chars[0]) then
+    for Symbol in Transition.Pop do
     begin
-      FError := Format('The pop symbol %s is not in aux symbols list %s.', [Transition.Pop.Trim.Chars[0], FAuxSymbols.ToString]);
+      if not FAuxSymbols.Contains(Symbol) then
+      begin
+        FError := Format('The pop symbol %s is not in aux symbols list %s.', [Symbol.QuotedString, FAuxSymbols.ToString]);
+        Exit;
+      end;
+    end;
+
+    if not FStates.Contains(Transition.Target) then
+    begin
+      FError := Format('The target state %s is not in states list %s.', [Transition.Target.QuotedString, FStates.ToString]);
       Exit;
     end;
 
-    if not FStates.Contains(Transition.Target.Trim) then
+    for Symbol in Transition.Push do
     begin
-      FError := Format('The target state %s is not in states list %s.', [Transition.Target.Trim.QuotedString, FStates.ToString]);
-      Exit;
-    end;
-
-    if not FAuxSymbols.Contains(Transition.Push.Trim.Chars[0]) then
-    begin
-      FError := Format('The push symbol %s is not in aux symbols list %s.', [Transition.Push.Trim.Chars[0], FAuxSymbols.ToString]);
-      Exit;
+      if not FAuxSymbols.Contains(Symbol) then
+      begin
+        FError := Format('The push symbol %s is not in aux symbols list %s.', [Symbol.QuotedString, FAuxSymbols.ToString]);
+        Exit;
+      end;
     end;
   end;
 

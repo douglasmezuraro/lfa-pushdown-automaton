@@ -103,11 +103,17 @@ begin
   FAP.Transitions  := Transitions;
 
   Validator := TAPValidator.Create(FAP);
+  try
+    if Validator.Validate(Msg) then
+    begin
+      TabControlView.Next;
+      Exit;
+    end;
 
-  if Validator.Validate(Msg) then
-    TabControlView.Next
-  else
     TDialogs.Warning(Msg);
+  finally
+    Validator.Free;
+  end;
 end;
 
 procedure TMain.ActionCheckExecute(Sender: TObject);
@@ -158,27 +164,27 @@ end;
 
 function TMain.GetAuxSymbols: TArray<TSymbol>;
 begin
-  Result := EditAuxSymbols.Text.Split([','], TStringSplitOptions.ExcludeEmpty);
+  Result := EditAuxSymbols.Text.Replace(' ', '').Split([','], TStringSplitOptions.ExcludeEmpty);
 end;
 
 function TMain.GetBase: TSymbol;
 begin
-  Result := EditBase.Text;
+  Result := EditBase.Text.Replace(' ', '');
 end;
 
 function TMain.GetInitialState: TState;
 begin
-  Result := EditInitialState.Text;
+  Result := EditInitialState.Text.Replace(' ', '');
 end;
 
 function TMain.GetStates: TArray<TState>;
 begin
-  Result := EditStates.Text.Split([','], TStringSplitOptions.ExcludeEmpty);
+  Result := EditStates.Text.Replace(' ', '').Split([','], TStringSplitOptions.ExcludeEmpty);
 end;
 
 function TMain.GetSymbols: TArray<TSymbol>;
 begin
-  Result := EditSymbols.Text.Split([','], TStringSplitOptions.ExcludeEmpty);
+  Result := EditSymbols.Text.Replace(' ', '').Split([','], TStringSplitOptions.ExcludeEmpty);
 end;
 
 function TMain.GetTransitions: TTransitions;
@@ -206,7 +212,7 @@ end;
 
 function TMain.GetWord: TWord;
 begin
-  Result := EditWord.Text;
+  Result := EditWord.Text.Replace(' ', '');
 end;
 
 end.

@@ -13,6 +13,7 @@ type
     function Count: Integer;
     function IsEmpty: Boolean;
     function Pop: string;
+    function Peek: string;
     function ToArray: TArray<string>;
     function ToString: string; override;
     procedure Clear;
@@ -36,6 +37,13 @@ end;
 function TStack.IsEmpty: Boolean;
 begin
   Result := Count = 0;
+end;
+
+function TStack.Peek: string;
+begin
+  Result := string.Empty;
+  if not IsEmpty then
+    Result := FStack[High(FStack)];
 end;
 
 function TStack.Pop: string;

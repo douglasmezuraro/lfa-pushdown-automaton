@@ -33,8 +33,38 @@ implementation
 { TAP }
 
 function TAP.Accept(const Word: TWord): Boolean;
+var
+  State: TState;
+  Stack: TStack;
+  Symbol: TSymbol;
+  SymbolToPush: TSymbol;
+  Transition: TTransition;
 begin
-  result := true;
+  Stack := TStack.Create;
+  try
+    State := InitialState;
+    Stack.Push(FBase);
+
+    for Symbol in Word do
+    begin
+      if Transitions.HasTransition(State, Symbol, Stack.Peek) then
+      begin
+        Transition := Transitions.Transition(State, Symbol, Stack.Peek);
+        State := Transition.Target;
+        Stack.Pop;
+        for SymbolToPush in Transition.Push.Split([',']) do
+        begin
+          Stack.Push(SymbolToPush);
+        end;
+      end
+      else
+        Exit(False);
+    end;
+
+    Result := Stack.IsEmpty;
+  finally
+    Stack.Free;
+  end;
 end;
 
 procedure TAP.Clear;
