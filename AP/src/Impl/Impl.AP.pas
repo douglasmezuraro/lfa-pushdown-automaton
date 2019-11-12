@@ -17,9 +17,11 @@ type
   public const
     Empty: TSymbol = 'ʎ';
   public
+    constructor Create;
+    destructor Destroy; override;
     procedure Clear;
     function Accept(const Word: TWord): Boolean;
-  published
+  public
     property Symbols: TArray<TSymbol> read FSymbols write FSymbols;
     property States: TArray<TState> read FStates write FStates;
     property InitialState: TState read FInitialState write FInitialState;
@@ -31,6 +33,17 @@ type
 implementation
 
 { TAP }
+
+constructor TAP.Create;
+begin
+  FTransitions := TTransitions.Create;
+end;
+
+destructor TAP.Destroy;
+begin
+  FTransitions.Free;
+  inherited Destroy;
+end;
 
 function TAP.Accept(const Word: TWord): Boolean;
 var

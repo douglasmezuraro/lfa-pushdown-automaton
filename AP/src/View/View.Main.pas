@@ -188,26 +188,25 @@ begin
 end;
 
 function TMain.GetTransitions: TTransitions;
-var
-  Transitions: TTransitions;
 begin
-  Transitions.Clear;
+  FAP.Transitions.Clear;
 
   Grid.ForEach(
     procedure
     var
       Transition: TTransition;
     begin
+      Transition        := TTransition.Create;
       Transition.Source := Grid.Value[ColumnSource];
       Transition.Target := Grid.Value[ColumnTarget];
       Transition.Symbol := Grid.Value[ColumnSymbol];
       Transition.Push   := Grid.Value[ColumnPush];
       Transition.Pop    := Grid.Value[ColumnPop];
 
-      Transitions.Add(Transition);
+      FAP.Transitions.Add(Transition);
     end);
 
-  Result := Transitions;
+  Result := FAP.Transitions;
 end;
 
 function TMain.GetWord: TWord;

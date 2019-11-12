@@ -6,18 +6,26 @@ uses
   Impl.Types, System.SysUtils;
 
 type
-  TTransition = record
-    Source: TState;
-    Target: TState;
-    Symbol: TSymbol;
-    Push: TSymbol;
-    Pop: TSymbol;
+  TTransition = class sealed
+  strict private
+    FSymbol: TSymbol;
+    FSource: TState;
+    FPush: TSymbol;
+    FTarget: TState;
+    FPop: TSymbol;
+  public
+    property Source: TState read FSource write FSource;
+    property Target: TState read FTarget write FTarget;
+    property Symbol: TSymbol read FSymbol write FSymbol;
+    property Push: TSymbol read FPush write FPush;
+    property Pop: TSymbol read FPop write FPop;
   end;
 
-  TTransitions = record
-  private
+  TTransitions = class sealed
+  strict private
     FTransitions: TArray<TTransition>;
   public
+    destructor Destroy; override;
     function IsEmpty: Boolean;
     function ToArray: TArray<TTransition>;
     function HasTransition(const State: TState; const Symbol, Top: TSymbol): Boolean;
@@ -30,6 +38,12 @@ implementation
 
 { TTransitions }
 
+destructor TTransitions.Destroy;
+begin
+  Clear;
+  inherited Destroy;
+end;
+
 procedure TTransitions.Add(const Transition: TTransition);
 begin
   SetLength(FTransitions, Length(FTransitions) + 1);
@@ -37,22 +51,21 @@ begin
 end;
 
 procedure TTransitions.Clear;
+var
+  Transition: TTransition;
 begin
+  for Transition in FTransitions do
+    Transition.Free;
+
   SetLength(FTransitions, 0);
 end;
 
 function TTransitions.HasTransition(const State: TState; const Symbol, Top: TSymbol): Boolean;
 var
-  LTransition: TTransition;
+  Transition: TTransition;
 begin
-  Result := False;
-  try
-    LTransition := Transition(State, Symbol, Top);
-    Result := True;
-  except
-    on Exception: EArgumentNilException do
-      Result := False;
-  end;
+  Transition := Self.Transition(State, Symbol, Top);
+  Result := Assigned(Transition);
 end;
 
 function TTransitions.ToArray: TArray<TTransition>;
@@ -64,6 +77,7 @@ function TTransitions.Transition(const State: TState; const Symbol, Top: TSymbol
 var
   Transition: TTransition;
 begin
+  Result := nil;
   for Transition in FTransitions do
   begin
     if not Transition.Source.Equals(State) then
@@ -77,8 +91,6 @@ begin
 
     Exit(Transition);
   end;
-
-  raise EArgumentNilException.Create('Transition not found.');
 end;
 
 function TTransitions.IsEmpty: Boolean;
