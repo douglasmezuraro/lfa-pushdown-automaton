@@ -7,7 +7,7 @@ uses
 
 type
   TStack = class sealed
-  private
+  strict private
     FStack: TArray<string>;
   public
     function Count: Integer;
@@ -21,8 +21,6 @@ type
   end;
 
 implementation
-
-{ TStack }
 
 procedure TStack.Clear;
 begin

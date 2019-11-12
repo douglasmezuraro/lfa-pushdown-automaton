@@ -7,7 +7,7 @@ uses
 
 type
   TDialogs = class sealed
-  private
+  strict private
     const HelpCtx = 0;
   public
     class function Confirmation(const Message: string): Boolean; overload;
@@ -21,8 +21,6 @@ type
   end;
 
 implementation
-
-{ TDialogs }
 
 class function TDialogs.Confirmation(const Message: string): Boolean;
 var

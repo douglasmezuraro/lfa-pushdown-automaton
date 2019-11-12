@@ -6,15 +6,14 @@ uses
   System.SysUtils, System.StrUtils, System.UITypes, System.Classes, System.Rtti, System.Actions,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.StdCtrls, FMX.ScrollBox, FMX.Controls.Presentation,
   FMX.Edit, FMX.TabControl, FMX.ActnList, FMX.Layouts, FMX.ListBox, FMX.Grid, FMX.Grid.Style,
-  Helper.FMX, Impl.PushdownAutomaton, Impl.PushdownAutomaton.Validator, Impl.Types, Impl.Transitions,
-  Impl.Dialogs;
+  Helper.Edit, Helper.StringGrid, Helper.ListBoxItem, Impl.PushdownAutomaton, Impl.Transition,
+  Impl.Transitions, Impl.PushdownAutomaton.Validator, Impl.Types, Impl.Dialogs;
 
 type
   TMain = class sealed(TForm)
-    ActionBuildAP: TAction;
+    ActionBuild: TAction;
     ActionCheck: TAction;
     ActionClear: TAction;
-    ActionList1: TActionList;
     ActionList: TActionList;
     ButtonBuildAP: TButton;
     ButtonCheck: TButton;
@@ -44,12 +43,12 @@ type
     TabControlView: TTabControl;
     TabItemInput: TTabItem;
     TabItemOutput: TTabItem;
-    procedure ActionBuildAPExecute(Sender: TObject);
+    procedure ActionBuildExecute(Sender: TObject);
     procedure ActionClearExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ActionCheckExecute(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
-  private
+  strict private
     FAutomaton: TPushdownAutomaton;
     function GetAuxSymbols: TArray<TSymbol>;
     function GetBase: TSymbol;
@@ -58,6 +57,10 @@ type
     function GetSymbols: TArray<TSymbol>;
     function GetTransitions: TTransitions;
     function GetWord: TWord;
+  private
+    procedure Build;
+    procedure Check;
+    procedure Clear;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -87,12 +90,12 @@ begin
   inherited Destroy;
 end;
 
-procedure TMain.ActionBuildAPExecute(Sender: TObject);
+procedure TMain.Build;
 var
   Validator: TValidator;
 begin
-  EditWord.Text := TWord.Empty;
-  ListWords.Items.Clear;
+  EditWord.Clear;
+  ListWords.Clear;
 
   Validator := TValidator.Create;
   try
@@ -116,7 +119,7 @@ begin
   end;
 end;
 
-procedure TMain.ActionCheckExecute(Sender: TObject);
+procedure TMain.Check;
 var
   Item: TListBoxItem;
 begin
@@ -134,27 +137,37 @@ begin
   end;
 end;
 
-procedure TMain.ActionClearExecute(Sender: TObject);
+procedure TMain.Clear;
 begin
   FAutomaton.Clear;
-  EditSymbols.Text := string.Empty;
-  EditStates.Text := string.Empty;
-  EditInitialState.Text := string.Empty;
-  EditBase.Text := string.Empty;
-  EditAuxSymbols.Text := string.Empty;
-  EditWord.Text := string.Empty;
-  ListWords.Items.Clear;
+  EditSymbols.Clear;
+  EditStates.Clear;
+  EditInitialState.Clear;
+  EditBase.Clear;
+  EditAuxSymbols.Clear;
+  EditWord.Clear;
+  ListWords.Clear;
+  Grid.Clear;
+end;
+
+procedure TMain.ActionBuildExecute(Sender: TObject);
+begin
+  Build;
+end;
+
+procedure TMain.ActionCheckExecute(Sender: TObject);
+begin
+  Check;
+end;
+
+procedure TMain.ActionClearExecute(Sender: TObject);
+begin
+  Clear;
 end;
 
 procedure TMain.FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
 begin
-  if not (ssCtrl in Shift) then
-    Exit;
-
-  case Key of
-    vkInsert: Grid.Insert;
-    vkDelete: Grid.Delete;
-  end;
+  Grid.Notify(Key, Shift);
 end;
 
 procedure TMain.FormShow(Sender: TObject);

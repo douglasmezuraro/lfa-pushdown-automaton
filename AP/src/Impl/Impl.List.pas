@@ -7,7 +7,7 @@ uses
 
 type
   TList = class sealed
-  private
+  strict private
     FList: TArray<string>;
   public
     constructor Create(const Values: TArray<string>); overload;
@@ -23,8 +23,6 @@ type
   end;
 
 implementation
-
-{ TList }
 
 constructor TList.Create(const Values: TArray<string>);
 begin

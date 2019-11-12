@@ -3,7 +3,7 @@
         <ProjectGuid>{4AA3E77A-96D1-4C33-9DCE-36546EF7ED6B}</ProjectGuid>
         <ProjectVersion>18.5</ProjectVersion>
         <FrameworkType>FMX</FrameworkType>
-        <MainSource>AP.dpr</MainSource>
+        <MainSource>PushdownAutomaton.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
@@ -51,7 +51,7 @@
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
         <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
-        <SanitizedProjectName>AP</SanitizedProjectName>
+        <SanitizedProjectName>PushdownAutomaton</SanitizedProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_UsePackage>DBXSqliteDriver;IndyIPCommon;RESTComponents;bindcompdbx;DBXInterBaseDriver;vcl;IndyIPServer;vclactnband;vclFireDAC;IndySystem;tethering;svnui;dsnapcon;FireDACADSDriver;FireDACMSAccDriver;fmxFireDAC;vclimg;FireDAC;vcltouch;vcldb;bindcompfmx;svn;FireDACSqliteDriver;FireDACPgDriver;inetdb;soaprtl;DbxCommonDriver;fmx;FireDACIBDriver;fmxdae;xmlrtl;soapmidas;fmxobj;vclwinx;rtl;DbxClientDriver;CustomIPTransport;vcldsnap;dbexpress;IndyCore;vclx;bindcomp;appanalytics;dsnap;FireDACCommon;IndyIPClient;bindcompvcl;RESTBackendComponents;VCLRESTComponents;soapserver;dbxcds;VclSmp;adortl;vclie;bindengine;DBXMySQLDriver;CloudService;dsnapxml;FireDACMySQLDriver;dbrtl;IndyProtocols;inetdbxpress;FireDACCommonODBC;FireDACCommonDriver;inet;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
@@ -91,17 +91,20 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="..\src\Helper\Helper.FMX.pas"/>
-        <DCCReference Include="..\src\Impl\Impl.PushdownAutomaton.pas"/>
+        <DCCReference Include="..\src\Helper\Helper.Edit.pas"/>
+        <DCCReference Include="..\src\Helper\Helper.ListBoxItem.pas"/>
+        <DCCReference Include="..\src\Helper\Helper.StringGrid.pas"/>
         <DCCReference Include="..\src\Impl\Impl.Dialogs.pas"/>
         <DCCReference Include="..\src\Impl\Impl.List.pas"/>
+        <DCCReference Include="..\src\Impl\Impl.PushdownAutomaton.pas"/>
+        <DCCReference Include="..\src\Impl\Impl.PushdownAutomaton.Validator.pas"/>
         <DCCReference Include="..\src\Impl\Impl.Stack.pas"/>
+        <DCCReference Include="..\src\Impl\Impl.Transition.pas"/>
         <DCCReference Include="..\src\Impl\Impl.Transitions.pas"/>
         <DCCReference Include="..\src\Impl\Impl.Types.pas"/>
         <DCCReference Include="..\src\View\View.Main.pas">
             <Form>Main</Form>
         </DCCReference>
-        <DCCReference Include="..\src\Impl\Impl.PushdownAutomaton.Validator.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -120,13 +123,13 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">AP.dpr</Source>
+                    <Source Name="MainSource">PushdownAutomaton.dpr</Source>
                 </Source>
             </Delphi.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="Win32\Debug\AP.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="Win32\Debug\PushdownAutomaton.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>AP.exe</RemoteName>
+                        <RemoteName>PushdownAutomaton.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

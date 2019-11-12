@@ -224,7 +224,7 @@ object Main: TMain
     Size.PlatformDefault = False
     TabOrder = 0
     object ButtonBuildAP: TButton
-      Action = ActionBuildAP
+      Action = ActionBuild
       Align = Left
       Enabled = True
       ImageIndex = -1
@@ -248,9 +248,9 @@ object Main: TMain
   object ActionList: TActionList
     Left = 512
     Top = 160
-    object ActionBuildAP: TAction
-      Text = '&Build AP'
-      OnExecute = ActionBuildAPExecute
+    object ActionBuild: TAction
+      Text = '&Build'
+      OnExecute = ActionBuildExecute
     end
     object ActionClear: TAction
       Text = 'Cl&ear'
@@ -260,9 +260,5 @@ object Main: TMain
       Text = '&Check'
       OnExecute = ActionCheckExecute
     end
-  end
-  object ActionList1: TActionList
-    Left = 355
-    Top = 616
   end
 end

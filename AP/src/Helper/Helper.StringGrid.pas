@@ -1,36 +1,29 @@
-unit Helper.FMX;
+unit Helper.StringGrid;
 
 interface
 
 uses
-  System.SysUtils, FMX.Grid, FMX.ListBox;
+  FMX.Grid, System.Classes, System.UITypes, System.SysUtils;
 
 type
   TStringGridHelper = class Helper for TStringGrid
-  private const
+  strict private const
     FirstColumn = 0;
     FirstRow = 0;
-  private
+  strict private
     function Eof: Boolean;
     function GetValue(const Column: TColumn): string;
+    procedure Delete;
+    procedure Insert;
   public
     function IsEmpty: Boolean;
     procedure Clear;
-    procedure Delete;
     procedure ForEach(const Method: TProc);
-    procedure Insert;
+    procedure Notify(const Key: Word; const Shift: TShiftState);
     property Value[Const Column: TColumn]: string read GetValue;
   end;
 
-  TListBoxItemHelper = class Helper for TListBoxItem
-  public
-    procedure Check(const Checked: Boolean);
-    procedure Restore;
-  end;
-
 implementation
-
-{ TStringGridHelper }
 
 procedure TStringGridHelper.Delete;
 var
@@ -90,18 +83,15 @@ begin
   Result := RowCount = 0;
 end;
 
-{ TListBoxItemHelper }
-
-procedure TListBoxItemHelper.Check(const Checked: Boolean);
+procedure TStringGridHelper.Notify(const Key: Word; const Shift: TShiftState);
 begin
-  IsChecked := Checked;
-  Tag := Checked.ToInteger;
-end;
+  if not (ssCtrl in Shift) then
+    Exit;
 
-procedure TListBoxItemHelper.Restore;
-begin
-  IsChecked := Tag.ToBoolean;
+  case Key of
+    vkInsert: Insert;
+    vkDelete: Delete;
+  end;
 end;
 
 end.
-

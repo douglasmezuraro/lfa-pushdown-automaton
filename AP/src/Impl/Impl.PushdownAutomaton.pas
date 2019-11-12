@@ -30,8 +30,6 @@ type
 
 implementation
 
-{ TPushdownAutomaton }
-
 constructor TPushdownAutomaton.Create;
 begin
   FTransitions := TTransitions.Create;

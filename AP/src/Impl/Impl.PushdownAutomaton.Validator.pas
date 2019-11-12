@@ -3,7 +3,7 @@ unit Impl.PushdownAutomaton.Validator;
 interface
 
 uses
-  System.SysUtils, Impl.PushdownAutomaton, Impl.Types, Impl.List, Impl.Transitions;
+  System.SysUtils, Impl.PushdownAutomaton, Impl.Types, Impl.List, Impl.Transition, Impl.Transitions;
 
 type
   TValidator = class sealed
@@ -31,8 +31,6 @@ type
   end;
 
 implementation
-
-{ TValidator }
 
 constructor TValidator.Create;
 begin
