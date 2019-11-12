@@ -6,7 +6,8 @@ uses
   System.SysUtils, System.StrUtils, System.UITypes, System.Classes, System.Rtti, System.Actions,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.StdCtrls, FMX.ScrollBox, FMX.Controls.Presentation,
   FMX.Edit, FMX.TabControl, FMX.ActnList, FMX.Layouts, FMX.ListBox, FMX.Grid, FMX.Grid.Style,
-  Helper.FMX, Impl.AP, Impl.AP.Validator, Impl.Types, Impl.Transitions, Impl.Dialogs;
+  Helper.FMX, Impl.PushdownAutomaton, Impl.PushdownAutomaton.Validator, Impl.Types, Impl.Transitions,
+  Impl.Dialogs;
 
 type
   TMain = class sealed(TForm)
@@ -49,7 +50,7 @@ type
     procedure ActionCheckExecute(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
   private
-    FAP: TAP;
+    FAutomaton: TPushdownAutomaton;
     function GetAuxSymbols: TArray<TSymbol>;
     function GetBase: TSymbol;
     function GetInitialState: TState;
@@ -77,40 +78,39 @@ implementation
 constructor TMain.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FAP := Impl.AP.TAP.Create;
+  FAutomaton := TPushdownAutomaton.Create;
 end;
 
 destructor TMain.Destroy;
 begin
-  FAP.Free;
+  FAutomaton.Free;
   inherited Destroy;
 end;
 
 procedure TMain.ActionBuildAPExecute(Sender: TObject);
 var
-  Validator: TAPValidator;
-  Msg: string;
+  Validator: TValidator;
 begin
   EditWord.Text := TWord.Empty;
   ListWords.Items.Clear;
 
-  FAP.Clear;
-  FAP.Symbols      := Symbols;
-  FAP.States       := States;
-  FAP.InitialState := InitialState;
-  FAP.AuxSymbols   := AuxSymbols;
-  FAP.Base         := Base;
-  FAP.Transitions  := Transitions;
-
-  Validator := TAPValidator.Create(FAP);
+  Validator := TValidator.Create;
   try
-    if Validator.Validate(Msg) then
+    FAutomaton.Clear;
+    FAutomaton.Symbols      := Symbols;
+    FAutomaton.States       := States;
+    FAutomaton.InitialState := InitialState;
+    FAutomaton.AuxSymbols   := AuxSymbols;
+    FAutomaton.Base         := Base;
+    FAutomaton.Transitions  := Transitions;
+
+    if Validator.Validate(FAutomaton) then
     begin
       TabControlView.Next;
       Exit;
     end;
 
-    TDialogs.Warning(Msg);
+    TDialogs.Warning(Validator.Error);
   finally
     Validator.Free;
   end;
@@ -122,8 +122,8 @@ var
 begin
   Item := TListBoxItem.Create(ListWords);
   try
-    Item.Check(FAP.Accept(Word));
-    Item.Text := IfThen(Word.IsEmpty, Impl.AP.TAP.Empty, Word);
+    Item.Check(FAutomaton.Accept(Word));
+    Item.Text := IfThen(Word.IsEmpty, TPushdownAutomaton.Empty, Word);
 
     ListWords.AddObject(Item);
   except
@@ -136,7 +136,7 @@ end;
 
 procedure TMain.ActionClearExecute(Sender: TObject);
 begin
-  FAP.Clear;
+  FAutomaton.Clear;
   EditSymbols.Text := string.Empty;
   EditStates.Text := string.Empty;
   EditInitialState.Text := string.Empty;
@@ -189,7 +189,7 @@ end;
 
 function TMain.GetTransitions: TTransitions;
 begin
-  FAP.Transitions.Clear;
+  FAutomaton.Transitions.Clear;
 
   Grid.ForEach(
     procedure
@@ -203,10 +203,10 @@ begin
       Transition.Push   := Grid.Value[ColumnPush];
       Transition.Pop    := Grid.Value[ColumnPop];
 
-      FAP.Transitions.Add(Transition);
+      FAutomaton.Transitions.Add(Transition);
     end);
 
-  Result := FAP.Transitions;
+  Result := FAutomaton.Transitions;
 end;
 
 function TMain.GetWord: TWord;

@@ -1,12 +1,12 @@
-unit Impl.AP.Validator;
+unit Impl.PushdownAutomaton.Validator;
 
 interface
 
 uses
-  System.SysUtils, Impl.AP, Impl.Types, Impl.List, Impl.Transitions;
+  System.SysUtils, Impl.PushdownAutomaton, Impl.Types, Impl.List, Impl.Transitions;
 
 type
-  TAPValidator = class sealed
+  TValidator = class sealed
   strict private
     FError: string;
     FSymbols: TList;
@@ -22,27 +22,28 @@ type
     function ValidateAuxSymbols: Boolean;
     function ValidateBase: Boolean;
     function ValidateTransitions: Boolean;
+    procedure Setup(const Automaton: TPushdownAutomaton);
   public
-    constructor Create(const AP: TAP);
+    constructor Create;
     destructor Destroy; override;
-    function Validate(out Error: string): Boolean;
+    function Validate(const Automaton: TPushdownAutomaton): Boolean;
+    property Error: string read FError;
   end;
 
 implementation
 
-{ TAPValidator }
+{ TValidator }
 
-constructor TAPValidator.Create(const AP: TAP);
+constructor TValidator.Create;
 begin
-  FSymbols      := TList.Create(AP.Symbols);
-  FStates       := TList.Create(AP.States);
-  FInitialState := AP.InitialState;
-  FAuxSymbols   := TList.Create(AP.AuxSymbols);
-  FBase         := AP.Base;
-  FTransitions  := AP.Transitions;
+  FSymbols := TList.Create;
+  FStates := TList.Create;
+  FAuxSymbols := TList.Create;
+  FInitialState := TState.Empty;
+  FBase := TSymbol.Empty;
 end;
 
-destructor TAPValidator.Destroy;
+destructor TValidator.Destroy;
 begin
   FSymbols.Free;
   FStates.Free;
@@ -50,34 +51,39 @@ begin
   inherited Destroy;
 end;
 
-function TAPValidator.Validate(out Error: string): Boolean;
+procedure TValidator.Setup(const Automaton: TPushdownAutomaton);
 begin
-  Result := True;
-  try
-    if not ValidateSymbols then
-      Exit(False);
-
-    if not ValidateStates then
-      Exit(False);
-
-    if not ValidateInitialState then
-      Exit(False);
-
-    if not ValidateAuxSymbols then
-      Exit(False);
-
-    if not ValidateBase then
-      Exit(False);
-
-    if not ValidateTransitions then
-      Exit(False);
-  finally
-    if not Result then
-      Error := FError;
-  end;
+  FSymbols.Add(Automaton.Symbols);
+  FStates.Add(Automaton.States);
+  FAuxSymbols.Add(Automaton.AuxSymbols);
+  FInitialState := Automaton.InitialState;
+  FBase := Automaton.Base;
+  FTransitions := Automaton.Transitions;
 end;
 
-function TAPValidator.ValidateAuxSymbols: Boolean;
+function TValidator.Validate(const Automaton: TPushdownAutomaton): Boolean;
+begin
+  Setup(Automaton);
+
+  if not ValidateSymbols then
+    Exit(False);
+
+  if not ValidateStates then
+    Exit(False);
+
+  if not ValidateInitialState then
+    Exit(False);
+
+  if not ValidateAuxSymbols then
+    Exit(False);
+
+  if not ValidateBase then
+    Exit(False);
+
+  Result := ValidateTransitions;
+end;
+
+function TValidator.ValidateAuxSymbols: Boolean;
 var
   Symbol: TSymbol;
 begin
@@ -98,7 +104,7 @@ begin
   Result := True;
 end;
 
-function TAPValidator.ValidateBase: Boolean;
+function TValidator.ValidateBase: Boolean;
 begin
   Result := False;
 
@@ -117,7 +123,7 @@ begin
   Result := True;
 end;
 
-function TAPValidator.ValidateInitialState: Boolean;
+function TValidator.ValidateInitialState: Boolean;
 begin
   Result := False;
 
@@ -136,7 +142,7 @@ begin
   Result := True;
 end;
 
-function TAPValidator.ValidateStates: Boolean;
+function TValidator.ValidateStates: Boolean;
 var
   State: TState;
 begin
@@ -157,7 +163,7 @@ begin
   Result := True;
 end;
 
-function TAPValidator.ValidateSymbols: Boolean;
+function TValidator.ValidateSymbols: Boolean;
 var
   Symbol: TSymbol;
 begin
@@ -178,7 +184,7 @@ begin
   Result := True;
 end;
 
-function TAPValidator.ValidateTransitions: Boolean;
+function TValidator.ValidateTransitions: Boolean;
 var
   Transition: TTransition;
   Symbol: TSymbol;

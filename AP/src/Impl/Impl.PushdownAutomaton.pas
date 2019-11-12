@@ -1,4 +1,4 @@
-﻿unit Impl.AP;
+﻿unit Impl.PushdownAutomaton;
 
 interface
 
@@ -6,7 +6,7 @@ uses
   System.SysUtils, Impl.Stack, Impl.Types, Impl.Transitions;
 
 type
-  TAP = class sealed
+  TPushdownAutomaton = class sealed
   private
     FSymbols: TArray<TState>;
     FStates: TArray<TState>;
@@ -32,25 +32,24 @@ type
 
 implementation
 
-{ TAP }
+{ TPushdownAutomaton }
 
-constructor TAP.Create;
+constructor TPushdownAutomaton.Create;
 begin
   FTransitions := TTransitions.Create;
 end;
 
-destructor TAP.Destroy;
+destructor TPushdownAutomaton.Destroy;
 begin
   FTransitions.Free;
   inherited Destroy;
 end;
 
-function TAP.Accept(const Word: TWord): Boolean;
+function TPushdownAutomaton.Accept(const Word: TWord): Boolean;
 var
   State: TState;
   Stack: TStack;
-  Symbol: TSymbol;
-  SymbolToPush: TSymbol;
+  Symbol, SymbolToPush: TSymbol;
   Transition: TTransition;
 begin
   Stack := TStack.Create;
@@ -60,18 +59,17 @@ begin
 
     for Symbol in Word do
     begin
-      if Transitions.HasTransition(State, Symbol, Stack.Peek) then
-      begin
-        Transition := Transitions.Transition(State, Symbol, Stack.Peek);
-        State := Transition.Target;
-        Stack.Pop;
-        for SymbolToPush in Transition.Push.Split([',']) do
-        begin
-          Stack.Push(SymbolToPush);
-        end;
-      end
-      else
+      if not Transitions.HasTransition(State, Symbol, Stack.Peek) then
         Exit(False);
+
+      Transition := Transitions.Transition(State, Symbol, Stack.Peek);
+
+      State := Transition.Target;
+      Stack.Pop;
+      for SymbolToPush in Transition.Push.Split([',']) do
+      begin
+        Stack.Push(SymbolToPush);
+      end;
     end;
 
     Result := Stack.IsEmpty;
@@ -80,7 +78,7 @@ begin
   end;
 end;
 
-procedure TAP.Clear;
+procedure TPushdownAutomaton.Clear;
 begin
   SetLength(FSymbols, 0);
   SetLength(FStates, 0);
