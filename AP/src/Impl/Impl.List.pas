@@ -3,7 +3,7 @@ unit Impl.List;
 interface
 
 uses
-  System.SysUtils, System.Generics.collections;
+  System.SysUtils;
 
 type
   TList = class sealed
@@ -31,33 +31,28 @@ end;
 
 function TList.HasDuplicated(out Item: string): Boolean;
 var
-  Dic: TDictionary<string, Integer>;
-  Pair: TPair<string, Integer>;
-  Key: string;
+  A, B: string;
+  Count: Integer;
 begin
-  Dic := TDictionary<string, Integer>.Create;
-  try
-    for Key in ToArray do
+  for A in FList do
+  begin
+    Count := 0;
+    for B in FList do
     begin
-      if Dic.ContainsKey(Key) then
-        Dic.AddOrSetValue(Key, Dic.Items[Key] + 1)
-      else
-        Dic.Add(Key, 1);
-    end;
+      if not A.Equals(B) then
+        Continue;
 
-    for Pair in Dic.ToArray do
-    begin
-      if Pair.Value > 1 then
+      Inc(Count);
+
+      if Count > 1 then
       begin
-        Item := Pair.Key;
+        Item := A;
         Exit(True);
       end;
     end;
-
-    Result := False;
-  finally
-    Dic.Free;
   end;
+
+  Result := False;
 end;
 
 procedure TList.Add(const Item: string);
@@ -68,10 +63,10 @@ end;
 
 procedure TList.Add(const Items: TArray<string>);
 var
-  Element: string;
+  A: string;
 begin
-  for Element in Items do
-    Add(Element);
+  for A in Items do
+    Add(A);
 end;
 
 procedure TList.Clear;

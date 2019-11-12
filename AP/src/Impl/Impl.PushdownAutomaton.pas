@@ -3,11 +3,11 @@
 interface
 
 uses
-  System.SysUtils, Impl.Stack, Impl.Types, Impl.Transitions;
+  System.SysUtils, Impl.Stack, Impl.Types, Impl.Transition, Impl.Transitions;
 
 type
   TPushdownAutomaton = class sealed
-  private
+  strict private
     FSymbols: TArray<TState>;
     FStates: TArray<TState>;
     FTransitions: TTransitions;
