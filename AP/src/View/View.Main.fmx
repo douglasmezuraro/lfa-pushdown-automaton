@@ -236,14 +236,14 @@ object Main: TMain
         Position.Y = 30.000000000000000000
         TabOrder = 2
       end
-      object LabelWords: TLabel
-        FocusControl = ListWords
+      object LabelLog: TLabel
+        FocusControl = ListLog
         Position.X = 16.000000000000000000
         Position.Y = 62.000000000000000000
-        Text = 'Words'
+        Text = 'Log'
         TabOrder = 3
       end
-      object ListWords: TListBox
+      object ListLog: TListBox
         Position.X = 16.000000000000000000
         Position.Y = 78.000000000000000000
         Size.Width = 553.000000000000000000

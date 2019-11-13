@@ -5,9 +5,9 @@ interface
 uses
   FMX.ActnList, FMX.Controls, FMX.Controls.Presentation, FMX.Edit, FMX.Forms, FMX.Grid, FMX.Grid.Style,
   FMX.Layouts, FMX.ListBox, FMX.ScrollBox, FMX.StdCtrls, FMX.TabControl, FMX.Types, Helper.Edit,
-  Helper.Hyperlink, Helper.ListBoxItem, Helper.StringGrid, Impl.Dialogs, Impl.PushdownAutomaton,
-  Impl.Transition, Impl.Transitions, Impl.Types, System.Actions, System.Classes, System.Rtti,
-  System.StrUtils, System.SysUtils, System.UITypes, Winapi.UrlMon;
+  Helper.Hyperlink, Helper.ListBox, Helper.ListBoxItem, Helper.StringGrid, Impl.Dialogs,
+  Impl.PushdownAutomaton, Impl.Transition, Impl.Transitions, Impl.Types, System.Actions,
+  System.Classes, System.Rtti, System.StrUtils, System.SysUtils, System.UITypes, Winapi.UrlMon;
 
 type
   TMain = class sealed(TForm)
@@ -41,8 +41,8 @@ type
     LabelTransitions: TLabel;
     LabelURL: TLabel;
     LabelWord: TLabel;
-    LabelWords: TLabel;
-    ListWords: TListBox;
+    LabelLog: TLabel;
+    ListLog: TListBox;
     PanelButtons: TPanel;
     TabControlView: TTabControl;
     TabItemAbout: TTabItem;
@@ -97,23 +97,17 @@ begin
 end;
 
 procedure TMain.Check;
-var
-  Item: TListBoxItem;
 begin
-  FAutomaton.Clear;
-  FAutomaton.Symbols      := Symbols;
-  FAutomaton.States       := States;
-  FAutomaton.InitialState := InitialState;
-  FAutomaton.AuxSymbols   := AuxSymbols;
-  FAutomaton.Base         := Base;
-  FAutomaton.Transitions  := Transitions;
-
   try
-    Item := TListBoxItem.Create(ListWords);
-    Item.Check(FAutomaton.Accept(Word));
-    Item.Text := IfThen(Word.IsEmpty, Empty, Word);
+    FAutomaton.Clear;
+    FAutomaton.Symbols      := Symbols;
+    FAutomaton.States       := States;
+    FAutomaton.InitialState := InitialState;
+    FAutomaton.AuxSymbols   := AuxSymbols;
+    FAutomaton.Base         := Base;
+    FAutomaton.Transitions  := Transitions;
 
-    ListWords.AddObject(Item);
+    ListLog.Add(Word, FAutomaton.Accept(Word));
   except
     on Exception: EArgumentException do
       TDialogs.Warning(Exception.Message);
@@ -129,7 +123,7 @@ begin
   EditBase.Clear;
   EditAuxSymbols.Clear;
   EditWord.Clear;
-  ListWords.Clear;
+  ListLog.Clear;
   Grid.Clear;
 end;
 
@@ -207,7 +201,7 @@ end;
 
 function TMain.GetWord: TWord;
 begin
-  Result := EditWord.Text.Replace(' ', '');
+  Result := IfThen(EditWord.Text.Trim.IsEmpty, Empty, EditWord.Text.Replace(' ', ''));
 end;
 
 procedure TMain.LabelURLMouseLeave(Sender: TObject);
