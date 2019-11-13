@@ -3,7 +3,7 @@
 interface
 
 uses
-  Impl.Transition, Impl.Types, System.SysUtils;
+  Impl.Transition, Impl.Types, System.SysUtils, system.Character;
 
 type
   TTransitions = class sealed
@@ -11,7 +11,6 @@ type
     FTransitions: TArray<TTransition>;
   public
     destructor Destroy; override;
-    function HasTransition(const State: TState; const Symbol, Top: TSymbol): Boolean;
     function IsEmpty: Boolean;
     function ToArray: TArray<TTransition>;
     function Transition(const State: TState; const Symbol, Top: TSymbol): TTransition;
@@ -43,14 +42,6 @@ begin
   SetLength(FTransitions, 0);
 end;
 
-function TTransitions.HasTransition(const State: TState; const Symbol, Top: TSymbol): Boolean;
-var
-  Transition: TTransition;
-begin
-  Transition := Self.Transition(State, Symbol, Top);
-  Result := Assigned(Transition);
-end;
-
 function TTransitions.ToArray: TArray<TTransition>;
 begin
   Result := FTransitions;
@@ -69,7 +60,7 @@ begin
     if not Transition.Symbol.Equals(Symbol) then
       Continue;
 
-    if not Transition.Push.Equals(Top) then
+    if not Transition.Pop.Equals(Top) then
       Continue;
 
     Exit(Transition);

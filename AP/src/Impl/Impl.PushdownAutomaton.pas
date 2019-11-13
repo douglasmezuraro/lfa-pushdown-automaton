@@ -49,7 +49,7 @@ function TPushdownAutomaton.InternalAccept(const Word: TWord): Boolean;
 var
   State: TState;
   Stack: TStack;
-  Symbol, SymbolToPush: TSymbol;
+  Symbol, ToPush: TSymbol;
   Transition: TTransition;
 begin
   Stack := TStack.Create;
@@ -59,17 +59,16 @@ begin
 
     for Symbol in Word do
     begin
-      if not Transitions.HasTransition(State, Symbol, Stack.Peek) then
-        Exit(False);
-
       Transition := Transitions.Transition(State, Symbol, Stack.Peek);
+
+      if not Assigned(Transition) then
+        Exit(False);
 
       State := Transition.Target;
       Stack.Pop;
-      for SymbolToPush in Transition.Push.Split([',']) do
-      begin
-        Stack.Push(SymbolToPush);
-      end;
+
+      for ToPush in Transition.Push do
+        Stack.Push(ToPush);
     end;
 
     Result := Stack.IsEmpty;
