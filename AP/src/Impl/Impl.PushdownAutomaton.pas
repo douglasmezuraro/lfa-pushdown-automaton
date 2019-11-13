@@ -14,6 +14,7 @@ type
     FInitialState: TState;
     FBase: TSymbol;
     FAuxSymbols: TArray<TState>;
+    function InternalAccept(const Word: TWord): Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -30,6 +31,9 @@ type
 
 implementation
 
+uses
+  Impl.PushdownAutomaton.Validator;
+
 constructor TPushdownAutomaton.Create;
 begin
   FTransitions := TTransitions.Create;
@@ -41,7 +45,7 @@ begin
   inherited Destroy;
 end;
 
-function TPushdownAutomaton.Accept(const Word: TWord): Boolean;
+function TPushdownAutomaton.InternalAccept(const Word: TWord): Boolean;
 var
   State: TState;
   Stack: TStack;
@@ -71,6 +75,21 @@ begin
     Result := Stack.IsEmpty;
   finally
     Stack.Free;
+  end;
+end;
+
+function TPushdownAutomaton.Accept(const Word: TWord): Boolean;
+var
+  Validator: TValidator;
+begin
+  Validator := TValidator.Create;
+  try
+    if not Validator.Validate(Self) then
+      raise EArgumentException.Create(Validator.Error);
+
+    Result := InternalAccept(Word);
+  finally
+    Validator.Free;
   end;
 end;
 

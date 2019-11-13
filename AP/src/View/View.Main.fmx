@@ -2,8 +2,8 @@ object Main: TMain
   Left = 0
   Top = 0
   Caption = 'AP'
-  ClientHeight = 727
-  ClientWidth = 580
+  ClientHeight = 800
+  ClientWidth = 600
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
@@ -12,17 +12,19 @@ object Main: TMain
   DesignerMasterStyle = 0
   object TabControlView: TTabControl
     Align = Client
-    Size.Width = 580.000000000000000000
-    Size.Height = 682.000000000000000000
+    Size.Width = 600.000000000000000000
+    Size.Height = 755.000000000000000000
     Size.PlatformDefault = False
     TabIndex = 0
     TabOrder = 1
     TabPosition = PlatformDefault
     Sizes = (
-      580s
-      656s
-      580s
-      656s)
+      600s
+      729s
+      600s
+      729s
+      600s
+      729s)
     object TabItemInput: TTabItem
       CustomIcon = <
         item
@@ -36,122 +38,163 @@ object Main: TMain
       Text = 'Input'
       ExplicitSize.cx = 48.000000000000000000
       ExplicitSize.cy = 26.000000000000000000
+      object LabelSymbols: TLabel
+        Locked = True
+        FocusControl = EditSymbols
+        Position.X = 15.000000000000000000
+        Position.Y = 15.000000000000000000
+        Size.Width = 570.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        Text = #931
+        TabOrder = 1
+      end
       object EditSymbols: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Anchors = [akLeft, akTop, akRight]
         TabOrder = 0
-        Position.X = 16.000000000000000000
-        Position.Y = 38.000000000000000000
-        Size.Width = 545.000000000000000000
+        Position.X = 15.000000000000000000
+        Position.Y = 32.000000000000000000
+        Locked = True
+        Size.Width = 570.000000000000000000
         Size.Height = 22.000000000000000000
         Size.PlatformDefault = False
         TextPrompt = 'Symbols'
       end
-      object LabelSymbols: TLabel
-        FocusControl = EditSymbols
-        Position.X = 16.000000000000000000
-        Position.Y = 22.000000000000000000
-        Text = #931
-        TabOrder = 1
+      object LabelStates: TLabel
+        Locked = True
+        FocusControl = EditStates
+        Position.X = 15.000000000000000000
+        Position.Y = 64.000000000000000000
+        Size.Width = 570.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'E'
+        TabOrder = 3
       end
       object EditStates: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Anchors = [akLeft, akTop, akRight]
         TabOrder = 2
-        Position.X = 16.000000000000000000
-        Position.Y = 86.000000000000000000
-        Size.Width = 545.000000000000000000
+        Position.X = 15.000000000000000000
+        Position.Y = 81.000000000000000000
+        Locked = True
+        Size.Width = 570.000000000000000000
         Size.Height = 22.000000000000000000
         Size.PlatformDefault = False
         TextPrompt = 'States'
       end
-      object LabelStates: TLabel
-        FocusControl = EditStates
-        Position.X = 16.000000000000000000
-        Position.Y = 70.000000000000000000
-        Text = 'E'
-        TabOrder = 3
-      end
       object LabelInitialState: TLabel
+        Locked = True
         FocusControl = EditInitialState
-        Position.X = 16.000000000000000000
-        Position.Y = 118.000000000000000000
+        Position.X = 15.000000000000000000
+        Position.Y = 113.000000000000000000
+        Size.Width = 570.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
         Text = 'i'
         TabOrder = 4
       end
       object EditInitialState: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Anchors = [akLeft, akTop, akRight]
         TabOrder = 5
-        Position.X = 16.000000000000000000
-        Position.Y = 134.000000000000000000
-        Size.Width = 545.000000000000000000
+        Position.X = 15.000000000000000000
+        Position.Y = 130.000000000000000000
+        Locked = True
+        Size.Width = 570.000000000000000000
         Size.Height = 22.000000000000000000
         Size.PlatformDefault = False
         TextPrompt = 'Initial state'
       end
       object LabelBase: TLabel
+        Locked = True
         FocusControl = EditBase
-        Position.X = 16.000000000000000000
-        Position.Y = 166.000000000000000000
+        Position.X = 15.000000000000000000
+        Position.Y = 162.000000000000000000
+        Size.Width = 570.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
         Text = 'B'
         TabOrder = 6
       end
       object EditBase: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Anchors = [akLeft, akTop, akRight]
         TabOrder = 7
-        Position.X = 16.000000000000000000
-        Position.Y = 182.000000000000000000
-        Size.Width = 545.000000000000000000
+        Position.X = 15.000000000000000000
+        Position.Y = 179.000000000000000000
+        Locked = True
+        Size.Width = 570.000000000000000000
         Size.Height = 22.000000000000000000
         Size.PlatformDefault = False
         TextPrompt = 'Base'
       end
       object LabelAuxSymbols: TLabel
+        Locked = True
         FocusControl = EditAuxSymbols
-        Position.X = 16.000000000000000000
-        Position.Y = 214.000000000000000000
+        Position.X = 15.000000000000000000
+        Position.Y = 211.000000000000000000
+        Size.Width = 570.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
         Text = #1043
         TabOrder = 8
       end
       object EditAuxSymbols: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Anchors = [akLeft, akTop, akRight]
         TabOrder = 9
-        Position.X = 16.000000000000000000
-        Position.Y = 230.000000000000000000
-        Size.Width = 545.000000000000000000
+        Position.X = 15.000000000000000000
+        Position.Y = 228.000000000000000000
+        Locked = True
+        Size.Width = 570.000000000000000000
         Size.Height = 22.000000000000000000
         Size.PlatformDefault = False
         TextPrompt = 'Aux symbols'
       end
       object LabelTransitions: TLabel
-        Position.X = 16.000000000000000000
-        Position.Y = 262.000000000000000000
+        Locked = True
+        Position.X = 15.000000000000000000
+        Position.Y = 260.000000000000000000
+        Size.Width = 570.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
         Text = #948
         TabOrder = 10
       end
       object Grid: TStringGrid
+        Anchors = [akLeft, akTop, akRight]
         CanFocus = True
         ClipChildren = True
-        Position.X = 18.000000000000000000
-        Position.Y = 284.000000000000000000
-        Size.Width = 543.000000000000000000
-        Size.Height = 305.000000000000000000
+        Locked = True
+        Position.X = 15.000000000000000000
+        Position.Y = 277.000000000000000000
+        Size.Width = 570.000000000000000000
+        Size.Height = 435.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 11
         RowCount = 0
-        Viewport.Width = 539.000000000000000000
-        Viewport.Height = 280.000000000000000000
+        Viewport.Width = 566.000000000000000000
+        Viewport.Height = 410.000000000000000000
         object ColumnSource: TStringColumn
+          Locked = True
           Header = 'Source'
         end
         object ColumnSymbol: TStringColumn
+          Locked = True
           Header = 'Symbol'
         end
         object ColumnPop: TStringColumn
+          Locked = True
           Header = 'Pop'
         end
         object ColumnTarget: TStringColumn
+          Locked = True
           Header = 'Target'
         end
         object ColumnPush: TStringColumn
+          Locked = True
           Header = 'Push'
         end
       end
@@ -211,47 +254,92 @@ object Main: TMain
         DefaultItemStyles.ItemStyle = ''
         DefaultItemStyles.GroupHeaderStyle = ''
         DefaultItemStyles.GroupFooterStyle = ''
+        ShowCheckboxes = True
         Viewport.Width = 549.000000000000000000
         Viewport.Height = 343.000000000000000000
+      end
+    end
+    object TabItemAbout: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 53.000000000000000000
+      Size.Height = 26.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'About'
+      ExplicitSize.cx = 53.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
+      object GroupBoxShortcuts: TGroupBox
+        Position.X = 22.000000000000000000
+        Position.Y = 18.000000000000000000
+        Size.Width = 533.000000000000000000
+        Size.Height = 93.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Shortcuts'
+        TabOrder = 0
+        object LabelShortcutInsert: TLabel
+          Position.X = 20.000000000000000000
+          Position.Y = 30.000000000000000000
+          Text = 'Insert: Ctrl + Insert'
+          TabOrder = 0
+        end
+        object LabelShortcutDelete: TLabel
+          Position.X = 18.000000000000000000
+          Position.Y = 52.000000000000000000
+          Text = 'Delete: Ctrl + Delete'
+          TabOrder = 1
+        end
+      end
+      object GroupBoxAbout: TGroupBox
+        Position.X = 34.000000000000000000
+        Position.Y = 148.000000000000000000
+        Size.Width = 495.000000000000000000
+        Size.Height = 285.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'About'
+        TabOrder = 1
+        object LabelURL: TLabel
+          Action = ActionOpenURL
+          AutoSize = True
+          Enabled = True
+          HitTest = True
+          Position.X = 18.000000000000000000
+          Position.Y = 34.000000000000000000
+          Size.Width = 387.000000000000000000
+          Size.Height = 16.000000000000000000
+          Size.PlatformDefault = False
+          Text = 'https://github.com/douglasmezuraro/lfa-pushdown-automaton/'
+          TabOrder = 0
+          OnMouseLeave = LabelURLMouseLeave
+        end
       end
     end
   end
   object PanelButtons: TPanel
     Align = Bottom
-    Position.Y = 682.000000000000000000
-    Size.Width = 580.000000000000000000
+    Position.Y = 755.000000000000000000
+    Size.Width = 600.000000000000000000
     Size.Height = 45.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
-    object ButtonBuildAP: TButton
-      Action = ActionBuild
-      Align = Left
-      Enabled = True
-      ImageIndex = -1
-      Size.Width = 100.000000000000000000
-      Size.Height = 45.000000000000000000
-      Size.PlatformDefault = False
-      TabOrder = 0
-    end
     object ButtonClear: TButton
       Action = ActionClear
       Align = Right
       Enabled = True
       ImageIndex = -1
-      Position.X = 480.000000000000000000
+      Position.X = 500.000000000000000000
       Size.Width = 100.000000000000000000
       Size.Height = 45.000000000000000000
       Size.PlatformDefault = False
-      TabOrder = 1
+      TabOrder = 0
     end
   end
   object ActionList: TActionList
     Left = 512
     Top = 160
-    object ActionBuild: TAction
-      Text = '&Build'
-      OnExecute = ActionBuildExecute
-    end
     object ActionClear: TAction
       Text = 'Cl&ear'
       OnExecute = ActionClearExecute
@@ -259,6 +347,9 @@ object Main: TMain
     object ActionCheck: TAction
       Text = '&Check'
       OnExecute = ActionCheckExecute
+    end
+    object ActionOpenURL: TAction
+      OnExecute = ActionOpenURLExecute
     end
   end
 end
