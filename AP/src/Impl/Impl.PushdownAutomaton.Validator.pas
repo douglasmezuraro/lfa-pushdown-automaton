@@ -3,24 +3,24 @@ unit Impl.PushdownAutomaton.Validator;
 interface
 
 uses
-  System.SysUtils, Impl.PushdownAutomaton, Impl.Types, Impl.List, Impl.Transition, Impl.Transitions;
+  Impl.List, Impl.PushdownAutomaton, Impl.Transition, Impl.Transitions, Impl.Types, System.SysUtils;
 
 type
   TValidator = class sealed
   strict private
-    FError: string;
-    FSymbols: TList;
-    FStates: TList;
-    FTransitions: TTransitions;
-    FInitialState: TState;
-    FBase: TSymbol;
     FAuxSymbols: TList;
+    FBase: TSymbol;
+    FError: string;
+    FInitialState: TState;
+    FStates: TList;
+    FSymbols: TList;
+    FTransitions: TTransitions;
   private
-    function ValidateSymbols: Boolean;
-    function ValidateStates: Boolean;
-    function ValidateInitialState: Boolean;
     function ValidateAuxSymbols: Boolean;
     function ValidateBase: Boolean;
+    function ValidateInitialState: Boolean;
+    function ValidateStates: Boolean;
+    function ValidateSymbols: Boolean;
     function ValidateTransitions: Boolean;
     procedure Setup(const Automaton: TPushdownAutomaton);
   public
@@ -39,6 +39,7 @@ begin
   FAuxSymbols := TList.Create;
   FInitialState := TState.Empty;
   FBase := TSymbol.Empty;
+  FError := string.Empty;
 end;
 
 destructor TValidator.Destroy;

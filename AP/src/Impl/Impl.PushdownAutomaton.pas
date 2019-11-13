@@ -3,7 +3,7 @@
 interface
 
 uses
-  System.SysUtils, Impl.Stack, Impl.Types, Impl.Transition, Impl.Transitions;
+  Impl.Stack, Impl.Transition, Impl.Transitions, Impl.Types, System.SysUtils;
 
 type
   TPushdownAutomaton = class sealed

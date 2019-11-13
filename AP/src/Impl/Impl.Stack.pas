@@ -12,8 +12,8 @@ type
   public
     function Count: Integer;
     function IsEmpty: Boolean;
-    function Pop: string;
     function Peek: string;
+    function Pop: string;
     function ToArray: TArray<string>;
     function ToString: string; override;
     procedure Clear;
@@ -66,14 +66,14 @@ end;
 
 function TStack.ToString: string;
 var
-  Item: string;
+  Element: string;
 begin
-  for Item in FStack do
+  for Element in FStack do
   begin
     if Result.Trim.IsEmpty then
-      Result := Item
+      Result := Element
     else
-      Result := Result + ', ' + Item;
+      Result := Result + ', ' + Element;
   end;
 
   Result := '[' + Result + ']';

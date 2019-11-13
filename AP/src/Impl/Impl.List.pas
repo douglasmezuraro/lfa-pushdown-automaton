@@ -10,13 +10,12 @@ type
   strict private
     FList: TArray<string>;
   public
-    constructor Create(const Values: TArray<string>); overload;
     function Contains(const Item: string): Boolean;
     function Count: Integer;
+    function HasDuplicated(out Item: string): Boolean;
     function IsEmpty: Boolean;
     function ToArray: TArray<string>;
     function ToString: string; override;
-    function HasDuplicated(out Item: string): Boolean;
     procedure Add(const Item: string); overload;
     procedure Add(const Items: TArray<string>); overload;
     procedure Clear;
@@ -24,9 +23,41 @@ type
 
 implementation
 
-constructor TList.Create(const Values: TArray<string>);
+procedure TList.Add(const Item: string);
 begin
-  Add(Values);
+  SetLength(FList, Count + 1);
+  FList[High(FList)] := Item;
+end;
+
+procedure TList.Add(const Items: TArray<string>);
+var
+  Element: string;
+begin
+  for Element in Items do
+    Add(Element);
+end;
+
+procedure TList.Clear;
+begin
+  SetLength(FList, 0);
+end;
+
+function TList.Contains(const Item: string): Boolean;
+var
+  Element: string;
+begin
+  for Element in FList do
+  begin
+    if Element.Equals(Item) then
+      Exit(True);
+  end;
+
+  Result := False;
+end;
+
+function TList.Count: Integer;
+begin
+  Result := Length(FList);
 end;
 
 function TList.HasDuplicated(out Item: string): Boolean;
@@ -55,43 +86,6 @@ begin
   Result := False;
 end;
 
-procedure TList.Add(const Item: string);
-begin
-  SetLength(FList, Count + 1);
-  FList[High(FList)] := Item;
-end;
-
-procedure TList.Add(const Items: TArray<string>);
-var
-  A: string;
-begin
-  for A in Items do
-    Add(A);
-end;
-
-procedure TList.Clear;
-begin
-  SetLength(FList, 0);
-end;
-
-function TList.Contains(const Item: string): Boolean;
-var
-  LItem: string;
-begin
-  for LItem in FList do
-  begin
-    if LItem.Equals(Item) then
-      Exit(True);
-  end;
-
-  Result := False;
-end;
-
-function TList.Count: Integer;
-begin
-  Result := Length(FList);
-end;
-
 function TList.IsEmpty: Boolean;
 begin
   Result := Count = 0;
@@ -104,14 +98,14 @@ end;
 
 function TList.ToString: string;
 var
-  Item: string;
+  Element: string;
 begin
-  for Item in FList do
+  for Element in FList do
   begin
     if Result.Trim.IsEmpty then
-      Result := Item
+      Result := Element
     else
-      Result := Result + ', ' + Item;
+      Result := Result + ', ' + Element;
   end;
 
   Result := '[' + Result + ']';

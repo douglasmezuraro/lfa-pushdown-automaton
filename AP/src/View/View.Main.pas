@@ -3,11 +3,11 @@ unit View.Main;
 interface
 
 uses
-  System.SysUtils, System.StrUtils, System.UITypes, System.Classes, System.Rtti, System.Actions,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.StdCtrls, FMX.ScrollBox, FMX.Controls.Presentation,
-  FMX.Edit, FMX.TabControl, FMX.ActnList, FMX.Layouts, FMX.ListBox, FMX.Grid, FMX.Grid.Style,
-  Helper.Edit, Helper.StringGrid, Helper.ListBoxItem, Impl.PushdownAutomaton, Impl.Transition,
-  Impl.Transitions, Impl.PushdownAutomaton.Validator, Impl.Types, Impl.Dialogs;
+  FMX.ActnList, FMX.Controls, FMX.Controls.Presentation, FMX.Edit, FMX.Forms, FMX.Grid, FMX.Grid.Style,
+  FMX.Layouts, FMX.ListBox, FMX.ScrollBox, FMX.StdCtrls, FMX.TabControl, FMX.Types, Helper.Edit,
+  Helper.ListBoxItem, Helper.StringGrid, Impl.Dialogs, Impl.PushdownAutomaton, Impl.PushdownAutomaton.Validator,
+  Impl.Transition, Impl.Transitions, Impl.Types, System.Actions, System.Classes, System.Rtti, System.StrUtils,
+  System.SysUtils, System.UITypes;
 
 type
   TMain = class sealed(TForm)
@@ -124,17 +124,10 @@ var
   Item: TListBoxItem;
 begin
   Item := TListBoxItem.Create(ListWords);
-  try
-    Item.Check(FAutomaton.Accept(Word));
-    Item.Text := IfThen(Word.IsEmpty, Empty, Word);
+  Item.Check(FAutomaton.Accept(Word));
+  Item.Text := IfThen(Word.IsEmpty, Empty, Word);
 
-    ListWords.AddObject(Item);
-  except
-    on E: Exception do
-    begin
-      TDialogs.Warning(E.Message);
-    end;
-  end;
+  ListWords.AddObject(Item);
 end;
 
 procedure TMain.Clear;

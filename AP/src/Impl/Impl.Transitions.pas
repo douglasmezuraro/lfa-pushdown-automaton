@@ -11,9 +11,9 @@ type
     FTransitions: TArray<TTransition>;
   public
     destructor Destroy; override;
+    function HasTransition(const State: TState; const Symbol, Top: TSymbol): Boolean;
     function IsEmpty: Boolean;
     function ToArray: TArray<TTransition>;
-    function HasTransition(const State: TState; const Symbol, Top: TSymbol): Boolean;
     function Transition(const State: TState; const Symbol, Top: TSymbol): TTransition;
     procedure Add(const Transition: TTransition);
     procedure Clear;
