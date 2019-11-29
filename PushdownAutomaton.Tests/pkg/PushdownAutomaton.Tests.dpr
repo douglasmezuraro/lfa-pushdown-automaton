@@ -1,21 +1,16 @@
 program PushdownAutomaton.Tests;
-{
-
-  Delphi DUnit Test Project
-  -------------------------
-  This project contains the DUnit test framework and the GUI/Console test runners.
-  Add "CONSOLE_TESTRUNNER" to the conditional defines entry in the project options
-  to use the console test runner.  Otherwise the GUI test runner will be used by
-  default.
-
-}
 
 {$IFDEF CONSOLE_TESTRUNNER}
 {$APPTYPE CONSOLE}
 {$ENDIF}
 
 uses
-  DUnitTestRunner;
+  DUnitTestRunner,
+  Impl.Stack in '..\..\PushdownAutomaton\src\Impl\Impl.Stack.pas',
+  Test.Stack in '..\src\Test\Test.Stack.pas',
+  Helper.TestFramework in '..\src\Helper\Helper.TestFramework.pas',
+  Test.List in '..\src\Test\Test.List.pas',
+  Impl.List in '..\..\PushdownAutomaton\src\Impl\Impl.List.pas';
 
 {$R *.RES}
 

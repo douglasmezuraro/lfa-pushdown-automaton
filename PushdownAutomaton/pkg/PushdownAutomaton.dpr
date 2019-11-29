@@ -15,7 +15,8 @@ uses
   Impl.Transitions in '..\src\Impl\Impl.Transitions.pas',
   Impl.Types in '..\src\Impl\Impl.Types.pas',
   View.Main in '..\src\View\View.Main.pas' {Main},
-  Helper.ListBox in '..\src\Helper\Helper.ListBox.pas';
+  Helper.ListBox in '..\src\Helper\Helper.ListBox.pas',
+  Test.List in '..\..\PushdownAutomaton.Tests\src\Test\Test.List.pas';
 
 {$R *.res}
 
