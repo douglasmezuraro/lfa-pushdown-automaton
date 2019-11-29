@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9ADD6CF7-0AF3-47F9-901D-C78734720D1E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="PushdownAutomaton\pkg\PushdownAutomaton.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="PushdownAutomaton.Tests\pkg\PushdownAutomaton.Tests.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="PushdownAutomaton">
+        <MSBuild Projects="PushdownAutomaton\pkg\PushdownAutomaton.dproj"/>
+    </Target>
+    <Target Name="PushdownAutomaton:Clean">
+        <MSBuild Projects="PushdownAutomaton\pkg\PushdownAutomaton.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PushdownAutomaton:Make">
+        <MSBuild Projects="PushdownAutomaton\pkg\PushdownAutomaton.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="PushdownAutomaton_Tests">
+        <MSBuild Projects="PushdownAutomaton.Tests\pkg\PushdownAutomaton.Tests.dproj"/>
+    </Target>
+    <Target Name="PushdownAutomaton_Tests:Clean">
+        <MSBuild Projects="PushdownAutomaton.Tests\pkg\PushdownAutomaton.Tests.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PushdownAutomaton_Tests:Make">
+        <MSBuild Projects="PushdownAutomaton.Tests\pkg\PushdownAutomaton.Tests.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="PushdownAutomaton;PushdownAutomaton_Tests"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="PushdownAutomaton:Clean;PushdownAutomaton_Tests:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="PushdownAutomaton:Make;PushdownAutomaton_Tests:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
