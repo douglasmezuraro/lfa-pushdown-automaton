@@ -5,7 +5,7 @@ interface
 uses
   FMX.ActnList, FMX.Controls, FMX.Controls.Presentation, FMX.Edit, FMX.Forms, FMX.Grid, FMX.Grid.Style,
   FMX.Layouts, FMX.ListBox, FMX.ScrollBox, FMX.StdCtrls, FMX.TabControl, FMX.Types, Helper.Edit,
-  Helper.Hyperlink, Helper.ListBox, Helper.ListBoxItem, Helper.StringGrid, Impl.Dialogs,
+  Helper.ListBox, Helper.ListBoxItem, Helper.StringGrid, Impl.Dialogs,
   Impl.PushdownAutomaton, Impl.Transition, Impl.Transitions, Impl.Types, System.Actions,
   System.Classes, System.Rtti, System.StrUtils, System.SysUtils, System.UITypes, Winapi.UrlMon;
 
@@ -14,7 +14,6 @@ type
     ActionCheck: TAction;
     ActionClear: TAction;
     ActionList: TActionList;
-    ActionOpenURL: TAction;
     ButtonCheck: TButton;
     ButtonClear: TButton;
     ColumnPop: TStringColumn;
@@ -29,31 +28,23 @@ type
     EditSymbols: TEdit;
     EditWord: TEdit;
     Grid: TStringGrid;
-    GroupBoxAbout: TGroupBox;
-    GroupBoxShortcuts: TGroupBox;
     LabelAuxSymbols: TLabel;
     LabelBase: TLabel;
     LabelInitialState: TLabel;
-    LabelShortcutDelete: TLabel;
-    LabelShortcutInsert: TLabel;
     LabelStates: TLabel;
     LabelSymbols: TLabel;
     LabelTransitions: TLabel;
-    LabelURL: TLabel;
     LabelWord: TLabel;
     LabelLog: TLabel;
     ListLog: TListBox;
     PanelButtons: TPanel;
     TabControlView: TTabControl;
-    TabItemAbout: TTabItem;
     TabItemInput: TTabItem;
     TabItemOutput: TTabItem;
     procedure ActionCheckExecute(Sender: TObject);
     procedure ActionClearExecute(Sender: TObject);
-    procedure ActionOpenURLExecute(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
-    procedure LabelURLMouseLeave(Sender: TObject);
   strict private
     FAutomaton: TPushdownAutomaton;
     function GetAuxSymbols: TArray<TSymbol>;
@@ -66,7 +57,6 @@ type
   private
     procedure Check;
     procedure Clear;
-    procedure OpenURL(const URL: string);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -137,11 +127,6 @@ begin
   Clear;
 end;
 
-procedure TMain.ActionOpenURLExecute(Sender: TObject);
-begin
-  OpenURL(((Sender as TAction).ActionComponent as TLabel).Text);
-end;
-
 procedure TMain.FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
 begin
   Grid.Notify(Key, Shift);
@@ -202,16 +187,6 @@ end;
 function TMain.GetWord: TWord;
 begin
   Result := IfThen(EditWord.Text.Trim.IsEmpty, Empty, EditWord.Text.Replace(' ', ''));
-end;
-
-procedure TMain.LabelURLMouseLeave(Sender: TObject);
-begin
-  (Sender as TLabel).SetStyle(TLabelStyle.lsLabel);
-end;
-
-procedure TMain.OpenURL(const URL: string);
-begin
-  HlinkNavigateString(nil, PWideChar(URL));
 end;
 
 end.

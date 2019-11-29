@@ -14,6 +14,7 @@ type
     FInitialState: TState;
     FBase: TSymbol;
     FAuxSymbols: TArray<TState>;
+  private
     function InternalAccept(const Word: TWord): Boolean;
   public
     constructor Create;

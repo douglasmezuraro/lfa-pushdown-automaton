@@ -15,12 +15,10 @@ object Main: TMain
     Size.Width = 600.000000000000000000
     Size.Height = 755.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 0
+    TabIndex = 2
     TabOrder = 1
     TabPosition = PlatformDefault
     Sizes = (
-      600s
-      729s
       600s
       729s
       600s
@@ -29,7 +27,7 @@ object Main: TMain
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 48.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
@@ -259,64 +257,6 @@ object Main: TMain
         Viewport.Height = 343.000000000000000000
       end
     end
-    object TabItemAbout: TTabItem
-      CustomIcon = <
-        item
-        end>
-      IsSelected = False
-      Size.Width = 53.000000000000000000
-      Size.Height = 26.000000000000000000
-      Size.PlatformDefault = False
-      StyleLookup = ''
-      TabOrder = 0
-      Text = 'About'
-      ExplicitSize.cx = 53.000000000000000000
-      ExplicitSize.cy = 26.000000000000000000
-      object GroupBoxShortcuts: TGroupBox
-        Position.X = 22.000000000000000000
-        Position.Y = 18.000000000000000000
-        Size.Width = 533.000000000000000000
-        Size.Height = 93.000000000000000000
-        Size.PlatformDefault = False
-        Text = 'Shortcuts'
-        TabOrder = 0
-        object LabelShortcutInsert: TLabel
-          Position.X = 20.000000000000000000
-          Position.Y = 30.000000000000000000
-          Text = 'Insert: Ctrl + Insert'
-          TabOrder = 0
-        end
-        object LabelShortcutDelete: TLabel
-          Position.X = 18.000000000000000000
-          Position.Y = 52.000000000000000000
-          Text = 'Delete: Ctrl + Delete'
-          TabOrder = 1
-        end
-      end
-      object GroupBoxAbout: TGroupBox
-        Position.X = 34.000000000000000000
-        Position.Y = 148.000000000000000000
-        Size.Width = 495.000000000000000000
-        Size.Height = 285.000000000000000000
-        Size.PlatformDefault = False
-        Text = 'About'
-        TabOrder = 1
-        object LabelURL: TLabel
-          Action = ActionOpenURL
-          AutoSize = True
-          Enabled = True
-          HitTest = True
-          Position.X = 18.000000000000000000
-          Position.Y = 34.000000000000000000
-          Size.Width = 387.000000000000000000
-          Size.Height = 16.000000000000000000
-          Size.PlatformDefault = False
-          Text = 'https://github.com/douglasmezuraro/lfa-pushdown-automaton/'
-          TabOrder = 0
-          OnMouseLeave = LabelURLMouseLeave
-        end
-      end
-    end
   end
   object PanelButtons: TPanel
     Align = Bottom
@@ -347,9 +287,6 @@ object Main: TMain
     object ActionCheck: TAction
       Text = '&Check'
       OnExecute = ActionCheckExecute
-    end
-    object ActionOpenURL: TAction
-      OnExecute = ActionOpenURLExecute
     end
   end
 end

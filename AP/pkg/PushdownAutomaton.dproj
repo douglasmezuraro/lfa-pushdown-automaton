@@ -105,7 +105,6 @@
         <DCCReference Include="..\src\View\View.Main.pas">
             <Form>Main</Form>
         </DCCReference>
-        <DCCReference Include="..\src\Helper\Helper.Hyperlink.pas"/>
         <DCCReference Include="..\src\Helper\Helper.ListBox.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
