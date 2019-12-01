@@ -18,6 +18,9 @@ type
 
     // L2 = {(a^n)(b^m)(c^n)/n>0;m>0}
     procedure ExerciseTwo;
+
+    // L3 = {(a^n)(n^2n)/n>0}
+    procedure ExerciseTree;
   end;
 
 implementation
@@ -77,6 +80,31 @@ begin
   FAutomaton.Transitions.Add(TTransition.Create('q2', 'q2', 'b', 'X', 'X'));
   FAutomaton.Transitions.Add(TTransition.Create('q2', 'q3', 'c', 'X', 'ʎ'));
   FAutomaton.Transitions.Add(TTransition.Create('q3', 'q3', 'c', 'X', 'ʎ'));
+
+  for Word in MustAccept do
+    CheckTrue(FAutomaton.Accept(Word));
+
+  for Word in MustNotAccept do
+    CheckFalse(FAutomaton.Accept(Word));
+end;
+
+procedure TExercisesTest.ExerciseTree;
+const
+  MustAccept: TArray<TWord> = ['abb', 'aabbbb', 'aaabbbbbb', 'aaaabbbbbbbb', 'aaaaabbbbbbbbbb'];
+  MustNotAccept: TArray<TWord> = ['a', 'b', 'ab', 'aabb', 'aaabbb', 'aab', 'aaaabb', 'aaaaaabbb'];
+var
+  Word: TWord;
+begin
+  FAutomaton.Symbols := ['a', 'b'];
+  FAutomaton.States := ['q0', 'q1'];
+  FAutomaton.InitialState := 'q0';
+  FAutomaton.AuxSymbols := ['Z', 'X'];
+  FAutomaton.Base := 'Z';
+
+  FAutomaton.Transitions.Add(TTransition.Create('q0', 'q0', 'a', 'Z', 'XX'));
+  FAutomaton.Transitions.Add(TTransition.Create('q0', 'q0', 'a', 'X', 'XXX'));
+  FAutomaton.Transitions.Add(TTransition.Create('q0', 'q1', 'b', 'X', 'ʎ'));
+  FAutomaton.Transitions.Add(TTransition.Create('q1', 'q1', 'b', 'X', 'ʎ'));
 
   for Word in MustAccept do
     CheckTrue(FAutomaton.Accept(Word));
