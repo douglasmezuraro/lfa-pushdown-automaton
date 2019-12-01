@@ -8,7 +8,7 @@ type
   TWord   = string;
 
 const
-  Empty: TSymbol = 'ʎ';
+  Lambda: TSymbol = 'ʎ';
 
 implementation
 

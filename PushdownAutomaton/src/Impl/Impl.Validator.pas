@@ -212,6 +212,9 @@ begin
 
     for Symbol in Transition.Pop do
     begin
+      if Symbol = Lambda then
+        Continue;
+
       if not FAuxSymbols.Contains(Symbol) then
       begin
         FError := Format('The pop symbol %s is not in aux symbols list %s.', [Symbol.QuotedString, FAuxSymbols.ToString]);
@@ -227,6 +230,9 @@ begin
 
     for Symbol in Transition.Push do
     begin
+      if Symbol = Lambda then
+        Continue;
+
       if not FAuxSymbols.Contains(Symbol) then
       begin
         FError := Format('The push symbol %s is not in aux symbols list %s.', [Symbol.QuotedString, FAuxSymbols.ToString]);

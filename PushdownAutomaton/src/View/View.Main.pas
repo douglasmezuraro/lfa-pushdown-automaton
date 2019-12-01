@@ -186,7 +186,7 @@ end;
 
 function TMain.GetWord: TWord;
 begin
-  Result := IfThen(EditWord.Text.Trim.IsEmpty, Empty, EditWord.Text.Replace(' ', ''));
+  Result := IfThen(EditWord.Text.Trim.IsEmpty, Lambda, EditWord.Text.Replace(' ', ''));
 end;
 
 end.

@@ -173,8 +173,8 @@ object Main: TMain
         Size.PlatformDefault = False
         TabOrder = 11
         RowCount = 0
-        Viewport.Width = 566.000000000000000000
-        Viewport.Height = 410.000000000000000000
+        Viewport.Width = 570.000000000000000000
+        Viewport.Height = 435.000000000000000000
         object ColumnSource: TStringColumn
           Locked = True
           Header = 'Source'

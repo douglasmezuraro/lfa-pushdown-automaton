@@ -69,7 +69,10 @@ begin
       Stack.Pop;
 
       for ToPush in Transition.Push do
-        Stack.Push(ToPush);
+      begin
+        if ToPush <> Lambda  then
+          Stack.Push(ToPush);
+      end;
     end;
 
     Result := Stack.IsEmpty;
