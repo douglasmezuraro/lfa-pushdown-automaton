@@ -33,7 +33,7 @@ type
 implementation
 
 uses
-  Impl.PushdownAutomaton.Validator;
+  Impl.Validator;
 
 constructor TPushdownAutomaton.Create;
 begin

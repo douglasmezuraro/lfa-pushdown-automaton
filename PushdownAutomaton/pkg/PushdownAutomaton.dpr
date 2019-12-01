@@ -9,7 +9,7 @@ uses
   Impl.Dialogs in '..\src\Impl\Impl.Dialogs.pas',
   Impl.List in '..\src\Impl\Impl.List.pas',
   Impl.PushdownAutomaton in '..\src\Impl\Impl.PushdownAutomaton.pas',
-  Impl.PushdownAutomaton.Validator in '..\src\Impl\Impl.PushdownAutomaton.Validator.pas',
+  Impl.Validator in '..\src\Impl\Impl.Validator.pas',
   Impl.Stack in '..\src\Impl\Impl.Stack.pas',
   Impl.Transition in '..\src\Impl\Impl.Transition.pas',
   Impl.Transitions in '..\src\Impl\Impl.Transitions.pas',
