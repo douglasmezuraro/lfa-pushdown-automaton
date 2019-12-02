@@ -69,8 +69,13 @@ begin
 
       for Pop in Transition.Pop do
       begin
-        if Pop <> Lambda then        
+        if Pop <> Lambda then
+        begin
+          if Stack.IsEmpty then
+            Exit(False);
+
           Stack.Pop;
+        end;
       end;
 
       for Push in Transition.Push do
