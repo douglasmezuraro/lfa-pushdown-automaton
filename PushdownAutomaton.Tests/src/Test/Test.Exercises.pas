@@ -30,6 +30,9 @@ type
 
     // L6 = {wε(a,b)*/|w|a=|w|b}
     procedure ExerciseSix;
+
+    // L7 = {(a^n)(b^3m)(c^m)(d^2n)/n>=0;m>=0}
+    procedure ExerciseSeven;
   end;
 
 implementation
@@ -210,6 +213,38 @@ begin
   FAutomaton.Transitions.Add(TTransition.Create('q4', 'q2', 'b', 'ʎ', 'X'));
   FAutomaton.Transitions.Add(TTransition.Create('q4', 'q1', 'a', 'ʎ', 'X'));
   FAutomaton.Transitions.Add(TTransition.Create('q4', 'q4', 'a', 'X', 'ʎ'));
+
+  for Word in MustAccept do
+    CheckTrue(FAutomaton.Accept(Word));
+
+  for Word in MustNotAccept do
+    CheckFalse(FAutomaton.Accept(Word));
+end;
+
+procedure TExercisesTest.ExerciseSeven;
+const
+  MustAccept: TArray<TWord> = ['ʎ', 'add', 'aadddd', 'aaadddddd', 'bbbc', 'bbbbbbcc', 'bbbbbbbbbccc', 'abbbcdd', 'aabbbbbbccdddd', 'aaabbbbbbbbbcccdddddd'];
+  MustNotAccept: TArray<TWord> = ['a', 'b', 'c', 'd', 'abcd', 'aabbccdd', 'abcdd', 'aabcdddd', 'abbbcd', 'aabbbbbbccdd'];
+var
+  Word: TWord;
+begin
+  FAutomaton.Symbols := ['ʎ', 'a', 'b', 'c', 'd'];
+  FAutomaton.States := ['q0', 'q1', 'q2', 'q3', 'q4'];
+  FAutomaton.InitialState := 'q0';
+  FAutomaton.AuxSymbols := ['Z', 'X'];
+  FAutomaton.Base := 'Z';
+
+  FAutomaton.Transitions.Add(TTransition.Create('q0', 'q0', 'ʎ', 'Z', 'ʎ'));
+  FAutomaton.Transitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'XX'));
+  FAutomaton.Transitions.Add(TTransition.Create('q0', 'q2', 'b', 'Z', 'X'));
+  FAutomaton.Transitions.Add(TTransition.Create('q1', 'q1', 'a', 'X', 'XXX'));
+  FAutomaton.Transitions.Add(TTransition.Create('q1', 'q4', 'd', 'X', 'ʎ'));
+  FAutomaton.Transitions.Add(TTransition.Create('q1', 'q2', 'b', 'X', 'XX'));
+  FAutomaton.Transitions.Add(TTransition.Create('q2', 'q2', 'b', 'X', 'XX'));
+  FAutomaton.Transitions.Add(TTransition.Create('q2', 'q3', 'c', 'XXX', 'ʎ'));
+  FAutomaton.Transitions.Add(TTransition.Create('q3', 'q3', 'c', 'XXX', 'ʎ'));
+  FAutomaton.Transitions.Add(TTransition.Create('q3', 'q4', 'd', 'X', 'ʎ'));
+  FAutomaton.Transitions.Add(TTransition.Create('q4', 'q4', 'd', 'X', 'ʎ'));
 
   for Word in MustAccept do
     CheckTrue(FAutomaton.Accept(Word));
