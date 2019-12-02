@@ -2,7 +2,7 @@ object Main: TMain
   Left = 0
   Top = 0
   Caption = 'AP'
-  ClientHeight = 684
+  ClientHeight = 600
   ClientWidth = 600
   FormFactor.Width = 320
   FormFactor.Height = 480
@@ -12,23 +12,25 @@ object Main: TMain
   DesignerMasterStyle = 0
   object TabControlView: TTabControl
     Align = Client
+    Locked = True
     Size.Width = 600.000000000000000000
-    Size.Height = 639.000000000000000000
+    Size.Height = 555.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 1
     TabPosition = PlatformDefault
     OnChange = TabControlViewChange
     Sizes = (
       600s
-      613s
+      529s
       600s
-      613s)
+      529s)
     object TabItemInput: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      Locked = True
+      IsSelected = True
       Size.Width = 48.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
@@ -37,85 +39,17 @@ object Main: TMain
       Text = 'Input'
       ExplicitSize.cx = 48.000000000000000000
       ExplicitSize.cy = 26.000000000000000000
-      object LabelSymbols: TLabel
-        Locked = True
-        FocusControl = EditSymbols
-        Position.X = 15.000000000000000000
-        Position.Y = 15.000000000000000000
-        Size.Width = 570.000000000000000000
-        Size.Height = 17.000000000000000000
-        Size.PlatformDefault = False
-        Text = #931
-        TabOrder = 1
-      end
-      object EditSymbols: TEdit
+      object EditAuxSymbols: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
         Anchors = [akLeft, akTop, akRight]
-        TabOrder = 0
+        TabOrder = 9
         Position.X = 15.000000000000000000
-        Position.Y = 32.000000000000000000
+        Position.Y = 228.000000000000000000
         Locked = True
         Size.Width = 570.000000000000000000
         Size.Height = 22.000000000000000000
         Size.PlatformDefault = False
-        TextPrompt = 'Symbols'
-      end
-      object LabelStates: TLabel
-        Locked = True
-        FocusControl = EditStates
-        Position.X = 15.000000000000000000
-        Position.Y = 64.000000000000000000
-        Size.Width = 570.000000000000000000
-        Size.Height = 17.000000000000000000
-        Size.PlatformDefault = False
-        Text = 'E'
-        TabOrder = 3
-      end
-      object EditStates: TEdit
-        Touch.InteractiveGestures = [LongTap, DoubleTap]
-        Anchors = [akLeft, akTop, akRight]
-        TabOrder = 2
-        Position.X = 15.000000000000000000
-        Position.Y = 81.000000000000000000
-        Locked = True
-        Size.Width = 570.000000000000000000
-        Size.Height = 22.000000000000000000
-        Size.PlatformDefault = False
-        TextPrompt = 'States'
-      end
-      object LabelInitialState: TLabel
-        Locked = True
-        FocusControl = EditInitialState
-        Position.X = 15.000000000000000000
-        Position.Y = 113.000000000000000000
-        Size.Width = 570.000000000000000000
-        Size.Height = 17.000000000000000000
-        Size.PlatformDefault = False
-        Text = 'i'
-        TabOrder = 4
-      end
-      object EditInitialState: TEdit
-        Touch.InteractiveGestures = [LongTap, DoubleTap]
-        Anchors = [akLeft, akTop, akRight]
-        TabOrder = 5
-        Position.X = 15.000000000000000000
-        Position.Y = 130.000000000000000000
-        Locked = True
-        Size.Width = 570.000000000000000000
-        Size.Height = 22.000000000000000000
-        Size.PlatformDefault = False
-        TextPrompt = 'Initial state'
-      end
-      object LabelBase: TLabel
-        Locked = True
-        FocusControl = EditBase
-        Position.X = 15.000000000000000000
-        Position.Y = 162.000000000000000000
-        Size.Width = 570.000000000000000000
-        Size.Height = 17.000000000000000000
-        Size.PlatformDefault = False
-        Text = 'B'
-        TabOrder = 6
+        TextPrompt = 'Aux symbols'
       end
       object EditBase: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
@@ -129,6 +63,82 @@ object Main: TMain
         Size.PlatformDefault = False
         TextPrompt = 'Base'
       end
+      object EditInitialState: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Anchors = [akLeft, akTop, akRight]
+        TabOrder = 5
+        Position.X = 15.000000000000000000
+        Position.Y = 130.000000000000000000
+        Locked = True
+        Size.Width = 570.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Initial state'
+      end
+      object EditStates: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Anchors = [akLeft, akTop, akRight]
+        TabOrder = 2
+        Position.X = 15.000000000000000000
+        Position.Y = 81.000000000000000000
+        Locked = True
+        Size.Width = 570.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'States'
+      end
+      object EditSymbols: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Anchors = [akLeft, akTop, akRight]
+        TabOrder = 0
+        Position.X = 15.000000000000000000
+        Position.Y = 32.000000000000000000
+        Locked = True
+        Size.Width = 570.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Symbols'
+      end
+      object GridInput: TStringGrid
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        CanFocus = True
+        ClipChildren = True
+        Locked = True
+        Position.X = 15.000000000000000000
+        Position.Y = 277.000000000000000000
+        Size.Width = 570.000000000000000000
+        Size.Height = 235.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 11
+        RowCount = 0
+        Viewport.Width = 566.000000000000000000
+        Viewport.Height = 210.000000000000000000
+        object ColumnSource: TStringColumn
+          Locked = True
+          Header = 'Source'
+          Size.Width = 112.000000000000000000
+        end
+        object ColumnTarget: TStringColumn
+          Locked = True
+          Header = 'Target'
+          Size.Width = 112.000000000000000000
+        end
+        object ColumnSymbol: TStringColumn
+          Locked = True
+          Header = 'Symbol'
+          Size.Width = 112.000000000000000000
+        end
+        object ColumnPop: TStringColumn
+          Locked = True
+          Header = 'Pop'
+          Size.Width = 112.000000000000000000
+        end
+        object ColumnPush: TStringColumn
+          Locked = True
+          Header = 'Push'
+          Size.Width = 112.000000000000000000
+        end
+      end
       object LabelAuxSymbols: TLabel
         Locked = True
         FocusControl = EditAuxSymbols
@@ -140,17 +150,49 @@ object Main: TMain
         Text = #1043
         TabOrder = 8
       end
-      object EditAuxSymbols: TEdit
-        Touch.InteractiveGestures = [LongTap, DoubleTap]
-        Anchors = [akLeft, akTop, akRight]
-        TabOrder = 9
-        Position.X = 15.000000000000000000
-        Position.Y = 228.000000000000000000
+      object LabelBase: TLabel
         Locked = True
+        FocusControl = EditBase
+        Position.X = 15.000000000000000000
+        Position.Y = 162.000000000000000000
         Size.Width = 570.000000000000000000
-        Size.Height = 22.000000000000000000
+        Size.Height = 17.000000000000000000
         Size.PlatformDefault = False
-        TextPrompt = 'Aux symbols'
+        Text = 'B'
+        TabOrder = 6
+      end
+      object LabelInitialState: TLabel
+        Locked = True
+        FocusControl = EditInitialState
+        Position.X = 15.000000000000000000
+        Position.Y = 113.000000000000000000
+        Size.Width = 570.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'i'
+        TabOrder = 4
+      end
+      object LabelStates: TLabel
+        Locked = True
+        FocusControl = EditStates
+        Position.X = 15.000000000000000000
+        Position.Y = 64.000000000000000000
+        Size.Width = 570.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'E'
+        TabOrder = 3
+      end
+      object LabelSymbols: TLabel
+        Locked = True
+        FocusControl = EditSymbols
+        Position.X = 15.000000000000000000
+        Position.Y = 15.000000000000000000
+        Size.Width = 570.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        Text = #931
+        TabOrder = 1
       end
       object LabelTransitions: TLabel
         Locked = True
@@ -162,73 +204,51 @@ object Main: TMain
         Text = #948
         TabOrder = 10
       end
-      object GridInput: TStringGrid
-        Anchors = [akLeft, akTop, akRight]
-        CanFocus = True
-        ClipChildren = True
-        Position.X = 15.000000000000000000
-        Position.Y = 277.000000000000000000
-        Size.Width = 570.000000000000000000
-        Size.Height = 318.000000000000000000
-        Size.PlatformDefault = False
-        TabOrder = 11
-        RowCount = 0
-        Viewport.Width = 566.000000000000000000
-        Viewport.Height = 293.000000000000000000
-        object ColumnSource: TStringColumn
-          Header = 'Source'
-        end
-        object ColumnTarget: TStringColumn
-          Header = 'Target'
-        end
-        object ColumnSymbol: TStringColumn
-          Header = 'Symbol'
-        end
-        object ColumnPop: TStringColumn
-          Header = 'Pop'
-        end
-        object ColumnPush: TStringColumn
-          Header = 'Push'
-        end
-      end
     end
     object TabItemOutput: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      Locked = True
+      IsSelected = False
       Size.Width = 58.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
       Text = 'Output'
+      ExplicitSize.cx = 58.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
       object GridOutput: TStringGrid
         Align = Client
         CanFocus = True
         ClipChildren = True
+        Locked = True
         Size.Width = 600.000000000000000000
-        Size.Height = 613.000000000000000000
+        Size.Height = 529.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
         RowCount = 0
         Viewport.Width = 596.000000000000000000
-        Viewport.Height = 588.000000000000000000
+        Viewport.Height = 504.000000000000000000
         object ColumnInput: TStringColumn
+          Locked = True
           Header = 'Input'
-          Size.Width = 431.000000000000000000
+          Size.Width = 430.000000000000000000
         end
         object ColumnResult: TStringColumn
+          Locked = True
           Header = 'Result'
           ReadOnly = True
-          Size.Width = 155.000000000000000000
+          Size.Width = 160.000000000000000000
         end
       end
     end
   end
   object PanelButtons: TPanel
     Align = Bottom
-    Position.Y = 639.000000000000000000
+    Locked = True
+    Position.Y = 555.000000000000000000
     Size.Width = 600.000000000000000000
     Size.Height = 45.000000000000000000
     Size.PlatformDefault = False
@@ -238,6 +258,7 @@ object Main: TMain
       Align = Right
       Enabled = True
       ImageIndex = -1
+      Locked = True
       Position.X = 500.000000000000000000
       Size.Width = 100.000000000000000000
       Size.Height = 45.000000000000000000
@@ -249,6 +270,7 @@ object Main: TMain
       Align = Left
       Enabled = True
       ImageIndex = -1
+      Locked = True
       Size.Width = 100.000000000000000000
       Size.Height = 45.000000000000000000
       Size.PlatformDefault = False

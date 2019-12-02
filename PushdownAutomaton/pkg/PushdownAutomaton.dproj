@@ -104,7 +104,6 @@
         <DCCReference Include="..\src\View\View.Main.pas">
             <Form>Main</Form>
         </DCCReference>
-        <DCCReference Include="..\..\PushdownAutomaton.Tests\src\Test\Test.List.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
