@@ -9,6 +9,7 @@ type
 
 const
   Lambda: TSymbol = 'ʎ';
+  Result: array[Boolean] of string = ('Rejected', 'Accepted');
 
 implementation
 

@@ -2,7 +2,7 @@ object Main: TMain
   Left = 0
   Top = 0
   Caption = 'AP'
-  ClientHeight = 800
+  ClientHeight = 684
   ClientWidth = 600
   FormFactor.Width = 320
   FormFactor.Height = 480
@@ -13,16 +13,17 @@ object Main: TMain
   object TabControlView: TTabControl
     Align = Client
     Size.Width = 600.000000000000000000
-    Size.Height = 755.000000000000000000
+    Size.Height = 639.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 2
+    TabIndex = 1
     TabOrder = 1
     TabPosition = PlatformDefault
+    OnChange = TabControlViewChange
     Sizes = (
       600s
-      729s
+      613s
       600s
-      729s)
+      613s)
     object TabItemInput: TTabItem
       CustomIcon = <
         item
@@ -161,38 +162,32 @@ object Main: TMain
         Text = #948
         TabOrder = 10
       end
-      object Grid: TStringGrid
+      object GridInput: TStringGrid
         Anchors = [akLeft, akTop, akRight]
         CanFocus = True
         ClipChildren = True
-        Locked = True
         Position.X = 15.000000000000000000
         Position.Y = 277.000000000000000000
         Size.Width = 570.000000000000000000
-        Size.Height = 435.000000000000000000
+        Size.Height = 318.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 11
         RowCount = 0
-        Viewport.Width = 570.000000000000000000
-        Viewport.Height = 435.000000000000000000
+        Viewport.Width = 566.000000000000000000
+        Viewport.Height = 293.000000000000000000
         object ColumnSource: TStringColumn
-          Locked = True
           Header = 'Source'
         end
+        object ColumnTarget: TStringColumn
+          Header = 'Target'
+        end
         object ColumnSymbol: TStringColumn
-          Locked = True
           Header = 'Symbol'
         end
         object ColumnPop: TStringColumn
-          Locked = True
           Header = 'Pop'
         end
-        object ColumnTarget: TStringColumn
-          Locked = True
-          Header = 'Target'
-        end
         object ColumnPush: TStringColumn
-          Locked = True
           Header = 'Push'
         end
       end
@@ -201,66 +196,39 @@ object Main: TMain
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 58.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
       Text = 'Output'
-      ExplicitSize.cx = 58.000000000000000000
-      ExplicitSize.cy = 26.000000000000000000
-      object LabelWord: TLabel
-        FocusControl = EditWord
-        Position.X = 16.000000000000000000
-        Position.Y = 14.000000000000000000
-        Text = 'Word'
+      object GridOutput: TStringGrid
+        Align = Client
+        CanFocus = True
+        ClipChildren = True
+        Size.Width = 600.000000000000000000
+        Size.Height = 613.000000000000000000
+        Size.PlatformDefault = False
         TabOrder = 0
-      end
-      object EditWord: TEdit
-        Touch.InteractiveGestures = [LongTap, DoubleTap]
-        TabOrder = 1
-        Position.X = 16.000000000000000000
-        Position.Y = 30.000000000000000000
-        Size.Width = 465.000000000000000000
-        Size.Height = 22.000000000000000000
-        Size.PlatformDefault = False
-      end
-      object ButtonCheck: TButton
-        Action = ActionCheck
-        Enabled = True
-        ImageIndex = -1
-        Position.X = 488.000000000000000000
-        Position.Y = 30.000000000000000000
-        TabOrder = 2
-      end
-      object LabelLog: TLabel
-        FocusControl = ListLog
-        Position.X = 16.000000000000000000
-        Position.Y = 62.000000000000000000
-        Text = 'Log'
-        TabOrder = 3
-      end
-      object ListLog: TListBox
-        Position.X = 16.000000000000000000
-        Position.Y = 78.000000000000000000
-        Size.Width = 553.000000000000000000
-        Size.Height = 347.000000000000000000
-        Size.PlatformDefault = False
-        TabOrder = 4
-        DisableFocusEffect = True
-        DefaultItemStyles.ItemStyle = ''
-        DefaultItemStyles.GroupHeaderStyle = ''
-        DefaultItemStyles.GroupFooterStyle = ''
-        ShowCheckboxes = True
-        Viewport.Width = 549.000000000000000000
-        Viewport.Height = 343.000000000000000000
+        RowCount = 0
+        Viewport.Width = 596.000000000000000000
+        Viewport.Height = 588.000000000000000000
+        object ColumnInput: TStringColumn
+          Header = 'Input'
+          Size.Width = 431.000000000000000000
+        end
+        object ColumnResult: TStringColumn
+          Header = 'Result'
+          ReadOnly = True
+          Size.Width = 155.000000000000000000
+        end
       end
     end
   end
   object PanelButtons: TPanel
     Align = Bottom
-    Position.Y = 755.000000000000000000
+    Position.Y = 639.000000000000000000
     Size.Width = 600.000000000000000000
     Size.Height = 45.000000000000000000
     Size.PlatformDefault = False
@@ -275,6 +243,16 @@ object Main: TMain
       Size.Height = 45.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
+    end
+    object ButtonCheck: TButton
+      Action = ActionCheck
+      Align = Left
+      Enabled = True
+      ImageIndex = -1
+      Size.Width = 100.000000000000000000
+      Size.Height = 45.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
     end
   end
   object ActionList: TActionList

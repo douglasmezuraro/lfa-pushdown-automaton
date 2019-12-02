@@ -3,7 +3,7 @@
 interface
 
 uses
-  Impl.Transition, Impl.Types, System.StrUtils, System.SysUtils, system.Character;
+  Impl.Transition, Impl.Types, System.SysUtils, system.Character;
 
 type
   TTransitions = class sealed

@@ -5,16 +5,14 @@ interface
 uses
   FMX.ActnList, FMX.Controls, FMX.Controls.Presentation, FMX.Edit, FMX.Forms, FMX.Grid, FMX.Grid.Style,
   FMX.Layouts, FMX.ListBox, FMX.ScrollBox, FMX.StdCtrls, FMX.TabControl, FMX.Types, Helper.Edit,
-  Helper.ListBox, Helper.ListBoxItem, Helper.StringGrid, Impl.Dialogs,
+  Helper.StringGrid, Impl.Dialogs,
   Impl.PushdownAutomaton, Impl.Transition, Impl.Transitions, Impl.Types, System.Actions,
-  System.Classes, System.Rtti, System.StrUtils, System.SysUtils, System.UITypes, Winapi.UrlMon;
+  System.Classes, System.Rtti, System.SysUtils, System.UITypes;
 
 type
   TMain = class sealed(TForm)
-    ActionCheck: TAction;
     ActionClear: TAction;
     ActionList: TActionList;
-    ButtonCheck: TButton;
     ButtonClear: TButton;
     ColumnPop: TStringColumn;
     ColumnPush: TStringColumn;
@@ -26,25 +24,27 @@ type
     EditInitialState: TEdit;
     EditStates: TEdit;
     EditSymbols: TEdit;
-    EditWord: TEdit;
-    Grid: TStringGrid;
+    GridInput: TStringGrid;
     LabelAuxSymbols: TLabel;
     LabelBase: TLabel;
     LabelInitialState: TLabel;
     LabelStates: TLabel;
     LabelSymbols: TLabel;
     LabelTransitions: TLabel;
-    LabelWord: TLabel;
-    LabelLog: TLabel;
-    ListLog: TListBox;
     PanelButtons: TPanel;
     TabControlView: TTabControl;
     TabItemInput: TTabItem;
     TabItemOutput: TTabItem;
-    procedure ActionCheckExecute(Sender: TObject);
+    GridOutput: TStringGrid;
+    ColumnInput: TStringColumn;
+    ColumnResult: TStringColumn;
+    ButtonCheck: TButton;
+    ActionCheck: TAction;
     procedure ActionClearExecute(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
+    procedure ActionCheckExecute(Sender: TObject);
+    procedure TabControlViewChange(Sender: TObject);
   strict private
     FAutomaton: TPushdownAutomaton;
     function GetAuxSymbols: TArray<TSymbol>;
@@ -53,10 +53,10 @@ type
     function GetStates: TArray<TState>;
     function GetSymbols: TArray<TSymbol>;
     function GetTransitions: TTransitions;
-    function GetWord: TWord;
   private
     procedure Check;
     procedure Clear;
+    procedure Setup;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -67,7 +67,6 @@ type
     property Transitions: TTransitions read GetTransitions;
     property Base: TSymbol read GetBase;
     property AuxSymbols: TArray<TSymbol> read GetAuxSymbols;
-    property Word: TWord read GetWord;
   end;
 
 implementation
@@ -88,16 +87,13 @@ end;
 
 procedure TMain.Check;
 begin
+  Setup;
   try
-    FAutomaton.Clear;
-    FAutomaton.Symbols      := Symbols;
-    FAutomaton.States       := States;
-    FAutomaton.InitialState := InitialState;
-    FAutomaton.AuxSymbols   := AuxSymbols;
-    FAutomaton.Base         := Base;
-    FAutomaton.Transitions  := Transitions;
-
-    ListLog.Add(Word, FAutomaton.Accept(Word));
+    GridOutput.ForEach(
+      procedure
+      begin
+        GridOutput.Value[ColumnResult] := Result[FAutomaton.Accept(GridOutput.Value[ColumnInput])];
+      end);
   except
     on Exception: EArgumentException do
       TDialogs.Warning(Exception.Message);
@@ -112,9 +108,8 @@ begin
   EditInitialState.Clear;
   EditBase.Clear;
   EditAuxSymbols.Clear;
-  EditWord.Clear;
-  ListLog.Clear;
-  Grid.Clear;
+  GridInput.Clear;
+  GridOutput.Clear;
 end;
 
 procedure TMain.ActionCheckExecute(Sender: TObject);
@@ -129,11 +124,16 @@ end;
 
 procedure TMain.FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
 begin
-  Grid.Notify(Key, Shift);
+  if GridInput.IsFocused then
+    GridInput.Notify(Key, Shift);
+
+  if GridOutput.IsFocused then
+    GridOutput.Notify(Key, Shift);
 end;
 
 procedure TMain.FormShow(Sender: TObject);
 begin
+  ButtonCheck.Visible := False;
   TabControlView.ActiveTab := TabItemInput;
 end;
 
@@ -166,17 +166,17 @@ function TMain.GetTransitions: TTransitions;
 begin
   FAutomaton.Transitions.Clear;
 
-  Grid.ForEach(
+  GridInput.ForEach(
     procedure
     var
       Transition: TTransition;
     begin
       Transition        := TTransition.Create;
-      Transition.Source := Grid.Value[ColumnSource];
-      Transition.Target := Grid.Value[ColumnTarget];
-      Transition.Symbol := Grid.Value[ColumnSymbol];
-      Transition.Push   := Grid.Value[ColumnPush];
-      Transition.Pop    := Grid.Value[ColumnPop];
+      Transition.Source := GridInput.Value[ColumnSource];
+      Transition.Target := GridInput.Value[ColumnTarget];
+      Transition.Symbol := GridInput.Value[ColumnSymbol];
+      Transition.Push   := GridInput.Value[ColumnPush];
+      Transition.Pop    := GridInput.Value[ColumnPop];
 
       FAutomaton.Transitions.Add(Transition);
     end);
@@ -184,9 +184,20 @@ begin
   Result := FAutomaton.Transitions;
 end;
 
-function TMain.GetWord: TWord;
+procedure TMain.Setup;
 begin
-  Result := IfThen(EditWord.Text.Trim.IsEmpty, Lambda, EditWord.Text.Replace(' ', ''));
+  FAutomaton.Clear;
+  FAutomaton.Symbols      := Symbols;
+  FAutomaton.States       := States;
+  FAutomaton.InitialState := InitialState;
+  FAutomaton.AuxSymbols   := AuxSymbols;
+  FAutomaton.Base         := Base;
+  FAutomaton.Transitions  := Transitions;
+end;
+
+procedure TMain.TabControlViewChange(Sender: TObject);
+begin
+  ButtonCheck.Visible := (Sender as TTabControl).ActiveTab <> TabItemInput;
 end;
 
 end.

@@ -10,17 +10,18 @@ type
   strict private const
     FirstColumn = 0;
     FirstRow = 0;
-  strict private
+  private
     function Eof: Boolean;
     function GetValue(const Column: TColumn): string;
     procedure Delete;
     procedure Insert;
+    procedure SetValue(const Column: TColumn; const Value: string);
   public
     function IsEmpty: Boolean;
     procedure Clear;
     procedure ForEach(const Method: TProc);
     procedure Notify(const Key: Word; const Shift: TShiftState);
-    property Value[Const Column: TColumn]: string read GetValue;
+    property Value[Const Column: TColumn]: string read GetValue write SetValue;
   end;
 
 implementation
@@ -89,9 +90,14 @@ begin
     Exit;
 
   case Key of
-    vkInsert: Insert;
+    vkInsert, vkDown: Insert;
     vkDelete: Delete;
   end;
+end;
+
+procedure TStringGridHelper.SetValue(const Column: TColumn; const Value: string);
+begin
+  Cells[Column.Index, Row] := Value;
 end;
 
 end.
