@@ -3,7 +3,7 @@
 interface
 
 uses
-  TestFramework, Impl.PushdownAutomaton, Impl.Transition, Impl.Types;
+  TestFramework, Impl.PushdownAutomaton, Impl.Transition, Impl.Types, System.SysUtils;
 
 type
   TExercisesTest = class sealed(TTestCase)
@@ -39,7 +39,7 @@ type
     procedure ExerciseFive;
 
     /// <summary>
-    ///   L6 = {wε(a,b)*/|w|a=|w|b}
+    ///   L6 = {Wε(a,b)*/|w|a=|w|b}
     /// </summary>
     procedure ExerciseSix;
 
@@ -47,6 +47,56 @@ type
     ///   L7 = {(a^n)(b^3m)(c^m)(d^2n)/n>=0;m>=0}
     /// </summary>
     procedure ExerciseSeven;
+
+    /// <summary>
+    ///   L8 = {(a^i)(b^j)(c^k)/i=j+k;j>=0;k>=0}
+    /// </summary>
+    procedure ExerciseEight;
+
+    /// <summary>
+    ///   L9 = {(a^i)(b^j)(c^k)/k=i+j;i>=0;j>=0}
+    /// </summary>
+    procedure ExerciseNine;
+
+    /// <summary>
+    ///   L10 = {(a^i)(b^j)(c^k)/j=i+k;j>=0;k>=0}
+    /// </summary>
+    procedure ExerciseTen;
+
+    /// <summary>
+    ///   L11 = {(a^n)(b^n)(c^m)(d^m)/n>=0;m>=0}
+    /// </summary>
+    procedure ExerciseEleven;
+
+    /// <summary>
+    ///   L12 = {(a^n)(b^2n+1)/n>0}
+    /// </summary>
+    procedure ExerciseTwelve;
+
+    /// <summary>
+    ///   L13 = {(a^n)(b^2n+2)/n>0}
+    /// </summmary>
+    procedure ExerciseThirteen;
+
+    /// <summary>
+    ///   L14 = {(a^n)(b^n/2)/n>0;n é par}
+    /// </summary>
+    procedure ExerciseFourteen;
+
+    /// <summary>
+    ///   L15 = {(a^n)(b^n/3)/n>0;n é múltiplo de 3}
+    /// </summary>
+    procedure ExerciseFifteen;
+
+    /// <summary>
+    ///   L16 = {Wε{a,b}*/|W|a é ímpar;|W|b é ímpar}
+    /// </summary>
+    procedure ExerciseSixteen;
+
+    /// <summary>
+    ///   L17 = {Wε{a,b}*/|W|a é par;|W|b é par}
+    /// </summary>
+    procedure ExerciseSeventeen;
   end;
 
 implementation
@@ -63,8 +113,8 @@ end;
 
 procedure TExercisesTest.ExerciseOne;
 const
-  MustAccept: TArray<TWord> = ['ʎ', 'ab', 'aabb', 'aaabbb', 'aaaabbbb', 'aaaaabbbbb'];
-  MustNotAccept: TArray<TWord> = ['a', 'b', 'ba', 'bbaa', 'aab', 'aaabb', 'abb', 'aabbb'];
+  AcceptedWords: TArray<TWord> = ['ʎ', 'ab', 'aabb', 'aaabbb', 'aaaabbbb', 'aaaaabbbbb'];
+  RejectedWords: TArray<TWord> = ['a', 'b', 'ba', 'bbaa', 'aab', 'aaabb', 'abb', 'aabbb'];
 var
   Word: TWord;
 begin
@@ -80,17 +130,17 @@ begin
   FAutomaton.Transitions.Add(TTransition.Create('q1', 'q2', 'b', 'X', 'ʎ'));
   FAutomaton.Transitions.Add(TTransition.Create('q2', 'q2', 'b', 'X', 'ʎ'));
 
-  for Word in MustAccept do
+  for Word in AcceptedWords do
     CheckTrue(FAutomaton.Accept(Word));
 
-  for Word in MustNotAccept do
+  for Word in RejectedWords do
     CheckFalse(FAutomaton.Accept(Word));
 end;
 
 procedure TExercisesTest.ExerciseTwo;
 const
-  MustAccept: TArray<TWord> = ['abc', 'abbc', 'abbbc', 'aabcc', 'aabbcc', 'aaabccc', 'aaabbccc'];
-  MustNotAccept: TArray<TWord> = ['ʎ', 'a', 'b', 'c', 'ab', 'ac', 'bc', 'abcc', 'aabc', 'aabccc'];
+  AcceptedWords: TArray<TWord> = ['abc', 'abbc', 'abbbc', 'aabcc', 'aabbcc', 'aaabccc', 'aaabbccc'];
+  RejectedWords: TArray<TWord> = ['ʎ', 'a', 'b', 'c', 'ab', 'ac', 'bc', 'abcc', 'aabc', 'aabccc'];
 var
   Word: TWord;
 begin
@@ -107,17 +157,17 @@ begin
   FAutomaton.Transitions.Add(TTransition.Create('q2', 'q3', 'c', 'X', 'ʎ'));
   FAutomaton.Transitions.Add(TTransition.Create('q3', 'q3', 'c', 'X', 'ʎ'));
 
-  for Word in MustAccept do
+  for Word in AcceptedWords do
     CheckTrue(FAutomaton.Accept(Word));
 
-  for Word in MustNotAccept do
+  for Word in RejectedWords do
     CheckFalse(FAutomaton.Accept(Word));
 end;
 
 procedure TExercisesTest.ExerciseTree;
 const
-  MustAccept: TArray<TWord> = ['abb', 'aabbbb', 'aaabbbbbb', 'aaaabbbbbbbb', 'aaaaabbbbbbbbbb'];
-  MustNotAccept: TArray<TWord> = ['a', 'b', 'ab', 'aabb', 'aaabbb', 'aab', 'aaaabb', 'aaaaaabbb'];
+  AcceptedWords: TArray<TWord> = ['abb', 'aabbbb', 'aaabbbbbb', 'aaaabbbbbbbb', 'aaaaabbbbbbbbbb'];
+  RejectedWords: TArray<TWord> = ['a', 'b', 'ab', 'aabb', 'aaabbb', 'aab', 'aaaabb', 'aaaaaabbb'];
 var
   Word: TWord;
 begin
@@ -132,17 +182,17 @@ begin
   FAutomaton.Transitions.Add(TTransition.Create('q0', 'q1', 'b', 'X', 'ʎ'));
   FAutomaton.Transitions.Add(TTransition.Create('q1', 'q1', 'b', 'X', 'ʎ'));
 
-  for Word in MustAccept do
+  for Word in AcceptedWords do
     CheckTrue(FAutomaton.Accept(Word));
 
-  for Word in MustNotAccept do
+  for Word in RejectedWords do
     CheckFalse(FAutomaton.Accept(Word));
 end;
 
 procedure TExercisesTest.ExerciseFour;
 const
-  MustAccept: TArray<TWord> = ['ʎ', 'aab', 'aaaabb', 'aaaaaabbb', 'aaaaaaaabbbb', 'aaaaaaaaaabbbbb'];
-  MustNotAccept: TArray<TWord> = ['a', 'b', 'ab', 'aabb', 'aaabbb', 'abb', 'aabbbb', 'aaabbbbbb', 'aaaabbbbbbbb', 'aaaaabbbbbbbbbb'];
+  AcceptedWords: TArray<TWord> = ['ʎ', 'aab', 'aaaabb', 'aaaaaabbb', 'aaaaaaaabbbb', 'aaaaaaaaaabbbbb'];
+  RejectedWords: TArray<TWord> = ['a', 'b', 'ab', 'aabb', 'aaabbb', 'abb', 'aabbbb', 'aaabbbbbb', 'aaaabbbbbbbb', 'aaaaabbbbbbbbbb'];
 var
   Word: TWord;
 begin
@@ -158,17 +208,17 @@ begin
   FAutomaton.Transitions.Add(TTransition.Create('q0', 'q1', 'b', 'XX', 'ʎ'));
   FAutomaton.Transitions.Add(TTransition.Create('q1', 'q1', 'b', 'XX', 'ʎ'));
 
-  for Word in MustAccept do
+  for Word in AcceptedWords do
     CheckTrue(FAutomaton.Accept(Word));
 
-  for Word in MustNotAccept do
+  for Word in RejectedWords do
     CheckFalse(FAutomaton.Accept(Word));
 end;
 
 procedure TExercisesTest.ExerciseFive;
 const
-  MustAccept: TArray<TWord> = ['ʎ', 'ad', 'bc', 'aadd', 'bbcc', 'aaaddd', 'bbbccc', 'abcd', 'aabbccdd', 'aaabbccddd', 'aaabbbcccddd', 'aaaabbbcccdddd'];
-  MustNotAccept: TArray<TWord> = ['a', 'b', 'c', 'd', 'ab', 'ac', 'bd', 'cd', 'aabcd', 'abcdd', 'abbcd', 'abccd', 'aabbcdd', 'aabccdd'];
+  AcceptedWords: TArray<TWord> = ['ʎ', 'ad', 'bc', 'aadd', 'bbcc', 'aaaddd', 'bbbccc', 'abcd', 'aabbccdd', 'aaabbccddd', 'aaabbbcccddd', 'aaaabbbcccdddd'];
+  RejectedWords: TArray<TWord> = ['a', 'b', 'c', 'd', 'ab', 'ac', 'bd', 'cd', 'aabcd', 'abcdd', 'abbcd', 'abccd', 'aabbcdd', 'aabccdd'];
 var
   Word: TWord;
 begin
@@ -190,17 +240,17 @@ begin
   FAutomaton.Transitions.Add(TTransition.Create('q2', 'q3', 'd', 'X', 'ʎ'));
   FAutomaton.Transitions.Add(TTransition.Create('q3', 'q3', 'd', 'X', 'ʎ'));
 
-  for Word in MustAccept do
+  for Word in AcceptedWords do
     CheckTrue(FAutomaton.Accept(Word));
 
-  for Word in MustNotAccept do
+  for Word in RejectedWords do
     CheckFalse(FAutomaton.Accept(Word));
 end;
 
 procedure TExercisesTest.ExerciseSix;
 const
-  MustAccept: TArray<TWord> = ['ʎ', 'ab', 'ba', 'aabb', 'bbaa', 'abab', 'baba', 'abbaab', 'baabba', 'aabbabba'];
-  MustNotAccept: TArray<TWord> = ['a', 'b', 'aab', 'bba', 'aba', 'bab', 'aaaa', 'bb', 'aa', 'abababa'];
+  AcceptedWords: TArray<TWord> = ['ʎ', 'ab', 'ba', 'aabb', 'bbaa', 'abab', 'baba', 'abbaab', 'baabba', 'aabbabba'];
+  RejectedWords: TArray<TWord> = ['a', 'b', 'aab', 'bba', 'aba', 'bab', 'aaaa', 'bb', 'aa', 'abababa'];
 var
   Word: TWord;
 begin
@@ -228,17 +278,17 @@ begin
   FAutomaton.Transitions.Add(TTransition.Create('q4', 'q1', 'a', 'ʎ', 'X'));
   FAutomaton.Transitions.Add(TTransition.Create('q4', 'q4', 'a', 'X', 'ʎ'));
 
-  for Word in MustAccept do
+  for Word in AcceptedWords do
     CheckTrue(FAutomaton.Accept(Word));
 
-  for Word in MustNotAccept do
+  for Word in RejectedWords do
     CheckFalse(FAutomaton.Accept(Word));
 end;
 
 procedure TExercisesTest.ExerciseSeven;
 const
-  MustAccept: TArray<TWord> = ['ʎ', 'add', 'aadddd', 'aaadddddd', 'bbbc', 'bbbbbbcc', 'bbbbbbbbbccc', 'abbbcdd', 'aabbbbbbccdddd', 'aaabbbbbbbbbcccdddddd'];
-  MustNotAccept: TArray<TWord> = ['a', 'b', 'c', 'd', 'abcd', 'aabbccdd', 'abcdd', 'aabcdddd', 'abbbcd', 'aabbbbbbccdd'];
+  AcceptedWords: TArray<TWord> = ['ʎ', 'add', 'aadddd', 'aaadddddd', 'bbbc', 'bbbbbbcc', 'bbbbbbbbbccc', 'abbbcdd', 'aabbbbbbccdddd', 'aaabbbbbbbbbcccdddddd'];
+  RejectedWords: TArray<TWord> = ['a', 'b', 'c', 'd', 'abcd', 'aabbccdd', 'abcdd', 'aabcdddd', 'abbbcd', 'aabbbbbbccdd'];
 var
   Word: TWord;
 begin
@@ -260,14 +310,65 @@ begin
   FAutomaton.Transitions.Add(TTransition.Create('q3', 'q4', 'd', 'X', 'ʎ'));
   FAutomaton.Transitions.Add(TTransition.Create('q4', 'q4', 'd', 'X', 'ʎ'));
 
-  for Word in MustAccept do
+  for Word in AcceptedWords do
     CheckTrue(FAutomaton.Accept(Word));
 
-  for Word in MustNotAccept do
+  for Word in RejectedWords do
     CheckFalse(FAutomaton.Accept(Word));
+end;
+
+procedure TExercisesTest.ExerciseEight;
+begin
+  raise ENotImplemented.Create('The test method "TExercisesTest.ExerciseEight" is not implemented.');
+end;
+
+procedure TExercisesTest.ExerciseNine;
+begin
+  raise ENotImplemented.Create('The test method "TExercisesTest.ExerciseNine" is not implemented.');
+end;
+
+procedure TExercisesTest.ExerciseTen;
+begin
+  raise ENotImplemented.Create('The test method "TExercisesTest.ExerciseTen" is not implemented.');
+end;
+
+procedure TExercisesTest.ExerciseEleven;
+begin
+  raise ENotImplemented.Create('The test method "TExercisesTest.ExerciseEleven" is not implemented.');
+end;
+
+procedure TExercisesTest.ExerciseTwelve;
+begin
+  raise ENotImplemented.Create('The test method "TExercisesTest.ExerciseTwelve" is not implemented.');
+end;
+
+procedure TExercisesTest.ExerciseThirteen;
+begin
+  raise ENotImplemented.Create('The test method "TExercisesTest.ExerciseThirteen" is not implemented.');
+end;
+
+procedure TExercisesTest.ExerciseFourteen;
+begin
+  raise ENotImplemented.Create('The test method "TExercisesTest.ExerciseFourteen" is not implemented.');
+end;
+
+procedure TExercisesTest.ExerciseFifteen;
+begin
+  raise ENotImplemented.Create('The test method "TExercisesTest.ExerciseFifteen" is not implemented.');
+end;
+
+procedure TExercisesTest.ExerciseSixteen;
+begin
+  raise ENotImplemented.Create('The test method "TExercisesTest.ExerciseSixteen" is not implemented.');
+end;
+
+procedure TExercisesTest.ExerciseSeventeen;
+begin
+  raise ENotImplemented.Create('The test method "TExercisesTest.ExerciseSeventeen" is not implemented.');
 end;
 
 initialization
   RegisterTest(TExercisesTest.Suite);
 
 end.
+
