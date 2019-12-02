@@ -4,7 +4,6 @@ uses
   System.StartUpCopy,
   FMX.Forms,
   Helper.Edit in '..\src\Helper\Helper.Edit.pas',
-  Helper.ListBoxItem in '..\src\Helper\Helper.ListBoxItem.pas',
   Helper.StringGrid in '..\src\Helper\Helper.StringGrid.pas',
   Impl.Dialogs in '..\src\Impl\Impl.Dialogs.pas',
   Impl.List in '..\src\Impl\Impl.List.pas',
@@ -15,7 +14,6 @@ uses
   Impl.Transitions in '..\src\Impl\Impl.Transitions.pas',
   Impl.Types in '..\src\Impl\Impl.Types.pas',
   View.Main in '..\src\View\View.Main.pas' {Main},
-  Helper.ListBox in '..\src\Helper\Helper.ListBox.pas',
   Test.List in '..\..\PushdownAutomaton.Tests\src\Test\Test.List.pas';
 
 {$R *.res}
