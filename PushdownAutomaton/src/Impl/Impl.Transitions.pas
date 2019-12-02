@@ -54,23 +54,11 @@ begin
   Result := nil;
   for Transition in FTransitions do
   begin
-    if not Transition.Source.Equals(State) then
+    if Transition.Source <> State then
       Continue;
 
-    if not Transition.Symbol.Equals(Symbol) then
+    if Transition.Symbol <> Symbol then
       Continue;
-
-    if Transition.Pop.Length = 1 then
-    begin
-      if Transition.Pop <> Top then
-        Continue;
-    end
-    else
-    begin
-
-    end;
-
-
 
     if not Transition.Pop.EndsWith(Top) then
       Continue;

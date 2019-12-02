@@ -3,7 +3,7 @@ unit Impl.Stack;
 interface
 
 uses
-  System.SysUtils;
+  System.SysUtils, Impl.Types;
 
 type
   TStack = class sealed
@@ -39,9 +39,10 @@ end;
 
 function TStack.Peek: string;
 begin
-  Result := string.Empty;
-  if not IsEmpty then
-    Result := FStack[High(FStack)];
+  if IsEmpty then
+    Exit(Lambda);
+
+  Result := FStack[High(FStack)];
 end;
 
 function TStack.Pop: string;
