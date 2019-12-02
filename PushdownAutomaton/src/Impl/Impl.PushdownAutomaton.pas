@@ -50,7 +50,7 @@ function TPushdownAutomaton.InternalAccept(const Word: TWord): Boolean;
 var
   State: TState;
   Stack: TStack;
-  Symbol, ToPush: TSymbol;
+  Symbol, Pop, Push: TSymbol;
   Transition: TTransition;
 begin
   Stack := TStack.Create;
@@ -66,12 +66,17 @@ begin
         Exit(False);
 
       State := Transition.Target;
-      Stack.Pop;
 
-      for ToPush in Transition.Push do
+      for Pop in Transition.Pop do
       begin
-        if ToPush <> Lambda  then
-          Stack.Push(ToPush);
+        if Pop <> Lambda then        
+          Stack.Pop;
+      end;
+
+      for Push in Transition.Push do
+      begin
+        if Push <> Lambda  then
+          Stack.Push(Push);
       end;
     end;
 

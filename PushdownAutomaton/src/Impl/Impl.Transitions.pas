@@ -3,7 +3,7 @@
 interface
 
 uses
-  Impl.Transition, Impl.Types, System.SysUtils, system.Character;
+  Impl.Transition, Impl.Types, System.StrUtils, System.SysUtils, system.Character;
 
 type
   TTransitions = class sealed
@@ -60,7 +60,19 @@ begin
     if not Transition.Symbol.Equals(Symbol) then
       Continue;
 
-    if not Transition.Pop.Equals(Top) then
+    if Transition.Pop.Length = 1 then
+    begin
+      if Transition.Pop <> Top then
+        Continue;
+    end
+    else
+    begin
+
+    end;
+
+
+
+    if not Transition.Pop.EndsWith(Top) then
       Continue;
 
     Exit(Transition);
