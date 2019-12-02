@@ -13,25 +13,39 @@ type
     procedure SetUp; override;
     procedure TearDown; override;
   published
-    // L1 = {(a^n)(b^n)/n>=0}
+    /// <summary>
+    ///   L1 = {(a^n)(b^n)/n>=0}
+    /// </summary>
     procedure ExerciseOne;
 
-    // L2 = {(a^n)(b^m)(c^n)/n>0;m>0}
+    /// <summary>
+    ///   L2 = {(a^n)(b^m)(c^n)/n>0;m>0}
+    /// </summary>
     procedure ExerciseTwo;
 
-    // L3 = {(a^n)(n^2n)/n>0}
+    /// <summary>
+    ///   L3 = {(a^n)(n^2n)/n>0}
+    /// </summary>
     procedure ExerciseTree;
 
-    // L4 = {(a^2n)(b^n)/n>=0}
+    /// <summary>
+    ///   L4 = {(a^2n)(b^n)/n>=0}
+    /// </summary>
     procedure ExerciseFour;
 
-    // L5 = {(a^n)(b^m)(c^m)(d^n)/n>=0;m>=0}
+    /// <summary>
+    ///   L5 = {(a^n)(b^m)(c^m)(d^n)/n>=0;m>=0}
+    /// </summary>
     procedure ExerciseFive;
 
-    // L6 = {wε(a,b)*/|w|a=|w|b}
+    /// <summary>
+    ///   L6 = {wε(a,b)*/|w|a=|w|b}
+    /// </summary>
     procedure ExerciseSix;
 
-    // L7 = {(a^n)(b^3m)(c^m)(d^2n)/n>=0;m>=0}
+    /// <summary>
+    ///   L7 = {(a^n)(b^3m)(c^m)(d^2n)/n>=0;m>=0}
+    /// </summary>
     procedure ExerciseSeven;
   end;
 

@@ -6,7 +6,7 @@ uses
   Impl.List, System.SysUtils, TestFramework;
 
 type
-  TListTest = class(TTestCase)
+  TListTest = class sealed(TTestCase)
   strict private
     FList: TList;
   public
@@ -49,13 +49,13 @@ end;
 
 procedure TListTest.TestAddOneElement;
 begin
-  FList.Add('Q0');
+  FList.Add('q0');
   CheckEquals(1, FList.Count);
 end;
 
 procedure TListTest.TestAddMoreThanOneElement;
 begin
-  FList.Add(['Q0', 'Q1', 'Q2']);
+  FList.Add(['q0', 'q1', 'q2']);
   CheckEquals(3, FList.Count);
 end;
 
@@ -66,7 +66,7 @@ end;
 
 procedure TListTest.TestIsEmptyWhenListIsNotEmpty;
 begin
-  FList.Add('Q0');
+  FList.Add('q0');
   CheckFalse(FList.IsEmpty);
 end;
 
@@ -78,14 +78,14 @@ end;
 
 procedure TListTest.TestClearWhenListHasOneElement;
 begin
-  FList.Add('Q0');
+  FList.Add('q0');
   FList.Clear;
   CheckTrue(FList.IsEmpty);
 end;
 
 procedure TListTest.TestClearWhenListHasMoreThanOneElement;
 begin
-  FList.Add(['Q0', 'Q1', 'Q2']);
+  FList.Add(['q0', 'q1', 'q2']);
   FList.Clear;
   CheckTrue(FList.IsEmpty);
 end;
@@ -94,16 +94,16 @@ procedure TListTest.TestHasDuplicatedWhenListDoesntHaveDuplicatedElement;
 var
   Element: string;
 begin
-  FList.Add(['Q0', 'Q1', 'Q2', 'Q3', 'Q1', 'Q4']);
+  FList.Add(['q0', 'q1', 'q2', 'q3', 'q1', 'q4']);
   CheckTrue(Flist.HasDuplicated(Element));
-  CheckEquals('Q1', Element);
+  CheckEquals('q1', Element);
 end;
 
 procedure TListTest.TestHasDuplicatedWhenListHaveDuplicatedElement;
 var
   Element: string;
 begin
-  FList.Add(['Q0', 'Q1', 'Q2', 'Q3', 'Q4']);
+  FList.Add(['q0', 'q1', 'q2', 'q3', 'q4']);
   CheckFalse(Flist.HasDuplicated(Element));
   CheckEquals(string.Empty, Element);
 end;
@@ -115,26 +115,26 @@ end;
 
 procedure TListTest.TestCountWhenListHasOneElement;
 begin
-  FList.Add('Q0');
+  FList.Add('q0');
   CheckEquals(1, FList.Count);
 end;
 
 procedure TListTest.TestCountWhenListHasMoreThanOneElement;
 begin
-  FList.Add(['Q0', 'Q1', 'Q2', 'Q3']);
+  FList.Add(['q0', 'q1', 'q2', 'q3']);
   CheckEquals(4, FList.Count);
 end;
 
 procedure TListTest.TestContainsWhenListContainsTheElement;
 begin
-  FList.Add(['Q0', 'Q1', 'Q2', 'Q3']);
-  CheckTrue(FList.Contains('Q2'));
+  FList.Add(['q0', 'q1', 'q2', 'q3']);
+  CheckTrue(FList.Contains('q2'));
 end;
 
 procedure TListTest.TestContainsWhenListNotContainsTheElement;
 begin
-  FList.Add(['Q0', 'Q1', 'Q2']);
-  CheckFalse(FList.Contains('Q3'));
+  FList.Add(['q0', 'q1', 'q2']);
+  CheckFalse(FList.Contains('q3'));
 end;
 
 procedure TListTest.TestToStringWhenListIsEmpty;
@@ -144,14 +144,14 @@ end;
 
 procedure TListTest.TestToStringWhenListHasOneElement;
 begin
-  FList.Add('Q0');
-  CheckEquals('[Q0]', FList.ToString);
+  FList.Add('q0');
+  CheckEquals('[q0]', FList.ToString);
 end;
 
 procedure TListTest.TestToStringWhenListHasMoreThanOneElement;
 begin
-  FList.Add(['Q0', 'Q1', 'Q2', 'Q3']);
-  CheckEquals('[Q0, Q1, Q2, Q3]', FList.ToString);
+  FList.Add(['q0', 'q1', 'q2', 'q3']);
+  CheckEquals('[q0, q1, q2, q3]', FList.ToString);
 end;
 
 procedure TListTest.TestToArrayWhenListIsEmpty;
@@ -161,20 +161,20 @@ end;
 
 procedure TListTest.TestToArrayWhenListHasOneElement;
 begin
-  FList.Add('Q0');
+  FList.Add('q0');
 
-  CheckEquals('Q0', FList.ToArray[0]);
+  CheckEquals('q0', FList.ToArray[0]);
 end;
 
 procedure TListTest.TestToArrayWhenListHasMoreThanOneElement;
 begin
-  FList.Add(['Q0', 'Q1', 'Q2', 'Q3', 'Q4']);
+  FList.Add(['q0', 'q1', 'q2', 'q3', 'q4']);
 
-  CheckEquals('Q0', FList.ToArray[0]);
-  CheckEquals('Q1', FList.ToArray[1]);
-  CheckEquals('Q2', FList.ToArray[2]);
-  CheckEquals('Q3', FList.ToArray[3]);
-  CheckEquals('Q4', FList.ToArray[4]);
+  CheckEquals('q0', FList.ToArray[0]);
+  CheckEquals('q1', FList.ToArray[1]);
+  CheckEquals('q2', FList.ToArray[2]);
+  CheckEquals('q3', FList.ToArray[3]);
+  CheckEquals('q4', FList.ToArray[4]);
 end;
 
 initialization

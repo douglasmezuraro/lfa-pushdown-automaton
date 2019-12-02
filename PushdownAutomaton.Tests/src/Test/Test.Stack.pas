@@ -49,11 +49,11 @@ end;
 
 procedure TStackTest.TestClearWhenStackHasMoreThanOneElement;
 begin
-  FStack.Push('Q0');
-  FStack.Push('Q1');
-  FStack.Push('Q2');
-  FStack.Push('Q3');
-  FStack.Push('Q4');
+  FStack.Push('q0');
+  FStack.Push('q1');
+  FStack.Push('q2');
+  FStack.Push('q3');
+  FStack.Push('q4');
 
   FStack.Clear;
 
@@ -62,7 +62,7 @@ end;
 
 procedure TStackTest.TestClearWhenStackHasOneElement;
 begin
-  FStack.Push('Q0');
+  FStack.Push('q0');
   FStack.Clear;
 
   CheckTrue(FStack.IsEmpty);
@@ -76,18 +76,18 @@ end;
 
 procedure TStackTest.TestCountWhenStackHasMoreThanOneElement;
 begin
-  FStack.Push('Q0');
-  FStack.Push('Q1');
-  FStack.Push('Q2');
-  FStack.Push('Q3');
-  FStack.Push('Q4');
+  FStack.Push('q0');
+  FStack.Push('q1');
+  FStack.Push('q2');
+  FStack.Push('q3');
+  FStack.Push('q4');
 
   CheckEquals(5, FStack.Count);
 end;
 
 procedure TStackTest.TestCountWhenStackHasOneElement;
 begin
-  FStack.Push('Q0');
+  FStack.Push('q0');
   CheckEquals(1, FStack.Count);
 end;
 
@@ -103,21 +103,21 @@ end;
 
 procedure TStackTest.TestIsEmptyWhenStackIsNotEmpty;
 begin
-  FStack.Push('Q0');
+  FStack.Push('q0');
   CheckFalse(FStack.IsEmpty);
 end;
 
 procedure TStackTest.TestPeekWhenStackIsEmpty;
 begin
-  FStack.Push('Q0');
-  CheckEquals('Q0', FStack.Peek);
+  FStack.Push('q0');
+  CheckEquals('q0', FStack.Peek);
 end;
 
 procedure TStackTest.TestPeekWhenStackIsNotEmpty;
 begin
-  FStack.Push('Q0');
-  FStack.Push('Q1');
-  CheckEquals('Q1', FStack.Peek);
+  FStack.Push('q0');
+  FStack.Push('q1');
+  CheckEquals('q1', FStack.Peek);
 end;
 
 procedure TStackTest.TestPopWhenStackIsEmpty;
@@ -133,50 +133,50 @@ procedure TStackTest.TestPopWhenStackIsNotEmpty;
 var
   Element: string;
 begin
-  FStack.Push('Q0');
-  FStack.Push('Q1');
-  FStack.Push('Q2');
+  FStack.Push('q0');
+  FStack.Push('q1');
+  FStack.Push('q2');
 
   Element := FStack.Pop;
 
-  CheckEquals('Q2', Element);
+  CheckEquals('q2', Element);
   CheckEquals(2, FStack.Count);
 end;
 
 procedure TStackTest.TestPushWhenStackIsEmpty;
 begin
-  FStack.Push('Q0');
+  FStack.Push('q0');
   CheckEquals(1, FStack.Count);
 end;
 
 procedure TStackTest.TestPushWhenStackIsNotEmpty;
 begin
-  FStack.Push('Q0');
-  FStack.Push('Q1');
-  FStack.Push('Q2');
+  FStack.Push('q0');
+  FStack.Push('q1');
+  FStack.Push('q2');
 
   CheckEquals(3, FStack.Count);
 end;
 
 procedure TStackTest.TestToArrayWhenStackHasMoreThanOneElement;
 begin
-  FStack.Push('Q0');
-  FStack.Push('Q1');
-  FStack.Push('Q2');
-  FStack.Push('Q3');
-  FStack.Push('Q4');
+  FStack.Push('q0');
+  FStack.Push('q1');
+  FStack.Push('q2');
+  FStack.Push('q3');
+  FStack.Push('q4');
 
-  CheckEquals('Q0', FStack.ToArray[0]);
-  CheckEquals('Q1', FStack.ToArray[1]);
-  CheckEquals('Q2', FStack.ToArray[2]);
-  CheckEquals('Q3', FStack.ToArray[3]);
-  CheckEquals('Q4', FStack.ToArray[4]);
+  CheckEquals('q0', FStack.ToArray[0]);
+  CheckEquals('q1', FStack.ToArray[1]);
+  CheckEquals('q2', FStack.ToArray[2]);
+  CheckEquals('q3', FStack.ToArray[3]);
+  CheckEquals('q4', FStack.ToArray[4]);
 end;
 
 procedure TStackTest.TestToArrayWhenStackHasOneElement;
 begin
-  FStack.Push('Q0');
-  CheckEquals('Q0', FStack.ToArray[0]);
+  FStack.Push('q0');
+  CheckEquals('q0', FStack.ToArray[0]);
 end;
 
 procedure TStackTest.TestToArrayWhenStackIsEmpty;
@@ -186,14 +186,14 @@ end;
 
 procedure TStackTest.TestToStringWhenStackHasMoreThanOneElement;
 begin
-  FStack.Push('Q0');
-  CheckEquals('[Q0]', FStack.ToString);
+  FStack.Push('q0');
+  CheckEquals('[q0]', FStack.ToString);
 end;
 
 procedure TStackTest.TestToStringWhenStackHasOneElement;
 begin
-  FStack.Push('Q0');
-  CheckEquals('[Q0]', FStack.ToString);
+  FStack.Push('q0');
+  CheckEquals('[q0]', FStack.ToString);
 end;
 
 procedure TStackTest.TestToStringWhenStackIsEmpty;
