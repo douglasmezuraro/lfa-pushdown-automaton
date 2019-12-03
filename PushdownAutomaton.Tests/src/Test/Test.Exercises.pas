@@ -382,8 +382,34 @@ begin
 end;
 
 procedure TExercisesTest.ExerciseEleven;
+const
+  AcceptedWords: TArray<TWord> = ['ʎ', 'ab', 'aabb', 'aaabbb', 'cd', 'ccdd', 'cccddd', 'abcd', 'aabbccdd', 'abccdd', 'abcccddd', 'aabbcd', 'aaaabbbbcd'];
+  RejectedWords: TArray<TWord> = ['a', 'b', 'c', 'd', 'ac', 'ad', 'bc', 'bd', 'abb', 'aab', 'cdd', 'ccd', 'aabccd', 'abbcdd'];
+var
+  Word: TWord;
 begin
-  raise ENotImplemented.Create('The test method "TExercisesTest.ExerciseEleven" is not implemented.');
+  FAutomaton.Symbols := ['ʎ', 'a', 'b', 'c', 'd'];
+  FAutomaton.States := ['q0', 'q1', 'q2', 'q3', 'q4'];
+  FAutomaton.InitialState := 'q0';
+  FAutomaton.AuxSymbols := ['Z', 'X'];
+  FAutomaton.Base := 'Z';
+
+  FAutomaton.Transitions.Add(TTransition.Create('q0', 'q0', 'ʎ', 'Z', 'ʎ'));
+  FAutomaton.Transitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'X'));
+  FAutomaton.Transitions.Add(TTransition.Create('q0', 'q3', 'c', 'Z', 'X'));
+  FAutomaton.Transitions.Add(TTransition.Create('q1', 'q1', 'a', 'X', 'XX'));
+  FAutomaton.Transitions.Add(TTransition.Create('q1', 'q2', 'b', 'X', 'ʎ'));
+  FAutomaton.Transitions.Add(TTransition.Create('q2', 'q2', 'b', 'X', 'ʎ'));
+  FAutomaton.Transitions.Add(TTransition.Create('q2', 'q3', 'c', 'ʎ', 'X'));
+  FAutomaton.Transitions.Add(TTransition.Create('q3', 'q3', 'c', 'X', 'XX'));
+  FAutomaton.Transitions.Add(TTransition.Create('q3', 'q4', 'd', 'X', 'ʎ'));
+  FAutomaton.Transitions.Add(TTransition.Create('q4', 'q4', 'd', 'X', 'ʎ'));
+
+  for Word in AcceptedWords do
+    CheckTrue(FAutomaton.Accept(Word));
+
+  for Word in RejectedWords do
+    CheckFalse(FAutomaton.Accept(Word));
 end;
 
 procedure TExercisesTest.ExerciseTwelve;
