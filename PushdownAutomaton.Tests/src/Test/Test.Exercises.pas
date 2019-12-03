@@ -438,8 +438,28 @@ begin
 end;
 
 procedure TExercisesTest.ExerciseThirteen;
+const
+  AcceptedWords: TArray<TWord> = ['abbbb', 'aabbbbbb', 'aaabbbbbbbb', 'aaaabbbbbbbbbb', 'aaaaabbbbbbbbbbbb'];
+  RejectedWords: TArray<TWord> = ['ʎ', 'a', 'b', 'ab', 'aab', 'aabb', 'abbb', 'aabbbbb', 'aaabbbbbbb', 'aaaabbbbbbbbb', 'aaaaabbbbbbbbbbb'];
+var
+  Word: TWord;
 begin
-  raise ENotImplemented.Create('The test method "TExercisesTest.ExerciseThirteen" is not implemented.');
+  FAutomaton.Symbols := ['a', 'b'];
+  FAutomaton.States := ['q0', 'q1', 'q2'];
+  FAutomaton.InitialState := 'q0';
+  FAutomaton.AuxSymbols := ['Z', 'X'];
+  FAutomaton.Base := 'Z';
+
+  FAutomaton.Transitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'XXXX'));
+  FAutomaton.Transitions.Add(TTransition.Create('q1', 'q1', 'a', 'X', 'XXX'));
+  FAutomaton.Transitions.Add(TTransition.Create('q1', 'q2', 'b', 'X', 'ʎ'));
+  FAutomaton.Transitions.Add(TTransition.Create('q2', 'q2', 'b', 'X', 'ʎ'));
+
+  for Word in AcceptedWords do
+    CheckTrue(FAutomaton.Accept(Word));
+
+  for Word in RejectedWords do
+    CheckFalse(FAutomaton.Accept(Word));
 end;
 
 procedure TExercisesTest.ExerciseFourteen;
