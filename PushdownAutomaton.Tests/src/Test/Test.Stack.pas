@@ -205,3 +205,4 @@ initialization
   RegisterTest(TStackTest.Suite);
 
 end.
+

@@ -1,0 +1,179 @@
+﻿unit Test.Transitions;
+
+interface
+
+uses
+  TestFramework, Helper.TestFramework, Impl.Transition, Impl.Transitions;
+
+type
+  TTransitionsTest = class sealed(TTestCase)
+  strict private
+    FTransitions: TTransitions;
+  public
+    procedure SetUp; override;
+    procedure TearDown; override;
+  published
+    procedure TestAdd;
+    procedure TestClearWhenHasMoreThanOneTransition;
+    procedure TestClearWhenHasOneTransition;
+    procedure TestClearWhenIsEmpty;
+    procedure TestCountWhenHasMoreThenOneTransition;
+    procedure TestCountWhenHasOneTransition;
+    procedure TestCountWhenIsEmpty;
+    procedure TestIsEmptyWhenHasMoreThanOneTransition;
+    procedure TestIsEmptyWhenHasOneTransition;
+    procedure TestIsEmptyWhenIsEmpty;
+    procedure TestToArrayWhenHasMoreThanOneTransition;
+    procedure TestToArrayWhenHasOneTransition;
+    procedure TestToArrayWhenIsEmpty;
+    procedure TestTransitionWhenTransitionExists;
+    procedure TestTransitionWhenTransitionNotExists;
+  end;
+
+implementation
+
+procedure TTransitionsTest.SetUp;
+begin
+  FTransitions := TTransitions.Create;
+end;
+
+procedure TTransitionsTest.TearDown;
+begin
+  FTransitions.Free;
+end;
+
+procedure TTransitionsTest.TestAdd;
+begin
+  FTransitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX'));
+  CheckFalse(FTransitions.IsEmpty)
+end;
+
+procedure TTransitionsTest.TestClearWhenHasMoreThanOneTransition;
+begin
+  FTransitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX'));
+  FTransitions.Add(TTransition.Create('q1', 'q1', 'a', 'X', 'XXX'));
+  FTransitions.Add(TTransition.Create('q1', 'q2', 'b', 'X', 'ʎ'));
+  FTransitions.Add(TTransition.Create('q2', 'q2', 'b', 'X', 'ʎ'));
+
+  FTransitions.Clear;
+
+  CheckTrue(FTransitions.IsEmpty);
+end;
+
+procedure TTransitionsTest.TestClearWhenHasOneTransition;
+begin
+  FTransitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX'));
+  FTransitions.Clear;
+
+  CheckTrue(FTransitions.IsEmpty);
+end;
+
+procedure TTransitionsTest.TestClearWhenIsEmpty;
+begin
+  FTransitions.Clear;
+  CheckTrue(FTransitions.IsEmpty);
+end;
+
+procedure TTransitionsTest.TestCountWhenHasMoreThenOneTransition;
+begin
+  FTransitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX'));
+  FTransitions.Add(TTransition.Create('q1', 'q1', 'a', 'X', 'XXX'));
+  FTransitions.Add(TTransition.Create('q1', 'q2', 'b', 'X', 'ʎ'));
+  FTransitions.Add(TTransition.Create('q2', 'q2', 'b', 'X', 'ʎ'));
+
+  CheckEquals(4, FTransitions.Count);
+end;
+
+procedure TTransitionsTest.TestCountWhenHasOneTransition;
+begin
+  FTransitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX'));
+  CheckEquals(1, FTransitions.Count);
+end;
+
+procedure TTransitionsTest.TestCountWhenIsEmpty;
+begin
+  CheckEquals(0, FTransitions.Count);
+end;
+
+procedure TTransitionsTest.TestIsEmptyWhenHasMoreThanOneTransition;
+begin
+  FTransitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX'));
+  FTransitions.Add(TTransition.Create('q1', 'q1', 'a', 'X', 'XXX'));
+  FTransitions.Add(TTransition.Create('q1', 'q2', 'b', 'X', 'ʎ'));
+  FTransitions.Add(TTransition.Create('q2', 'q2', 'b', 'X', 'ʎ'));
+
+  CheckFalse(FTransitions.IsEmpty);
+end;
+
+procedure TTransitionsTest.TestIsEmptyWhenHasOneTransition;
+begin
+  FTransitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX'));
+  CheckFalse(FTransitions.IsEmpty);
+end;
+
+procedure TTransitionsTest.TestIsEmptyWhenIsEmpty;
+begin
+  CheckTrue(FTransitions.IsEmpty);
+end;
+
+procedure TTransitionsTest.TestToArrayWhenHasMoreThanOneTransition;
+var
+  A, B, C, D: TTransition;
+begin
+  A := TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX');
+  B := TTransition.Create('q1', 'q1', 'a', 'X', 'XXX');
+  C := TTransition.Create('q1', 'q2', 'b', 'X', 'ʎ');
+  D := TTransition.Create('q2', 'q2', 'b', 'X', 'ʎ');
+
+  FTransitions.Add(A);
+  FTransitions.Add(B);
+  FTransitions.Add(C);
+  FTransitions.Add(D);
+
+  CheckTrue(A.Equals(FTransitions.ToArray[0]));
+  CheckTrue(B.Equals(FTransitions.ToArray[1]));
+  CheckTrue(C.Equals(FTransitions.ToArray[2]));
+  CheckTrue(D.Equals(FTransitions.ToArray[3]));
+end;
+
+procedure TTransitionsTest.TestToArrayWhenHasOneTransition;
+var
+  Transition: TTransition;
+begin
+  Transition := TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX');
+  FTransitions.Add(Transition);
+
+  CheckTrue(Transition.Equals(FTransitions.ToArray[0]));
+end;
+
+procedure TTransitionsTest.TestToArrayWhenIsEmpty;
+begin
+  CheckEquals(0, Length(FTransitions.ToArray));
+end;
+
+procedure TTransitionsTest.TestTransitionWhenTransitionExists;
+var
+  A, B: TTransition;
+begin
+  A := TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX');
+  FTransitions.Add(A);
+  B := FTransitions.Transition('q0', 'a', 'Z');
+
+  CheckEquals(A, B);
+end;
+
+procedure TTransitionsTest.TestTransitionWhenTransitionNotExists;
+var
+  A, B: TTransition;
+begin
+  A := TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX');
+  FTransitions.Add(A);
+  B := FTransitions.Transition('q0', 'a', 'Y');
+
+  CheckNotEquals(A, B);
+end;
+
+initialization
+  RegisterTest(TTransitionsTest.Suite);
+
+end.

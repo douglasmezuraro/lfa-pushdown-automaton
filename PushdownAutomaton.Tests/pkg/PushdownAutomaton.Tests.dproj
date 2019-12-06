@@ -87,6 +87,7 @@
         <DCCReference Include="..\..\PushdownAutomaton\src\Impl\Impl.Transitions.pas"/>
         <DCCReference Include="..\..\PushdownAutomaton\src\Impl\Impl.Types.pas"/>
         <DCCReference Include="..\..\PushdownAutomaton\src\Impl\Impl.Validator.pas"/>
+        <DCCReference Include="..\src\Test\Test.Transitions.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

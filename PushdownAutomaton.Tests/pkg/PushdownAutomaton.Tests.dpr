@@ -16,7 +16,8 @@ uses
   Impl.Transition in '..\..\PushdownAutomaton\src\Impl\Impl.Transition.pas',
   Impl.Transitions in '..\..\PushdownAutomaton\src\Impl\Impl.Transitions.pas',
   Impl.Types in '..\..\PushdownAutomaton\src\Impl\Impl.Types.pas',
-  Impl.Validator in '..\..\PushdownAutomaton\src\Impl\Impl.Validator.pas';
+  Impl.Validator in '..\..\PushdownAutomaton\src\Impl\Impl.Validator.pas',
+  Test.Transitions in '..\src\Test\Test.Transitions.pas';
 
 {$R *.RES}
 

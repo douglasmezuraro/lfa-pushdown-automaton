@@ -11,6 +11,7 @@ type
     FTransitions: TArray<TTransition>;
   public
     destructor Destroy; override;
+    function Count: Integer;
     function IsEmpty: Boolean;
     function ToArray: TArray<TTransition>;
     function Transition(const State: TState; const Symbol, Top: TSymbol): TTransition;
@@ -42,6 +43,11 @@ begin
   SetLength(FTransitions, 0);
 end;
 
+function TTransitions.Count: Integer;
+begin
+  Result := Length(FTransitions);
+end;
+
 function TTransitions.ToArray: TArray<TTransition>;
 begin
   Result := FTransitions;
@@ -69,7 +75,7 @@ end;
 
 function TTransitions.IsEmpty: Boolean;
 begin
-  Result := Length(FTransitions) = 0;
+  Result := Count = 0;
 end;
 
 end.
