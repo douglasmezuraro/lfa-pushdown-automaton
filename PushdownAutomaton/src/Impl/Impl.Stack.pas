@@ -8,7 +8,7 @@ uses
 type
   TStack = class sealed
   strict private
-    FStack: TArray<string>;
+    FValues: TArray<string>;
   public
     function Clear: TStack;
     function Count: Integer;
@@ -16,26 +16,26 @@ type
     function Peek: string;
     function Pop: string;
     function Push(const Value: string): TStack;
-    function ToArray: TArray<string>;
     function ToString: string; override;
+    property Values: TArray<string> read FValues write FValues;
   end;
 
 implementation
 
 function TStack.Clear: TStack;
 begin
-  FStack := nil;
+  FValues := nil;
   Result := Self;
 end;
 
 function TStack.Count: Integer;
 begin
-  Result := Length(FStack);
+  Result := Length(FValues);
 end;
 
 function TStack.IsEmpty: Boolean;
 begin
-  Result := FStack = nil;
+  Result := FValues = nil;
 end;
 
 function TStack.Peek: string;
@@ -43,7 +43,7 @@ begin
   if IsEmpty then
     Exit(Lambda);
 
-  Result := FStack[High(FStack)];
+  Result := FValues[High(FValues)];
 end;
 
 function TStack.Pop: string;
@@ -51,28 +51,23 @@ begin
   if IsEmpty then
     Exit(string.Empty);
 
-  Result := FStack[High(FStack)];
-  SetLength(FStack, Count - 1);
+  Result := FValues[High(FValues)];
+  SetLength(FValues, Count - 1);
 end;
 
 function TStack.Push(const Value: string): TStack;
 begin
-  SetLength(FStack, Count + 1);
-  FStack[High(FStack)] := Value;
+  SetLength(FValues, Count + 1);
+  FValues[High(FValues)] := Value;
 
   Result := Self;
-end;
-
-function TStack.ToArray: TArray<string>;
-begin
-  Result := FStack;
 end;
 
 function TStack.ToString: string;
 var
   Element: string;
 begin
-  for Element in FStack do
+  for Element in FValues do
   begin
     if Result.Trim.IsEmpty then
       Result := Element

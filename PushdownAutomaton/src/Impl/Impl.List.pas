@@ -8,7 +8,7 @@ uses
 type
   TList = class sealed
   strict private
-    FList: TArray<string>;
+    FValues: TArray<string>;
   public
     function Add(const Item: string): TList; overload;
     function Add(const Items: TArray<string>): TList; overload;
@@ -16,17 +16,17 @@ type
     function Count: Integer;
     function Duplicated: TList;
     function IsEmpty: Boolean;
-    function ToArray: TArray<string>;
     function ToString: string; override;
-    procedure Clear;
+    function Clear: TList;
+    property Values: TArray<string> read FValues write FValues;
   end;
 
 implementation
 
 function TList.Add(const Item: string): TList;
 begin
-  SetLength(FList, Count + 1);
-  FList[High(FList)] := Item;
+  SetLength(FValues, Count + 1);
+  FValues[High(FValues)] := Item;
 
   Result := Self;
 end;
@@ -41,16 +41,17 @@ begin
   Result := Self;
 end;
 
-procedure TList.Clear;
+function TList.Clear: TList;
 begin
-  FList := nil;
+  FValues := nil;
+  Result := Self;
 end;
 
 function TList.Contains(const Item: string): Boolean;
 var
   Element: string;
 begin
-  for Element in FList do
+  for Element in FValues do
   begin
     if Element.Equals(Item) then
       Exit(True);
@@ -61,7 +62,7 @@ end;
 
 function TList.Count: Integer;
 begin
-  Result := Length(FList);
+  Result := Length(FValues);
 end;
 
 function TList.Duplicated: TList;
@@ -71,10 +72,10 @@ var
   List: TList;
 begin
   List := TList.Create;
-  for A in FList do
+  for A in FValues do
   begin
     Count := 0;
-    for B in FList do
+    for B in FValues do
     begin
       if not A.Equals(B) then
         Continue;
@@ -92,12 +93,7 @@ end;
 
 function TList.IsEmpty: Boolean;
 begin
-  Result := FList = nil;
-end;
-
-function TList.ToArray: TArray<string>;
-begin
-  Result := FList;
+  Result := FValues = nil;
 end;
 
 function TList.ToString: string;
@@ -112,7 +108,7 @@ begin
 
   Builder := TStringBuilder.Create('[');
   try
-    for Element in FList do
+    for Element in FValues do
     begin
       Builder.Append(Element).Append(Separator);
     end;

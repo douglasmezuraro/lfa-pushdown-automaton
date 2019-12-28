@@ -213,7 +213,7 @@ begin
     Exit;
   end;
 
-  for Transition in FTransitions.ToArray do
+  for Transition in FTransitions.Values do
   begin
     if not FStates.Contains(Transition.Source) then
     begin

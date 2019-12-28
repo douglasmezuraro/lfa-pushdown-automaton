@@ -8,17 +8,17 @@ uses
 type
   TTransitions = class sealed
   strict private
-    FTransitions: TArray<TTransition>;
+    FValues: TArray<TTransition>;
   public
     destructor Destroy; override;
   public
     function Add(const Transition: TTransition): TTransitions; overload;
     function Add(const Transitions: TArray<TTransition>): TTransitions; overload;
+    function Clear: TTransitions;
     function Count: Integer;
     function IsEmpty: Boolean;
-    function ToArray: TArray<TTransition>;
     function Transition(const State: TState; const Symbol, Top: TSymbol): TTransition;
-    procedure Clear;
+    property Values: TArray<TTransition> read FValues write FValues;
   end;
 
 implementation
@@ -31,8 +31,8 @@ end;
 
 function TTransitions.Add(const Transition: TTransition): TTransitions;
 begin
-  SetLength(FTransitions, Length(FTransitions) + 1);
-  FTransitions[High(FTransitions)] := Transition;
+  SetLength(FValues, Length(FValues) + 1);
+  FValues[High(FValues)] := Transition;
 
   Result := Self;
 end;
@@ -47,24 +47,21 @@ begin
   Result := Self;
 end;
 
-procedure TTransitions.Clear;
+function TTransitions.Clear: TTransitions;
 var
   Transition: TTransition;
 begin
-  for Transition in FTransitions do
+  for Transition in FValues do
     Transition.Free;
 
-  FTransitions := nil;
+  FValues := nil;
+
+  Result := Self;
 end;
 
 function TTransitions.Count: Integer;
 begin
-  Result := Length(FTransitions);
-end;
-
-function TTransitions.ToArray: TArray<TTransition>;
-begin
-  Result := FTransitions;
+  Result := Length(FValues);
 end;
 
 function TTransitions.Transition(const State: TState; const Symbol, Top: TSymbol): TTransition;
@@ -72,7 +69,7 @@ var
   Transition: TTransition;
 begin
   Result := nil;
-  for Transition in FTransitions do
+  for Transition in FValues do
   begin
     if not Transition.Source.Equals(State) then
       Continue;
@@ -89,7 +86,7 @@ end;
 
 function TTransitions.IsEmpty: Boolean;
 begin
-  Result := FTransitions = nil;
+  Result := FValues = nil;
 end;
 
 end.
