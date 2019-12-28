@@ -38,7 +38,7 @@ begin
   FAuxSymbols := TList.Create;
   FInitialState := TState.Empty;
   FBase := TSymbol.Empty;
-  FMessage := string.Empty;
+  FMessage := TMessage.Empty;
 end;
 
 destructor TValidator.Destroy;
@@ -221,7 +221,7 @@ begin
       Exit;
     end;
 
-    if (not Transition.Symbol.Equals(TSymbol.Empty)) and (not FSymbols.Contains(Transition.Symbol)) then
+    if (not Transition.Symbol.Equals(Lambda)) and (not FSymbols.Contains(Transition.Symbol)) then
     begin
       FMessage := Format('The symbol %s is not in symbols list %s.', [Transition.Symbol.QuotedString, FSymbols.ToString]);
       Exit;
@@ -229,7 +229,7 @@ begin
 
     for Symbol in Transition.Pop do
     begin
-      if Symbol.Equals(TSymbol.Empty) then
+      if Symbol.Equals(Lambda) then
         Continue;
 
       if not FAuxSymbols.Contains(Symbol) then
@@ -247,7 +247,7 @@ begin
 
     for Symbol in Transition.Push do
     begin
-      if Symbol.Equals(TSymbol.Empty) then
+      if Symbol.Equals(Lambda) then
         Continue;
 
       if not FAuxSymbols.Contains(Symbol) then

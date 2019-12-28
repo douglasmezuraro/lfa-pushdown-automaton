@@ -14,7 +14,7 @@ type
   TValidationResult = TPair<TResult, TMessage>;
 
 const
-  Lambda: TSymbol = 'ʎ';
+  Lambda: TSymbol = '*';
   ResultMessage: array[TResult] of TMessage = ('Rejected', 'Accepted');
 
 implementation
