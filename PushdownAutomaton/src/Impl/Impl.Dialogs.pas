@@ -18,6 +18,8 @@ type
     class procedure Information(const Message: string; const Args: array of const); overload;
     class procedure Warning(const Message: string); overload;
     class procedure Warning(const Message: string; const Args: array of const); overload;
+    class function OpenFile(const Extension: string; out FileName: string): Boolean;
+    class function SaveFile(const Extension: string; out FileName: string): Boolean;
   end;
 
 implementation
@@ -68,6 +70,46 @@ end;
 class procedure TDialogs.Warning(const Message: string);
 begin
   TDialogService.MessageDialog(Message, TMsgDlgType.mtWarning, [TMsgDlgBtn.mbOK], TMsgDlgBtn.mbOK, HelpCtx, nil);
+end;
+
+class function TDialogs.OpenFile(const Extension: string; out FileName: string): Boolean;
+var
+  Dialog: TOpenDialog;
+begin
+  Dialog := TOpenDialog.Create(nil);
+  try
+    Dialog.Filter := '|*.' + Extension;
+
+    if Dialog.Execute then
+    begin
+      FileName := Dialog.FileName;
+      Exit(True);
+    end;
+
+    Result := False;
+  finally
+    Dialog.Free;
+  end;
+end;
+
+class function TDialogs.SaveFile(const Extension: string; out FileName: string): Boolean;
+var
+  Dialog: TSaveDialog;
+begin
+  Dialog := TSaveDialog.Create(nil);
+  try
+    Dialog.Filter := '|*.' + Extension;
+
+    if Dialog.Execute then
+    begin
+      FileName := Dialog.FileName;
+      Exit(True);
+    end;
+
+    Result := False;
+  finally
+    Dialog.Free;
+  end;
 end;
 
 end.

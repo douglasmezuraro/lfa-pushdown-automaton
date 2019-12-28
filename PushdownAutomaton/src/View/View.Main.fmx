@@ -14,7 +14,7 @@ object Main: TMain
     Align = Client
     Locked = True
     Size.Width = 600.000000000000000000
-    Size.Height = 555.000000000000000000
+    Size.Height = 531.000000000000000000
     Size.PlatformDefault = False
     TabIndex = 0
     TabOrder = 1
@@ -22,9 +22,9 @@ object Main: TMain
     OnChange = TabControlViewChange
     Sizes = (
       600s
-      529s
+      505s
       600s
-      529s)
+      505s)
     object TabItemInput: TTabItem
       CustomIcon = <
         item
@@ -107,12 +107,12 @@ object Main: TMain
         Position.X = 15.000000000000000000
         Position.Y = 277.000000000000000000
         Size.Width = 570.000000000000000000
-        Size.Height = 235.000000000000000000
+        Size.Height = 211.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 11
         RowCount = 0
         Viewport.Width = 566.000000000000000000
-        Viewport.Height = 210.000000000000000000
+        Viewport.Height = 186.000000000000000000
         object ColumnSource: TStringColumn
           Locked = True
           Header = 'Source'
@@ -225,12 +225,12 @@ object Main: TMain
         ClipChildren = True
         Locked = True
         Size.Width = 600.000000000000000000
-        Size.Height = 529.000000000000000000
+        Size.Height = 505.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
         RowCount = 0
         Viewport.Width = 596.000000000000000000
-        Viewport.Height = 504.000000000000000000
+        Viewport.Height = 480.000000000000000000
         object ColumnInput: TStringColumn
           Locked = True
           Header = 'Input'
@@ -277,6 +277,27 @@ object Main: TMain
       TabOrder = 1
     end
   end
+  object MenuBar: TMenuBar
+    Size.Width = 600.000000000000000000
+    Size.Height = 24.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    object MenuItemFile: TMenuItem
+      Text = 'File'
+      object MenuItemOpen: TMenuItem
+        Action = ActionOpen
+        Enabled = True
+        Locked = True
+        ImageIndex = -1
+      end
+      object MenuItemSave: TMenuItem
+        Action = ActionSave
+        Enabled = True
+        Locked = True
+        ImageIndex = -1
+      end
+    end
+  end
   object ActionList: TActionList
     Left = 512
     Top = 160
@@ -287,6 +308,14 @@ object Main: TMain
     object ActionCheck: TAction
       Text = '&Check'
       OnExecute = ActionCheckExecute
+    end
+    object ActionOpen: TAction
+      Text = 'Open'
+      OnExecute = ActionOpenExecute
+    end
+    object ActionSave: TAction
+      Text = 'Save'
+      OnExecute = ActionSaveExecute
     end
   end
 end

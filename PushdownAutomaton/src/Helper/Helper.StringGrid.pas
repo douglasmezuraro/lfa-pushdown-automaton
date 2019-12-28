@@ -13,11 +13,11 @@ type
   private
     function Eof: Boolean;
     function GetValue(const Column: TColumn): string;
-    procedure Delete;
-    procedure Insert;
     procedure SetValue(const Column: TColumn; const Value: string);
   public
     function IsEmpty: Boolean;
+    procedure Delete;
+    procedure Insert;
     procedure Clear;
     procedure ForEach(const Method: TProc);
     procedure Notify(const Key: Word; const Shift: TShiftState);
