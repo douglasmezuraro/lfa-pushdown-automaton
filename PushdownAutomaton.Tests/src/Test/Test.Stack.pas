@@ -30,9 +30,9 @@ type
     procedure TestToStringWhenStackIsEmpty;
     procedure TestToStringWhenStackHasOneElement;
     procedure TestToStringWhenStackHasMoreThanOneElement;
-    procedure TestToArrayWhenStackIsEmpty;
-    procedure TestToArrayWhenStackHasOneElement;
-    procedure TestToArrayWhenStackHasMoreThanOneElement;
+    procedure TestValuesWhenStackIsEmpty;
+    procedure TestValuesWhenStackHasOneElement;
+    procedure TestValuesWhenStackHasMoreThanOneElement;
   end;
 
 implementation
@@ -158,7 +158,7 @@ begin
   CheckEquals(3, FStack.Count);
 end;
 
-procedure TStackTest.TestToArrayWhenStackHasMoreThanOneElement;
+procedure TStackTest.TestValuesWhenStackHasMoreThanOneElement;
 begin
   FStack.Push('q0');
   FStack.Push('q1');
@@ -166,22 +166,22 @@ begin
   FStack.Push('q3');
   FStack.Push('q4');
 
-  CheckEquals('q0', FStack.ToArray[0]);
-  CheckEquals('q1', FStack.ToArray[1]);
-  CheckEquals('q2', FStack.ToArray[2]);
-  CheckEquals('q3', FStack.ToArray[3]);
-  CheckEquals('q4', FStack.ToArray[4]);
+  CheckEquals('q0', FStack.Values[0]);
+  CheckEquals('q1', FStack.Values[1]);
+  CheckEquals('q2', FStack.Values[2]);
+  CheckEquals('q3', FStack.Values[3]);
+  CheckEquals('q4', FStack.Values[4]);
 end;
 
-procedure TStackTest.TestToArrayWhenStackHasOneElement;
+procedure TStackTest.TestValuesWhenStackHasOneElement;
 begin
   FStack.Push('q0');
-  CheckEquals('q0', FStack.ToArray[0]);
+  CheckEquals('q0', FStack.Values[0]);
 end;
 
-procedure TStackTest.TestToArrayWhenStackIsEmpty;
+procedure TStackTest.TestValuesWhenStackIsEmpty;
 begin
-  CheckEquals([], FStack.ToArray);
+  CheckEquals([], FStack.Values);
 end;
 
 procedure TStackTest.TestToStringWhenStackHasMoreThanOneElement;

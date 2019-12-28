@@ -3,7 +3,7 @@ unit Test.List;
 interface
 
 uses
-  Impl.List, System.SysUtils, TestFramework;
+  Helper.TestFramework, Impl.List, System.SysUtils, TestFramework;
 
 type
   TListTest = class sealed(TTestCase)
@@ -28,11 +28,11 @@ type
     procedure TestToStringWhenListIsEmpty;
     procedure TestToStringWhenListHasOneElement;
     procedure TestToStringWhenListHasMoreThanOneElement;
-    procedure TestToArrayWhenListIsEmpty;
-    procedure TestToArrayWhenListHasOneElement;
+    procedure TestValuesWhenListIsEmpty;
+    procedure TestValuesWhenListHasOneElement;
     procedure TestToArrayWhenListHasMoreThanOneElement;
     procedure TestHasDuplicatedWhenListDoesntHaveDuplicatedElement;
-    procedure TestHasDuplicatedWhenListHaveDuplicatedElement;
+    procedure TestHasDuplicatedWhenListHaveOneDuplicatedElement;
   end;
 
 implementation
@@ -92,20 +92,30 @@ end;
 
 procedure TListTest.TestHasDuplicatedWhenListDoesntHaveDuplicatedElement;
 var
-  Element: string;
-begin
-  FList.Add(['q0', 'q1', 'q2', 'q3', 'q1', 'q4']);
-  CheckTrue(Flist.HasDuplicated(Element));
-  CheckEquals('q1', Element);
-end;
-
-procedure TListTest.TestHasDuplicatedWhenListHaveDuplicatedElement;
-var
-  Element: string;
+  Duplicated: TList;
 begin
   FList.Add(['q0', 'q1', 'q2', 'q3', 'q4']);
-  CheckFalse(Flist.HasDuplicated(Element));
-  CheckEquals(string.Empty, Element);
+
+  Duplicated := FList.Duplicated;
+  try
+    CheckTrue(Duplicated.IsEmpty);
+  finally
+    Duplicated.Free;
+  end;
+end;
+
+procedure TListTest.TestHasDuplicatedWhenListHaveOneDuplicatedElement;
+var
+  Duplicated: TList;
+begin
+  FList.Add(['q0', 'q1', 'q2', 'q3', 'q1', 'q4']);
+
+  Duplicated := FList.Duplicated;
+  try
+    CheckEquals(['q1'], Duplicated.Values);
+  finally
+    Duplicated.Free;
+  end;
 end;
 
 procedure TListTest.TestCountWhenListIsEmpty;
@@ -154,27 +164,21 @@ begin
   CheckEquals('[q0, q1, q2, q3]', FList.ToString);
 end;
 
-procedure TListTest.TestToArrayWhenListIsEmpty;
+procedure TListTest.TestValuesWhenListIsEmpty;
 begin
-  CheckEquals(0, Length(FList.ToArray));
+  CheckEquals([], FList.Values);
 end;
 
-procedure TListTest.TestToArrayWhenListHasOneElement;
+procedure TListTest.TestValuesWhenListHasOneElement;
 begin
   FList.Add('q0');
-
-  CheckEquals('q0', FList.ToArray[0]);
+  CheckEquals(['q0'], FList.Values);
 end;
 
 procedure TListTest.TestToArrayWhenListHasMoreThanOneElement;
 begin
   FList.Add(['q0', 'q1', 'q2', 'q3', 'q4']);
-
-  CheckEquals('q0', FList.ToArray[0]);
-  CheckEquals('q1', FList.ToArray[1]);
-  CheckEquals('q2', FList.ToArray[2]);
-  CheckEquals('q3', FList.ToArray[3]);
-  CheckEquals('q4', FList.ToArray[4]);
+  CheckEquals(['q0', 'q1', 'q2', 'q3', 'q4'], FList.Values);
 end;
 
 initialization

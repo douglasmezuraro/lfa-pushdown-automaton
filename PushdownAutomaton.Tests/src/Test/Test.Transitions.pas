@@ -23,9 +23,9 @@ type
     procedure TestIsEmptyWhenHasMoreThanOneTransition;
     procedure TestIsEmptyWhenHasOneTransition;
     procedure TestIsEmptyWhenIsEmpty;
-    procedure TestToArrayWhenHasMoreThanOneTransition;
-    procedure TestToArrayWhenHasOneTransition;
-    procedure TestToArrayWhenIsEmpty;
+    procedure TestValuesWhenHasMoreThanOneTransition;
+    procedure TestValuesWhenHasOneTransition;
+    procedure TestValuesWhenIsEmpty;
     procedure TestTransitionWhenTransitionExists;
     procedure TestTransitionWhenTransitionNotExists;
   end;
@@ -116,7 +116,7 @@ begin
   CheckTrue(FTransitions.IsEmpty);
 end;
 
-procedure TTransitionsTest.TestToArrayWhenHasMoreThanOneTransition;
+procedure TTransitionsTest.TestValuesWhenHasMoreThanOneTransition;
 var
   A, B, C, D: TTransition;
 begin
@@ -130,25 +130,25 @@ begin
   FTransitions.Add(C);
   FTransitions.Add(D);
 
-  CheckTrue(A.Equals(FTransitions.ToArray[0]));
-  CheckTrue(B.Equals(FTransitions.ToArray[1]));
-  CheckTrue(C.Equals(FTransitions.ToArray[2]));
-  CheckTrue(D.Equals(FTransitions.ToArray[3]));
+  CheckTrue(A.Equals(FTransitions.Values[0]));
+  CheckTrue(B.Equals(FTransitions.Values[1]));
+  CheckTrue(C.Equals(FTransitions.Values[2]));
+  CheckTrue(D.Equals(FTransitions.Values[3]));
 end;
 
-procedure TTransitionsTest.TestToArrayWhenHasOneTransition;
+procedure TTransitionsTest.TestValuesWhenHasOneTransition;
 var
   Transition: TTransition;
 begin
   Transition := TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX');
   FTransitions.Add(Transition);
 
-  CheckTrue(Transition.Equals(FTransitions.ToArray[0]));
+  CheckEquals(Transition, FTransitions.Values[0]);
 end;
 
-procedure TTransitionsTest.TestToArrayWhenIsEmpty;
+procedure TTransitionsTest.TestValuesWhenIsEmpty;
 begin
-  CheckEquals(0, Length(FTransitions.ToArray));
+  CheckEquals(0, Length(FTransitions.Values));
 end;
 
 procedure TTransitionsTest.TestTransitionWhenTransitionExists;

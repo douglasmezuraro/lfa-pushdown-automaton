@@ -113,7 +113,7 @@ end;
 
 procedure TExercisesTest.ExerciseOne;
 const
-  AcceptedWords: TArray<TWord> = ['ʎ', 'ab', 'aabb', 'aaabbb', 'aaaabbbb', 'aaaaabbbbb'];
+  AcceptedWords: TArray<TWord> = ['*', 'ab', 'aabb', 'aaabbb', 'aaaabbbb', 'aaaaabbbbb'];
   RejectedWords: TArray<TWord> = ['a', 'b', 'ba', 'bbaa', 'aab', 'aaabb', 'abb', 'aabbb'];
 var
   Word: TWord;
