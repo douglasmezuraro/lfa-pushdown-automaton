@@ -50,10 +50,10 @@ end;
 
 procedure TTransitionsTest.TestClearWhenHasMoreThanOneTransition;
 begin
-  FTransitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX'));
-  FTransitions.Add(TTransition.Create('q1', 'q1', 'a', 'X', 'XXX'));
-  FTransitions.Add(TTransition.Create('q1', 'q2', 'b', 'X', 'ʎ'));
-  FTransitions.Add(TTransition.Create('q2', 'q2', 'b', 'X', 'ʎ'));
+  FTransitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX'))
+              .Add(TTransition.Create('q1', 'q1', 'a', 'X', 'XXX'))
+              .Add(TTransition.Create('q1', 'q2', 'b', 'X', 'ʎ'))
+              .Add(TTransition.Create('q2', 'q2', 'b', 'X', 'ʎ'));
 
   FTransitions.Clear;
 
@@ -76,10 +76,10 @@ end;
 
 procedure TTransitionsTest.TestCountWhenHasMoreThenOneTransition;
 begin
-  FTransitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX'));
-  FTransitions.Add(TTransition.Create('q1', 'q1', 'a', 'X', 'XXX'));
-  FTransitions.Add(TTransition.Create('q1', 'q2', 'b', 'X', 'ʎ'));
-  FTransitions.Add(TTransition.Create('q2', 'q2', 'b', 'X', 'ʎ'));
+  FTransitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX'))
+              .Add(TTransition.Create('q1', 'q1', 'a', 'X', 'XXX'))
+              .Add(TTransition.Create('q1', 'q2', 'b', 'X', 'ʎ'))
+              .Add(TTransition.Create('q2', 'q2', 'b', 'X', 'ʎ'));
 
   CheckEquals(4, FTransitions.Count);
 end;
@@ -97,10 +97,10 @@ end;
 
 procedure TTransitionsTest.TestIsEmptyWhenHasMoreThanOneTransition;
 begin
-  FTransitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX'));
-  FTransitions.Add(TTransition.Create('q1', 'q1', 'a', 'X', 'XXX'));
-  FTransitions.Add(TTransition.Create('q1', 'q2', 'b', 'X', 'ʎ'));
-  FTransitions.Add(TTransition.Create('q2', 'q2', 'b', 'X', 'ʎ'));
+  FTransitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'XXX'))
+              .Add(TTransition.Create('q1', 'q1', 'a', 'X', 'XXX'))
+              .Add(TTransition.Create('q1', 'q2', 'b', 'X', 'ʎ'))
+              .Add(TTransition.Create('q2', 'q2', 'b', 'X', 'ʎ'));
 
   CheckFalse(FTransitions.IsEmpty);
 end;
@@ -130,10 +130,10 @@ begin
   FTransitions.Add(C);
   FTransitions.Add(D);
 
-  CheckTrue(A.Equals(FTransitions.Values[0]));
-  CheckTrue(B.Equals(FTransitions.Values[1]));
-  CheckTrue(C.Equals(FTransitions.Values[2]));
-  CheckTrue(D.Equals(FTransitions.Values[3]));
+  CheckEquals(A, FTransitions.Values[0]);
+  CheckEquals(B, FTransitions.Values[1]);
+  CheckEquals(C, FTransitions.Values[2]);
+  CheckEquals(D, FTransitions.Values[3]);
 end;
 
 procedure TTransitionsTest.TestValuesWhenHasOneTransition;

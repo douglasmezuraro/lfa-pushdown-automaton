@@ -30,9 +30,10 @@ type
     procedure TestToStringWhenListHasMoreThanOneElement;
     procedure TestValuesWhenListIsEmpty;
     procedure TestValuesWhenListHasOneElement;
-    procedure TestToArrayWhenListHasMoreThanOneElement;
+    procedure TestValuesWhenListHasMoreThanOneElement;
     procedure TestHasDuplicatedWhenListDoesntHaveDuplicatedElement;
     procedure TestHasDuplicatedWhenListHaveOneDuplicatedElement;
+    procedure TestHasDuplicatedWhenListHaveMoreThanOneDuplicatedElement;
   end;
 
 implementation
@@ -118,6 +119,20 @@ begin
   end;
 end;
 
+procedure TListTest.TestHasDuplicatedWhenListHaveMoreThanOneDuplicatedElement;
+var
+  Duplicated: TList;
+begin
+  FList.Add(['q0', 'q1', 'q2', 'q3', 'q1', 'q4', 'q2', 'q4']);
+
+  Duplicated := FList.Duplicated;
+  try
+    CheckEquals(['q1', 'q2', 'q4'], Duplicated.Values);
+  finally
+    Duplicated.Free;
+  end;
+end;
+
 procedure TListTest.TestCountWhenListIsEmpty;
 begin
   CheckEquals(0, FList.Count);
@@ -175,7 +190,7 @@ begin
   CheckEquals(['q0'], FList.Values);
 end;
 
-procedure TListTest.TestToArrayWhenListHasMoreThanOneElement;
+procedure TListTest.TestValuesWhenListHasMoreThanOneElement;
 begin
   FList.Add(['q0', 'q1', 'q2', 'q3', 'q4']);
   CheckEquals(['q0', 'q1', 'q2', 'q3', 'q4'], FList.Values);

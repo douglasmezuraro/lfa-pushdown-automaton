@@ -10,60 +10,41 @@ type
   private
     function EqualsArray(const A, B: TArray<string>): Boolean;
   public
-    procedure CheckEquals(const Expected, Actual: TArray<string>; const Msg: string = string.Empty); overload;
-    procedure CheckEquals(const Expected, Actual: TObject; const Msg: string = string.Empty); overload;
-    procedure CheckEquals(const Method: TProc; const ExpectedClass: ExceptionClass; const Msg: string = string.Empty); overload;
-    procedure CheckNotEquals(const Expected, Actual: TArray<string>; const Msg: string = string.Empty); overload;
-    procedure CheckNotEquals(const Expected, Actual: TObject; const Msg: string = string.Empty); overload;
+    procedure CheckEquals(const Method: TProc; const ExpectedClass: ExceptionClass); overload;
+    procedure CheckEquals(const Expected, Actual: TArray<string>); overload;
+    procedure CheckEquals(const Expected, Actual: TObject); overload;
+    procedure CheckNotEquals(const Expected, Actual: TArray<string>); overload;
+    procedure CheckNotEquals(const Expected, Actual: TObject); overload;
   end;
 
 implementation
 
-procedure TTestFrameworkHelper.CheckEquals(const Method: TProc; const ExpectedClass: ExceptionClass; const Msg: string);
+procedure TTestFrameworkHelper.CheckEquals(const Method: TProc; const ExpectedClass: ExceptionClass);
 begin
   StartExpectingException(ExpectedClass);
   Method;
-  StopExpectingException(Msg);
+  StopExpectingException('Mismatch expcetion classes');
 end;
 
-procedure TTestFrameworkHelper.CheckNotEquals(const Expected, Actual: TObject; const Msg: string);
-const
-  ERROR_MESSAGE = 'The objects matches.';
-var
-  LMessage: string;
+
+procedure TTestFrameworkHelper.CheckNotEquals(const Expected, Actual: TObject);
 begin
-  LMessage := IfThen(Msg.Trim.IsEmpty, ERROR_MESSAGE, Msg.Trim);
-  CheckFalse(Expected.Equals(Actual), LMessage);
+  CheckFalse(Expected.Equals(Actual), 'The objects matches.');
 end;
 
-procedure TTestFrameworkHelper.CheckNotEquals(const Expected, Actual: TArray<string>; const Msg: string);
-const
-  ERROR_MESSAGE = 'The arrays matches.';
-var
-  LMessage: string;
+procedure TTestFrameworkHelper.CheckNotEquals(const Expected, Actual: TArray<string>);
 begin
-  LMessage := IfThen(Msg.Trim.IsEmpty, ERROR_MESSAGE, Msg.Trim);
-  CheckFalse(EqualsArray(Expected, Actual), LMessage);
+  CheckFalse(EqualsArray(Expected, Actual), 'The arrays matches.');
 end;
 
-procedure TTestFrameworkHelper.CheckEquals(const Expected, Actual: TArray<string>; const Msg: string);
-const
-  ERROR_MESSAGE = 'The arrays do not match.';
-var
-  LMessage: string;
+procedure TTestFrameworkHelper.CheckEquals(const Expected, Actual: TArray<string>);
 begin
-  LMessage := IfThen(Msg.Trim.IsEmpty, ERROR_MESSAGE, Msg.Trim);
-  CheckTrue(EqualsArray(Expected, Actual), LMessage);
+  CheckTrue(EqualsArray(Expected, Actual), 'The arrays do not match.');
 end;
 
-procedure TTestFrameworkHelper.CheckEquals(const Expected, Actual: TObject; const Msg: string);
-const
-  ERROR_MESSAGE = 'The objects do not match.';
-var
-  LMessage: string;
+procedure TTestFrameworkHelper.CheckEquals(const Expected, Actual: TObject);
 begin
-  LMessage := IfThen(Msg.Trim.IsEmpty, ERROR_MESSAGE, Msg.Trim);
-  CheckTrue(Expected.Equals(Actual), LMessage);
+  CheckTrue(Expected.Equals(Actual), 'The objects do not match.');
 end;
 
 function TTestFrameworkHelper.EqualsArray(const A, B: TArray<string>): Boolean;
