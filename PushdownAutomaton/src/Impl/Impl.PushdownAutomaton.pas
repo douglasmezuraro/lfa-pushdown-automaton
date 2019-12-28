@@ -14,8 +14,7 @@ type
     FInitialState: TState;
     FBase: TSymbol;
     FAuxSymbols: TArray<TState>;
-  private
-    function InternalAccept(const Word: TWord): Boolean;
+    FStack: TStack;
   public
     constructor Create;
     destructor Destroy; override;
@@ -32,85 +31,64 @@ type
 
 implementation
 
-uses
-  Impl.Validator;
-
 constructor TPushdownAutomaton.Create;
 begin
+  FStack := TStack.Create;
   FTransitions := TTransitions.Create;
 end;
 
 destructor TPushdownAutomaton.Destroy;
 begin
   FTransitions.Free;
+  FStack.Free;
   inherited Destroy;
-end;
-
-function TPushdownAutomaton.InternalAccept(const Word: TWord): Boolean;
-var
-  State: TState;
-  Stack: TStack;
-  Symbol, Pop, Push: TSymbol;
-  Transition: TTransition;
-begin
-  Stack := TStack.Create;
-  try
-    State := InitialState;
-    Stack.Push(FBase);
-
-    for Symbol in Word do
-    begin
-      Transition := Transitions.Transition(State, Symbol, Stack.Peek);
-
-      if not Assigned(Transition) then
-        Exit(False);
-
-      State := Transition.Target;
-
-      for Pop in Transition.Pop do
-      begin
-        if Pop <> Lambda then
-        begin
-          if Stack.IsEmpty then
-            Exit(False);
-
-          Stack.Pop;
-        end;
-      end;
-
-      for Push in Transition.Push do
-      begin
-        if Push <> Lambda  then
-          Stack.Push(Push);
-      end;
-    end;
-
-    Result := Stack.IsEmpty;
-  finally
-    Stack.Free;
-  end;
 end;
 
 function TPushdownAutomaton.Accept(const Word: TWord): Boolean;
 var
-  Validator: TValidator;
+  State: TState;
+  Symbol, Pop, Push: TSymbol;
+  Transition: TTransition;
 begin
-  Validator := TValidator.Create;
-  try
-    if not Validator.Validate(Self) then
-      raise EArgumentException.Create(Validator.Error);
+  State := FInitialState;
+  FStack.Clear.Push(FBase);
 
-    Result := InternalAccept(Word);
-  finally
-    Validator.Free;
+  for Symbol in Word do
+  begin
+    Transition := Transitions.Transition(State, Symbol, FStack.Peek);
+
+    if not Assigned(Transition) then
+      Exit(False);
+
+    State := Transition.Target;
+
+    for Pop in Transition.Pop do
+    begin
+      if Pop <> Lambda then
+      begin
+        if FStack.IsEmpty then
+          Exit(False);
+
+        FStack.Pop;
+      end;
+    end;
+
+    for Push in Transition.Push do
+    begin
+      if Push <> Lambda  then
+        FStack.Push(Push);
+    end;
   end;
+
+  Result := FStack.IsEmpty;
 end;
 
 procedure TPushdownAutomaton.Clear;
 begin
-  SetLength(FSymbols, 0);
-  SetLength(FStates, 0);
-  SetLength(FAuxSymbols, 0);
+  FSymbols := nil;
+  FStates := nil;
+  FAuxSymbols := nil;
+  FStack.Clear;
   FTransitions.Clear;
   FInitialState := TState.Empty;
   FBase := TSymbol.Empty;

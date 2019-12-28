@@ -10,36 +10,40 @@ type
   strict private
     FList: TArray<string>;
   public
+    function Add(const Item: string): TList; overload;
+    function Add(const Items: TArray<string>): TList; overload;
     function Contains(const Item: string): Boolean;
     function Count: Integer;
-    function HasDuplicated(out Item: string): Boolean;
+    function Duplicated: TList;
     function IsEmpty: Boolean;
     function ToArray: TArray<string>;
     function ToString: string; override;
-    procedure Add(const Item: string); overload;
-    procedure Add(const Items: TArray<string>); overload;
     procedure Clear;
   end;
 
 implementation
 
-procedure TList.Add(const Item: string);
+function TList.Add(const Item: string): TList;
 begin
   SetLength(FList, Count + 1);
   FList[High(FList)] := Item;
+
+  Result := Self;
 end;
 
-procedure TList.Add(const Items: TArray<string>);
+function TList.Add(const Items: TArray<string>): TList;
 var
   Element: string;
 begin
   for Element in Items do
     Add(Element);
+
+  Result := Self;
 end;
 
 procedure TList.Clear;
 begin
-  SetLength(FList, 0);
+  FList := nil;
 end;
 
 function TList.Contains(const Item: string): Boolean;
@@ -60,11 +64,13 @@ begin
   Result := Length(FList);
 end;
 
-function TList.HasDuplicated(out Item: string): Boolean;
+function TList.Duplicated: TList;
 var
   A, B: string;
   Count: Integer;
+  List: TList;
 begin
+  List := TList.Create;
   for A in FList do
   begin
     Count := 0;
@@ -75,20 +81,18 @@ begin
 
       Inc(Count);
 
-      if Count > 1 then
+      if (Count > 1) and (not List.Contains(A)) then
       begin
-        Item := A;
-        Exit(True);
+        List.Add(A);
       end;
     end;
   end;
-
-  Result := False;
+  Result := List;
 end;
 
 function TList.IsEmpty: Boolean;
 begin
-  Result := Count = 0;
+  Result := FList = nil;
 end;
 
 function TList.ToArray: TArray<string>;
@@ -97,18 +101,26 @@ begin
 end;
 
 function TList.ToString: string;
+const
+  Separator: string = ', ';
 var
   Element: string;
+  Builder: TStringBuilder;
 begin
-  for Element in FList do
-  begin
-    if Result.Trim.IsEmpty then
-      Result := Element
-    else
-      Result := Result + ', ' + Element;
-  end;
+  if IsEmpty then
+    Exit('[]');
 
-  Result := '[' + Result + ']';
+  Builder := TStringBuilder.Create('[');
+  try
+    for Element in FList do
+    begin
+      Builder.Append(Element).Append(Separator);
+    end;
+
+    Result := Builder.Remove(Builder.Length - Separator.Length, Separator.Length).Append(']').ToString;
+  finally
+    Builder.Free;
+  end;
 end;
 
 end.

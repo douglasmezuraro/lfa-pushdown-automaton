@@ -2,16 +2,21 @@
 
 interface
 
+uses
+  System.Generics.Collections;
+
 type
   TSymbol = string;
-  TState  = string;
-  TWord   = string;
+  TState = string;
+  TWord = string;
+  TResult = Boolean;
+  TMessage = string;
+  TValidationResult = TPair<TResult, TMessage>;
 
 const
   Lambda: TSymbol = 'ʎ';
-  Result: array[Boolean] of string = ('Rejected', 'Accepted');
+  ResultMessage: array[TResult] of TMessage = ('Rejected', 'Accepted');
 
 implementation
 
 end.
-

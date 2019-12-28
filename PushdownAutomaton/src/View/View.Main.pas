@@ -5,9 +5,9 @@ interface
 uses
   FMX.ActnList, FMX.Controls, FMX.Controls.Presentation, FMX.Edit, FMX.Forms, FMX.Grid, FMX.Grid.Style,
   FMX.Layouts, FMX.ListBox, FMX.ScrollBox, FMX.StdCtrls, FMX.TabControl, FMX.Types, Helper.Edit,
-  Helper.StringGrid, Impl.Dialogs, FMX.Platform,
-  Impl.PushdownAutomaton, Impl.Transition, Impl.Transitions, Impl.Types, System.Actions,
-  System.Classes, System.Rtti, System.SysUtils, System.UITypes;
+  Helper.StringGrid, Impl.Dialogs, FMX.Platform, Impl.PushdownAutomaton, Impl.Transition, Impl.Transitions,
+  Impl.Types, System.Actions, System.Classes, System.Rtti, System.SysUtils, System.UITypes, Impl.Validator,
+  System.StrUtils;
 
 type
   TMain = class sealed(TForm)
@@ -40,14 +40,11 @@ type
     ColumnResult: TStringColumn;
     ButtonCheck: TButton;
     ActionCheck: TAction;
-    ButtonPasteLambda: TButton;
-    ActionCopyLambda: TAction;
     procedure ActionClearExecute(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure ActionCheckExecute(Sender: TObject);
     procedure TabControlViewChange(Sender: TObject);
-    procedure ActionCopyLambdaExecute(Sender: TObject);
   strict private
     FAutomaton: TPushdownAutomaton;
     function GetAuxSymbols: TArray<TSymbol>;
@@ -57,6 +54,7 @@ type
     function GetSymbols: TArray<TSymbol>;
     function GetTransitions: TTransitions;
   private
+    function Validate: TValidationResult;
     procedure Check;
     procedure Clear;
     procedure Setup;
@@ -91,16 +89,17 @@ end;
 procedure TMain.Check;
 begin
   Setup;
-  try
-    GridOutput.ForEach(
-      procedure
-      begin
-        GridOutput.Value[ColumnResult] := Result[FAutomaton.Accept(GridOutput.Value[ColumnInput])];
-      end);
-  except
-    on Exception: EArgumentException do
-      TDialogs.Warning(Exception.Message);
+
+  if not Validate.Key then
+  begin
+    TDialogs.Warning(Validate.Value);
+    Exit;
   end;
+
+  GridOutput.ForEach(procedure
+                     begin
+                       GridOutput.Value[ColumnResult] := ResultMessage[FAutomaton.Accept(GridOutput.Value[ColumnInput])];
+                     end);
 end;
 
 procedure TMain.Clear;
@@ -123,11 +122,6 @@ end;
 procedure TMain.ActionClearExecute(Sender: TObject);
 begin
   Clear;
-end;
-
-procedure TMain.ActionCopyLambdaExecute(Sender: TObject);
-begin
-  IFMXClipboardService(TPlatformServices.Current.GetPlatformService(IFMXClipboardService)).SetClipboard(Lambda);
 end;
 
 procedure TMain.FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char; Shift: TShiftState);
@@ -195,17 +189,29 @@ end;
 procedure TMain.Setup;
 begin
   FAutomaton.Clear;
-  FAutomaton.Symbols      := Symbols;
-  FAutomaton.States       := States;
+  FAutomaton.Symbols := Symbols;
+  FAutomaton.States := States;
   FAutomaton.InitialState := InitialState;
-  FAutomaton.AuxSymbols   := AuxSymbols;
-  FAutomaton.Base         := Base;
-  FAutomaton.Transitions  := Transitions;
+  FAutomaton.AuxSymbols := AuxSymbols;
+  FAutomaton.Base := Base;
+  FAutomaton.Transitions := Transitions;
 end;
 
 procedure TMain.TabControlViewChange(Sender: TObject);
 begin
   ButtonCheck.Visible := (Sender as TTabControl).ActiveTab <> TabItemInput;
+end;
+
+function TMain.Validate: TValidationResult;
+var
+  Validator: TValidator;
+begin
+  Validator := TValidator.Create;
+  try
+    Result := Validator.Validate(FAutomaton);
+  finally
+    Validator.Free;
+  end;
 end;
 
 end.

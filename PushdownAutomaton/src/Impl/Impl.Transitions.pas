@@ -3,7 +3,7 @@
 interface
 
 uses
-  Impl.Transition, Impl.Types, System.SysUtils, system.Character;
+  Impl.Transition, Impl.Types, System.SysUtils;
 
 type
   TTransitions = class sealed
@@ -11,11 +11,13 @@ type
     FTransitions: TArray<TTransition>;
   public
     destructor Destroy; override;
+  public
+    function Add(const Transition: TTransition): TTransitions; overload;
+    function Add(const Transitions: TArray<TTransition>): TTransitions; overload;
     function Count: Integer;
     function IsEmpty: Boolean;
     function ToArray: TArray<TTransition>;
     function Transition(const State: TState; const Symbol, Top: TSymbol): TTransition;
-    procedure Add(const Transition: TTransition);
     procedure Clear;
   end;
 
@@ -27,10 +29,22 @@ begin
   inherited Destroy;
 end;
 
-procedure TTransitions.Add(const Transition: TTransition);
+function TTransitions.Add(const Transition: TTransition): TTransitions;
 begin
   SetLength(FTransitions, Length(FTransitions) + 1);
   FTransitions[High(FTransitions)] := Transition;
+
+  Result := Self;
+end;
+
+function TTransitions.Add(const Transitions: TArray<TTransition>): TTransitions;
+var
+  Transition: TTransition;
+begin
+  for Transition in Transitions do
+    Add(Transition);
+
+  Result := Self;
 end;
 
 procedure TTransitions.Clear;
@@ -40,7 +54,7 @@ begin
   for Transition in FTransitions do
     Transition.Free;
 
-  SetLength(FTransitions, 0);
+  FTransitions := nil;
 end;
 
 function TTransitions.Count: Integer;
@@ -60,10 +74,10 @@ begin
   Result := nil;
   for Transition in FTransitions do
   begin
-    if Transition.Source <> State then
+    if not Transition.Source.Equals(State) then
       Continue;
 
-    if Transition.Symbol <> Symbol then
+    if not Transition.Symbol.Equals(Symbol) then
       Continue;
 
     if not Transition.Pop.EndsWith(Top) then
@@ -75,7 +89,7 @@ end;
 
 function TTransitions.IsEmpty: Boolean;
 begin
-  Result := Count = 0;
+  Result := FTransitions = nil;
 end;
 
 end.

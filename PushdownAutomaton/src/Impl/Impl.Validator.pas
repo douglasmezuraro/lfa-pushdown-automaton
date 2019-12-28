@@ -10,7 +10,7 @@ type
   strict private
     FAuxSymbols: TList;
     FBase: TSymbol;
-    FError: string;
+    FMessage: TMessage;
     FInitialState: TState;
     FStates: TList;
     FSymbols: TList;
@@ -26,8 +26,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    function Validate(const Automaton: TPushdownAutomaton): Boolean;
-    property Error: string read FError;
+    function Validate(const Automaton: TPushdownAutomaton): TValidationResult;
   end;
 
 implementation
@@ -39,7 +38,7 @@ begin
   FAuxSymbols := TList.Create;
   FInitialState := TState.Empty;
   FBase := TSymbol.Empty;
-  FError := string.Empty;
+  FMessage := string.Empty;
 end;
 
 destructor TValidator.Destroy;
@@ -60,44 +59,52 @@ begin
   FTransitions := Automaton.Transitions;
 end;
 
-function TValidator.Validate(const Automaton: TPushdownAutomaton): Boolean;
+function TValidator.Validate(const Automaton: TPushdownAutomaton): TValidationResult;
 begin
   Setup(Automaton);
 
   if not ValidateSymbols then
-    Exit(False);
+    Exit(TValidationResult.Create(False, FMessage));
 
   if not ValidateStates then
-    Exit(False);
+    Exit(TValidationResult.Create(False, FMessage));
 
   if not ValidateInitialState then
-    Exit(False);
+    Exit(TValidationResult.Create(False, FMessage));
 
   if not ValidateAuxSymbols then
-    Exit(False);
+    Exit(TValidationResult.Create(False, FMessage));
 
   if not ValidateBase then
-    Exit(False);
+    Exit(TValidationResult.Create(False, FMessage));
 
-  Result := ValidateTransitions;
+  if not ValidateTransitions then
+    Exit(TValidationResult.Create(False, FMessage));
+
+  Result := TValidationResult.Create(True, TMessage.Empty);
 end;
 
 function TValidator.ValidateAuxSymbols: Boolean;
 var
-  Symbol: TSymbol;
+  Duplicated: TList;
 begin
   Result := False;
 
   if FSymbols.IsEmpty then
   begin
-    FError := 'The aux symbols is not defined.';
+    FMessage := 'The aux symbols is not defined.';
     Exit;
   end;
 
-  if FSymbols.HasDuplicated(Symbol) then
-  begin
-    FError := Format('The aux symbol %s is duplicated.', [Symbol.QuotedString]);
-    Exit;
+  Duplicated := FSymbols.Duplicated;
+  try
+    if not Duplicated.IsEmpty then
+    begin
+      FMessage := Format('The aux symbols %s is duplicated.', [Duplicated.ToString]);
+      Exit;
+    end;
+  finally
+    Duplicated.Free;
   end;
 
   Result := True;
@@ -109,13 +116,13 @@ begin
 
   if FBase.IsEmpty then
   begin
-    FError := 'The base is not defined.';
+    FMessage := 'The base is not defined.';
     Exit;
   end;
 
   if not FAuxSymbols.Contains(FBase) then
   begin
-    FError := Format('The base %s is not in aux symbols %s.', [FBase.QuotedString, FAuxSymbols.ToString]);
+    FMessage := Format('The base %s is not in aux symbols %s.', [FBase.QuotedString, FAuxSymbols.ToString]);
     Exit;
   end;
 
@@ -128,13 +135,13 @@ begin
 
   if FInitialState.IsEmpty then
   begin
-    FError := 'The initial state is not defined.';
+    FMessage := 'The initial state is not defined.';
     Exit;
   end;
 
   if not FStates.Contains(FInitialState) then
   begin
-    FError := Format('The state %s is not in states list %s.', [FInitialState.QuotedString, FStates.ToString]);
+    FMessage := Format('The state %s is not in states list %s.', [FInitialState.QuotedString, FStates.ToString]);
     Exit;
   end;
 
@@ -143,20 +150,25 @@ end;
 
 function TValidator.ValidateStates: Boolean;
 var
-  State: TState;
+  Duplicated: TList;
 begin
   Result := False;
 
   if FStates.IsEmpty then
   begin
-    FError := 'The states is not defined.';
+    FMessage := 'The states is not defined.';
     Exit;
   end;
 
-  if FStates.HasDuplicated(State) then
-  begin
-    FError := Format('The state %s is duplicated.', [State.QuotedString]);
-    Exit;
+  Duplicated := FStates.Duplicated;
+  try
+    if not Duplicated.IsEmpty then
+    begin
+      FMessage := Format('The states %s is duplicated.', [Duplicated.ToString]);
+      Exit;
+    end;
+  finally
+    Duplicated.Free;
   end;
 
   Result := True;
@@ -164,20 +176,25 @@ end;
 
 function TValidator.ValidateSymbols: Boolean;
 var
-  Symbol: TSymbol;
+  Duplicated: TList;
 begin
   Result := False;
 
   if FSymbols.IsEmpty then
   begin
-    FError := 'The symbols is not defined.';
+    FMessage := 'The symbols is not defined.';
     Exit;
   end;
 
-  if FSymbols.HasDuplicated(Symbol) then
-  begin
-    FError := Format('The symbol %s is duplicated.', [Symbol.QuotedString]);
-    Exit;
+  Duplicated := FSymbols.Duplicated;
+  try
+    if not Duplicated.IsEmpty then
+    begin
+      FMessage := Format('The symbols %s is duplicated.', [FSymbols.ToString]);
+      Exit;
+    end;
+  finally
+    Duplicated.Free;
   end;
 
   Result := True;
@@ -192,7 +209,7 @@ begin
 
   if FTransitions.IsEmpty then
   begin
-    FError := 'The transitions has been not defined.';
+    FMessage := 'The transitions has been not defined.';
     Exit;
   end;
 
@@ -200,42 +217,42 @@ begin
   begin
     if not FStates.Contains(Transition.Source) then
     begin
-      FError := Format('The source state %s is not in states list %s.', [Transition.Source.QuotedString, FStates.ToString]);
+      FMessage := Format('The source state %s is not in states list %s.', [Transition.Source.QuotedString, FStates.ToString]);
       Exit;
     end;
 
-    if not FSymbols.Contains(Transition.Symbol) then
+    if (not Transition.Symbol.Equals(TSymbol.Empty)) and (not FSymbols.Contains(Transition.Symbol)) then
     begin
-      FError := Format('The symbol %s is not in symbols list %s.', [Transition.Symbol.QuotedString, FSymbols.ToString]);
+      FMessage := Format('The symbol %s is not in symbols list %s.', [Transition.Symbol.QuotedString, FSymbols.ToString]);
       Exit;
     end;
 
     for Symbol in Transition.Pop do
     begin
-      if Symbol = Lambda then
+      if Symbol.Equals(TSymbol.Empty) then
         Continue;
 
       if not FAuxSymbols.Contains(Symbol) then
       begin
-        FError := Format('The pop symbol %s is not in aux symbols list %s.', [Symbol.QuotedString, FAuxSymbols.ToString]);
+        FMessage := Format('The pop symbol %s is not in aux symbols list %s.', [Symbol.QuotedString, FAuxSymbols.ToString]);
         Exit;
       end;
     end;
 
     if not FStates.Contains(Transition.Target) then
     begin
-      FError := Format('The target state %s is not in states list %s.', [Transition.Target.QuotedString, FStates.ToString]);
+      FMessage := Format('The target state %s is not in states list %s.', [Transition.Target.QuotedString, FStates.ToString]);
       Exit;
     end;
 
     for Symbol in Transition.Push do
     begin
-      if Symbol = Lambda then
+      if Symbol.Equals(TSymbol.Empty) then
         Continue;
 
       if not FAuxSymbols.Contains(Symbol) then
       begin
-        FError := Format('The push symbol %s is not in aux symbols list %s.', [Symbol.QuotedString, FAuxSymbols.ToString]);
+        FMessage := Format('The push symbol %s is not in aux symbols list %s.', [Symbol.QuotedString, FAuxSymbols.ToString]);
         Exit;
       end;
     end;

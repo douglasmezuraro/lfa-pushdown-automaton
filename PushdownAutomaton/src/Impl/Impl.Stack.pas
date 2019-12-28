@@ -10,21 +10,22 @@ type
   strict private
     FStack: TArray<string>;
   public
+    function Clear: TStack;
     function Count: Integer;
     function IsEmpty: Boolean;
     function Peek: string;
     function Pop: string;
+    function Push(const Value: string): TStack;
     function ToArray: TArray<string>;
     function ToString: string; override;
-    procedure Clear;
-    procedure Push(const Value: string);
   end;
 
 implementation
 
-procedure TStack.Clear;
+function TStack.Clear: TStack;
 begin
-  SetLength(FStack, 0);
+  FStack := nil;
+  Result := Self;
 end;
 
 function TStack.Count: Integer;
@@ -34,7 +35,7 @@ end;
 
 function TStack.IsEmpty: Boolean;
 begin
-  Result := Count = 0;
+  Result := FStack = nil;
 end;
 
 function TStack.Peek: string;
@@ -54,10 +55,12 @@ begin
   SetLength(FStack, Count - 1);
 end;
 
-procedure TStack.Push(const Value: string);
+function TStack.Push(const Value: string): TStack;
 begin
   SetLength(FStack, Count + 1);
   FStack[High(FStack)] := Value;
+
+  Result := Self;
 end;
 
 function TStack.ToArray: TArray<string>;
