@@ -9,6 +9,8 @@ type
   TDialogs = class sealed
   strict private
     const HelpCtx: Byte = 0;
+  private
+    class function OpenDialog(const Dialog: TOpenDialog; const Extension: string; out FileName: string): Boolean;
   public
     class function Confirmation(const Message: string): Boolean; overload;
     class function Confirmation(const Message: string; const Args: array of const): Boolean; overload;
@@ -72,44 +74,37 @@ begin
   TDialogService.MessageDialog(Message, TMsgDlgType.mtWarning, [TMsgDlgBtn.mbOK], TMsgDlgBtn.mbOK, HelpCtx, nil);
 end;
 
-class function TDialogs.OpenFile(const Extension: string; out FileName: string): Boolean;
-var
-  Dialog: TOpenDialog;
+class function TDialogs.OpenDialog(const Dialog: TOpenDialog; const Extension: string; out FileName: string): Boolean;
 begin
-  Dialog := TOpenDialog.Create(nil);
-  try
-    Dialog.Filter := '|*.' + Extension;
+  Result := False;
 
+  if not Assigned(Dialog) then
+    Exit;
+
+  Dialog.Filter := '|*.' + Extension;
+  try
     if Dialog.Execute then
     begin
       FileName := Dialog.FileName;
-      Exit(True);
-    end;
 
-    Result := False;
+      if not FileName.EndsWith('.' + Extension) then
+        FileName := FileName + '.' + Extension;
+
+      Result := True;
+    end;
   finally
     Dialog.Free;
   end;
 end;
 
-class function TDialogs.SaveFile(const Extension: string; out FileName: string): Boolean;
-var
-  Dialog: TSaveDialog;
+class function TDialogs.OpenFile(const Extension: string; out FileName: string): Boolean;
 begin
-  Dialog := TSaveDialog.Create(nil);
-  try
-    Dialog.Filter := '|*.' + Extension;
+  Result := OpenDialog(TOpenDialog.Create(nil), Extension, FileName);
+end;
 
-    if Dialog.Execute then
-    begin
-      FileName := Dialog.FileName;
-      Exit(True);
-    end;
-
-    Result := False;
-  finally
-    Dialog.Free;
-  end;
+class function TDialogs.SaveFile(const Extension: string; out FileName: string): Boolean;
+begin
+  Result := OpenDialog(TSaveDialog.Create(nil), Extension, FileName);
 end;
 
 end.
