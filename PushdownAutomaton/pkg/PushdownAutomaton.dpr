@@ -13,7 +13,8 @@ uses
   Impl.Transition in '..\src\Impl\Impl.Transition.pas',
   Impl.Transitions in '..\src\Impl\Impl.Transitions.pas',
   Impl.Types in '..\src\Impl\Impl.Types.pas',
-  View.Main in '..\src\View\View.Main.pas' {Main};
+  View.Main in '..\src\View\View.Main.pas' {Main},
+  Helper.Json in '..\src\Helper\Helper.Json.pas';
 
 {$R *.res}
 

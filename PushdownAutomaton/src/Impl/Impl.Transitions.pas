@@ -77,7 +77,7 @@ begin
     if not Transition.Symbol.Equals(Symbol) then
       Continue;
 
-    if not Transition.Pop.EndsWith(Top) then
+    if not Transition.Pop.Equals(Top) then
       Continue;
 
     Exit(Transition);

@@ -14,7 +14,6 @@ type
     FInitialState: TState;
     FBase: TSymbol;
     FAuxSymbols: TArray<TState>;
-    FStack: TStack;
   public
     constructor Create;
     destructor Destroy; override;
@@ -33,54 +32,48 @@ implementation
 
 constructor TPushdownAutomaton.Create;
 begin
-  FStack := TStack.Create;
   FTransitions := TTransitions.Create;
 end;
 
 destructor TPushdownAutomaton.Destroy;
 begin
   FTransitions.Free;
-  FStack.Free;
   inherited Destroy;
 end;
 
 function TPushdownAutomaton.Accept(const Word: TWord): Boolean;
 var
+  Stack: TStack;
   State: TState;
-  Symbol, Pop, Push: TSymbol;
+  Symbol, Push: TSymbol;
   Transition: TTransition;
 begin
-  State := FInitialState;
-  FStack.Clear.Push(FBase);
+  Stack := TStack.Create;
+  try
+    State := FInitialState;
+    Stack.Push(FBase);
 
-  for Symbol in Word do
-  begin
-    Transition := Transitions.Transition(State, Symbol, FStack.Peek);
-
-    if not Assigned(Transition) then
-      Exit(False);
-
-    State := Transition.Target;
-
-    for Pop in Transition.Pop do
+    for Symbol in Word do
     begin
-      if Pop <> Lambda then
-      begin
-        if FStack.IsEmpty then
-          Exit(False);
+      Transition := Transitions.Transition(State, Symbol, Stack.Peek);
 
-        FStack.Pop;
+      if not Assigned(Transition) then
+        Exit(False);
+
+      State := Transition.Target;
+      Stack.Pop;
+
+      for Push in Transition.Push do
+      begin
+        if not Push.Equals(Lambda)  then
+          Stack.Push(Push);
       end;
     end;
 
-    for Push in Transition.Push do
-    begin
-      if Push <> Lambda  then
-        FStack.Push(Push);
-    end;
+    Result := Stack.IsEmpty;
+  finally
+    Stack.Free;
   end;
-
-  Result := FStack.IsEmpty;
 end;
 
 procedure TPushdownAutomaton.Clear;
@@ -88,7 +81,6 @@ begin
   FSymbols := nil;
   FStates := nil;
   FAuxSymbols := nil;
-  FStack.Clear;
   FTransitions.Clear;
   FInitialState := TState.Empty;
   FBase := TSymbol.Empty;

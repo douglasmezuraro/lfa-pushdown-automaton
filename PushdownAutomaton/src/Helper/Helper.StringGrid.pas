@@ -70,6 +70,7 @@ end;
 procedure TStringGridHelper.Clear;
 begin
   RowCount := 0;
+  Row := -1;
 end;
 
 procedure TStringGridHelper.Insert;
