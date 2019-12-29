@@ -1,7 +1,8 @@
 {
     "symbols": [
         "a",
-        "b"
+        "b",
+        "c"
     ],
     "states": [
         "q0",
@@ -27,30 +28,44 @@
             },
             {
                 "pop": "X",
-                "push": "X",
-                "source": "q1",
-                "symbol": "a",
-                "target": "q2"
-            },
-            {
-                "pop": "X",
                 "push": "XX",
-                "source": "q2",
+                "source": "q1",
                 "symbol": "a",
                 "target": "q1"
             },
             {
                 "pop": "X",
                 "push": "*",
+                "source": "q1",
+                "symbol": "b",
+                "target": "q2"
+            },
+            {
+                "pop": "X",
+                "push": "*",
+                "source": "q1",
+                "symbol": "c",
+                "target": "q3"
+            },
+            {
+                "pop": "X",
+                "push": "*",
                 "source": "q2",
                 "symbol": "b",
+                "target": "q2"
+            },
+            {
+                "pop": "X",
+                "push": "*",
+                "source": "q2",
+                "symbol": "c",
                 "target": "q3"
             },
             {
                 "pop": "X",
                 "push": "*",
                 "source": "q3",
-                "symbol": "b",
+                "symbol": "c",
                 "target": "q3"
             }
         ]

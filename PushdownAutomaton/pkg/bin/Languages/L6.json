@@ -1,0 +1,142 @@
+{
+    "symbols": [
+        "a",
+        "b"
+    ],
+    "states": [
+        "q0",
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+    ],
+    "transitions": {
+        "values": [
+            {
+                "pop": "Z",
+                "push": "*",
+                "source": "q0",
+                "symbol": "*",
+                "target": "q0"
+            },
+            {
+                "pop": "X",
+                "push": "XX",
+                "source": "q0",
+                "symbol": "a",
+                "target": "q1"
+            },
+            {
+                "pop": "Z",
+                "push": "X",
+                "source": "q0",
+                "symbol": "a",
+                "target": "q1"
+            },
+            {
+                "pop": "X",
+                "push": "XX",
+                "source": "q0",
+                "symbol": "b",
+                "target": "q2"
+            },
+            {
+                "pop": "Z",
+                "push": "X",
+                "source": "q0",
+                "symbol": "b",
+                "target": "q2"
+            },
+            {
+                "pop": "X",
+                "push": "XX",
+                "source": "q1",
+                "symbol": "a",
+                "target": "q1"
+            },
+            {
+                "pop": "X",
+                "push": "*",
+                "source": "q1",
+                "symbol": "b",
+                "target": "q3"
+            },
+            {
+                "pop": "X",
+                "push": "XX",
+                "source": "q2",
+                "symbol": "b",
+                "target": "q2"
+            },
+            {
+                "pop": "X",
+                "push": "*",
+                "source": "q2",
+                "symbol": "a",
+                "target": "q4"
+            },
+            {
+                "pop": "*",
+                "push": "X",
+                "source": "q3",
+                "symbol": "a",
+                "target": "q1"
+            },
+            {
+                "pop": "X",
+                "push": "XX",
+                "source": "q3",
+                "symbol": "a",
+                "target": "q1"
+            },
+            {
+                "pop": "*",
+                "push": "X",
+                "source": "q3",
+                "symbol": "b",
+                "target": "q2"
+            },
+            {
+                "pop": "X",
+                "push": "*",
+                "source": "q3",
+                "symbol": "b",
+                "target": "q3"
+            },
+            {
+                "pop": "*",
+                "push": "X",
+                "source": "q4",
+                "symbol": "a",
+                "target": "q1"
+            },
+            {
+                "pop": "*",
+                "push": "X",
+                "source": "q4",
+                "symbol": "b",
+                "target": "q2"
+            },
+            {
+                "pop": "X",
+                "push": "XX",
+                "source": "q4",
+                "symbol": "b",
+                "target": "q2"
+            },
+            {
+                "pop": "X",
+                "push": "*",
+                "source": "q4",
+                "symbol": "a",
+                "target": "q4"
+            }
+        ]
+    },
+    "initialState": "q0",
+    "base": "Z",
+    "auxSymbols": [
+        "Z",
+        "X"
+    ]
+}

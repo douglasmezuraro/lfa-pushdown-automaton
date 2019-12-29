@@ -9,10 +9,7 @@
         "q0",
         "q1",
         "q2",
-        "q3",
-        "q4",
-        "q5",
-        "q6"
+        "q3"
     ],
     "transitions": {
         "values": [
@@ -24,24 +21,59 @@
                 "target": "q0"
             },
             {
-                "pop": "Z",
+                "pop": "X",
                 "push": "XX",
                 "source": "q0",
                 "symbol": "a",
+                "target": "q0"
+            },
+            {
+                "pop": "Z",
+                "push": "X",
+                "source": "q0",
+                "symbol": "a",
+                "target": "q0"
+            },
+            {
+                "pop": "X",
+                "push": "XX",
+                "source": "q0",
+                "symbol": "b",
+                "target": "q1"
+            },
+            {
+                "pop": "Z",
+                "push": "X",
+                "source": "q0",
+                "symbol": "b",
                 "target": "q1"
             },
             {
                 "pop": "X",
-                "push": "XXX",
+                "push": "*",
+                "source": "q0",
+                "symbol": "d",
+                "target": "q3"
+            },
+            {
+                "pop": "X",
+                "push": "XX",
                 "source": "q1",
-                "symbol": "a",
+                "symbol": "b",
                 "target": "q1"
             },
             {
                 "pop": "X",
                 "push": "*",
                 "source": "q1",
-                "symbol": "d",
+                "symbol": "c",
+                "target": "q2"
+            },
+            {
+                "pop": "X",
+                "push": "*",
+                "source": "q2",
+                "symbol": "c",
                 "target": "q2"
             },
             {
@@ -49,63 +81,14 @@
                 "push": "*",
                 "source": "q2",
                 "symbol": "d",
-                "target": "q2"
-            },
-            {
-                "pop": "Z",
-                "push": "X",
-                "source": "q0",
-                "symbol": "b",
                 "target": "q3"
             },
             {
                 "pop": "X",
-                "push": "XX",
-                "source": "q1",
-                "symbol": "b",
-                "target": "q3"
-            },
-            {
-                "pop": "X",
-                "push": "X",
+                "push": "*",
                 "source": "q3",
-                "symbol": "b",
-                "target": "q4"
-            },
-            {
-                "pop": "X",
-                "push": "X",
-                "source": "q4",
-                "symbol": "b",
-                "target": "q5"
-            },
-            {
-                "pop": "X",
-                "push": "XX",
-                "source": "q5",
-                "symbol": "b",
-                "target": "q3"
-            },
-            {
-                "pop": "X",
-                "push": "*",
-                "source": "q5",
-                "symbol": "c",
-                "target": "q6"
-            },
-            {
-                "pop": "X",
-                "push": "*",
-                "source": "q6",
                 "symbol": "d",
-                "target": "q2"
-            },
-            {
-                "pop": "X",
-                "push": "*",
-                "source": "q6",
-                "symbol": "c",
-                "target": "q6"
+                "target": "q3"
             }
         ]
     },

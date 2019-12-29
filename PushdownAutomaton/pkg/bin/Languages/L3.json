@@ -1,0 +1,1 @@
+{"symbols":["a","b"],"states":["q0","q1"],"transitions":{"values":[{"pop":"Z","push":"XX","source":"q0","symbol":"a","target":"q0"},{"pop":"X","push":"XXX","source":"q0","symbol":"a","target":"q0"},{"pop":"X","push":"*","source":"q0","symbol":"b","target":"q1"},{"pop":"X","push":"*","source":"q1","symbol":"b","target":"q1"}]},"initialState":"q0","base":"Z","auxSymbols":["Z","X"]}

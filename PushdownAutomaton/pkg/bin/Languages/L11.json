@@ -1,13 +1,16 @@
 {
     "symbols": [
         "a",
-        "b"
+        "b",
+        "c",
+        "d"
     ],
     "states": [
         "q0",
         "q1",
         "q2",
-        "q3"
+        "q3",
+        "q4"
     ],
     "transitions": {
         "values": [
@@ -26,32 +29,60 @@
                 "target": "q1"
             },
             {
-                "pop": "X",
+                "pop": "Z",
                 "push": "X",
-                "source": "q1",
-                "symbol": "a",
-                "target": "q2"
+                "source": "q0",
+                "symbol": "c",
+                "target": "q3"
             },
             {
                 "pop": "X",
                 "push": "XX",
-                "source": "q2",
+                "source": "q1",
                 "symbol": "a",
                 "target": "q1"
             },
             {
                 "pop": "X",
                 "push": "*",
+                "source": "q1",
+                "symbol": "b",
+                "target": "q2"
+            },
+            {
+                "pop": "X",
+                "push": "*",
                 "source": "q2",
                 "symbol": "b",
+                "target": "q2"
+            },
+            {
+                "pop": "*",
+                "push": "X",
+                "source": "q2",
+                "symbol": "c",
+                "target": "q3"
+            },
+            {
+                "pop": "X",
+                "push": "XX",
+                "source": "q3",
+                "symbol": "c",
                 "target": "q3"
             },
             {
                 "pop": "X",
                 "push": "*",
                 "source": "q3",
-                "symbol": "b",
-                "target": "q3"
+                "symbol": "d",
+                "target": "q4"
+            },
+            {
+                "pop": "X",
+                "push": "*",
+                "source": "q4",
+                "symbol": "d",
+                "target": "q4"
             }
         ]
     },
