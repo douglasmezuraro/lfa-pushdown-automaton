@@ -69,22 +69,22 @@ type
     procedure ExerciseEleven;
 
     /// <summary>
-    ///   L12 = {(a^n)(b^2n+1)/n>0}
+    ///   L12 = {(a^n)(b^(2n+1))/n>0}
     /// </summary>
     procedure ExerciseTwelve;
 
     /// <summary>
-    ///   L13 = {(a^n)(b^2n+2)/n>0}
+    ///   L13 = {(a^n)(b^(2n+2))/n>0}
     /// </summmary>
     procedure ExerciseThirteen;
 
     /// <summary>
-    ///   L14 = {(a^n)(b^n/2)/n>0;n é par}
+    ///   L14 = {(a^n)(b^(n/2))/n>0;n é par}
     /// </summary>
     procedure ExerciseFourteen;
 
     /// <summary>
-    ///   L15 = {(a^n)(b^n/3)/n>0;n é múltiplo de 3}
+    ///   L15 = {(a^n)(b^(n/3))/n>0;n é múltiplo de 3}
     /// </summary>
     procedure ExerciseFifteen;
 
@@ -230,10 +230,10 @@ begin
   FAutomaton.Base := 'Z';
 
   FAutomaton.Transitions.Add(TTransition.Create('q0', 'q0', '*', 'Z', '*'))
-                        .Add(TTransition.Create('q0', 'q0', 'a', 'Z', 'X'))
                         .Add(TTransition.Create('q0', 'q0', 'a', 'X', 'XX'))
-                        .Add(TTransition.Create('q0', 'q1', 'b', 'Z', 'X'))
+                        .Add(TTransition.Create('q0', 'q0', 'a', 'Z', 'X'))
                         .Add(TTransition.Create('q0', 'q1', 'b', 'X', 'XX'))
+                        .Add(TTransition.Create('q0', 'q1', 'b', 'Z', 'X'))
                         .Add(TTransition.Create('q0', 'q3', 'd', 'X', '*'))
                         .Add(TTransition.Create('q1', 'q1', 'b', 'X', 'XX'))
                         .Add(TTransition.Create('q1', 'q2', 'c', 'X', '*'))
@@ -262,10 +262,10 @@ begin
   FAutomaton.Base := 'Z';
 
   FAutomaton.Transitions.Add(TTransition.Create('q0', 'q0', '*', 'Z', '*'))
-                        .Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'X'))
                         .Add(TTransition.Create('q0', 'q1', 'a', 'X', 'XX'))
-                        .Add(TTransition.Create('q0', 'q2', 'b', 'Z', 'X'))
+                        .Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'X'))
                         .Add(TTransition.Create('q0', 'q2', 'b', 'X', 'XX'))
+                        .Add(TTransition.Create('q0', 'q2', 'b', 'Z', 'X'))
                         .Add(TTransition.Create('q1', 'q1', 'a', 'X', 'XX'))
                         .Add(TTransition.Create('q1', 'q3', 'b', 'X', '*'))
                         .Add(TTransition.Create('q2', 'q2', 'b', 'X', 'XX'))
@@ -274,9 +274,9 @@ begin
                         .Add(TTransition.Create('q3', 'q1', 'a', 'X', 'XX'))
                         .Add(TTransition.Create('q3', 'q2', 'b', '*', 'X'))
                         .Add(TTransition.Create('q3', 'q3', 'b', 'X', '*'))
-                        .Add(TTransition.Create('q4', 'q2', 'b', 'X', 'XX'))
-                        .Add(TTransition.Create('q4', 'q2', 'b', '*', 'X'))
                         .Add(TTransition.Create('q4', 'q1', 'a', '*', 'X'))
+                        .Add(TTransition.Create('q4', 'q2', 'b', '*', 'X'))
+                        .Add(TTransition.Create('q4', 'q2', 'b', 'X', 'XX'))
                         .Add(TTransition.Create('q4', 'q4', 'a', 'X', '*'));
 
   for Word in AcceptedWords do
@@ -301,17 +301,17 @@ begin
 
   FAutomaton.Transitions.Add(TTransition.Create('q0', 'q0', '*', 'Z', '*'))
                         .Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'XX'))
-                        .Add(TTransition.Create('q0', 'q1', 'b', 'Z', '*'))
+                        .Add(TTransition.Create('q0', 'q3', 'b', 'Z', 'X'))
                         .Add(TTransition.Create('q1', 'q1', 'a', 'X', 'XXX'))
-                        .Add(TTransition.Create('q1', 'q2', 'b', 'X', 'XX'))
-                        .Add(TTransition.Create('q1', 'q4', 'c', 'X', '*'))
-                        .Add(TTransition.Create('q1', 'q5', 'd', 'X', '*'))
-                        .Add(TTransition.Create('q2', 'q3', 'b', 'X', 'X'))
-                        .Add(TTransition.Create('q3', 'q1', 'b', 'X', 'X'))
-                        .Add(TTransition.Create('q3', 'q4', 'c', 'X', '*'))
-                        .Add(TTransition.Create('q4', 'q4', 'c', 'X', '*'))
-                        .Add(TTransition.Create('q4', 'q5', 'd', 'X', '*'))
-                        .Add(TTransition.Create('q5', 'q5', 'd', 'X', '*'));
+                        .Add(TTransition.Create('q1', 'q1', 'd', 'X', '*'))
+                        .Add(TTransition.Create('q1', 'q3', 'b', 'X', 'XX'))
+                        .Add(TTransition.Create('q2', 'q2', 'd', 'X', '*'))
+                        .Add(TTransition.Create('q3', 'q4', 'b', 'X', 'X'))
+                        .Add(TTransition.Create('q4', 'q5', 'b', 'X', 'X'))
+                        .Add(TTransition.Create('q5', 'q3', 'b', 'X', 'XX'))
+                        .Add(TTransition.Create('q5', 'q6', 'c', 'X', '*'))
+                        .Add(TTransition.Create('q6', 'q2', 'd', 'X', '*'))
+                        .Add(TTransition.Create('q6', 'q6', 'c', 'X', '*'));
 
   for Word in AcceptedWords do
     CheckTrue(FAutomaton.Accept(Word));
@@ -380,8 +380,34 @@ begin
 end;
 
 procedure TExercisesTest.ExerciseTen;
+const
+  AcceptedWords: TArray<TWord> = ['*', 'ab', 'bc', 'abbc', 'aaabbbbbcc', 'aaabbb', 'aabbbbbbcccc'];
+  RejectedWords: TArray<TWord> = ['a', 'b', 'c', 'ac', 'abc', 'aabbcc', 'aabc', 'abcc'];
+var
+  Word: TWord;
 begin
-  Exit;
+  FAutomaton.Symbols := ['a', 'b', 'c'];
+  FAutomaton.States := ['q0', 'q1', 'q2', 'q3', 'q4'];
+  FAutomaton.InitialState := 'q0';
+  FAutomaton.AuxSymbols := ['Z', 'X'];
+  FAutomaton.Base := 'Z';
+
+  FAutomaton.Transitions.Add(TTransition.Create('q0', 'q0', '*', 'Z', '*'))
+                        .Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'X'))
+                        .Add(TTransition.Create('q0', 'q3', 'b', 'Z', 'X'))
+                        .Add(TTransition.Create('q1', 'q1', 'a', 'X', 'XX'))
+                        .Add(TTransition.Create('q1', 'q2', 'b', 'X', '*'))
+                        .Add(TTransition.Create('q2', 'q2', 'b', 'X', '*'))
+                        .Add(TTransition.Create('q2', 'q3', 'b', '*', 'X'))
+                        .Add(TTransition.Create('q3', 'q3', 'b', 'X', 'XX'))
+                        .Add(TTransition.Create('q3', 'q4', 'c', 'X', '*'))
+                        .Add(TTransition.Create('q4', 'q4', 'c', 'X', '*'));
+
+  for Word in AcceptedWords do
+    CheckTrue(FAutomaton.Accept(Word));
+
+  for Word in RejectedWords do
+    CheckFalse(FAutomaton.Accept(Word));
 end;
 
 procedure TExercisesTest.ExerciseEleven;
@@ -478,10 +504,11 @@ begin
   FAutomaton.AuxSymbols := ['Z', 'X'];
   FAutomaton.Base := 'Z';
 
-  FAutomaton.Transitions.Add(TTransition.Create('q0', 'q1', 'a', 'Z', 'X'))
-                        .Add(TTransition.Create('q1', 'q1', 'a', 'X', 'XX'))
-                        .Add(TTransition.Create('q1', 'q2', 'b', 'XX', '*'))
-                        .Add(TTransition.Create('q2', 'q2', 'b', 'XX', '*'));
+  FAutomaton.Transitions.Add(TTransition.Create('q0', 'q0', 'a', 'Z', 'X'))
+                        .Add(TTransition.Create('q0', 'q1', 'a', 'X', 'X'))
+                        .Add(TTransition.Create('q1', 'q0', 'a', 'X', 'XX'))
+                        .Add(TTransition.Create('q1', 'q2', 'b', 'X', '*'))
+                        .Add(TTransition.Create('q2', 'q2', 'b', 'X', '*'));
 
   for Word in AcceptedWords do
     CheckTrue(FAutomaton.Accept(Word));
