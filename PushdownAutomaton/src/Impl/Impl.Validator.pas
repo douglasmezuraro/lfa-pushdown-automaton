@@ -227,16 +227,10 @@ begin
       Exit;
     end;
 
-    for Symbol in Transition.Pop do
+    if (not Transition.Pop.Equals(Lambda)) and (not FAuxSymbols.Contains(Transition.Pop)) then
     begin
-      if Symbol.Equals(Lambda) then
-        Continue;
-
-      if not FAuxSymbols.Contains(Symbol) then
-      begin
-        FMessage := Format('The pop symbol %s is not in aux symbols list %s.', [Symbol.QuotedString, FAuxSymbols.ToString]);
-        Exit;
-      end;
+      FMessage := Format('The pop symbol %s is not in aux symbols list %s.', [Transition.Pop.QuotedString, FAuxSymbols.ToString]);
+      Exit;
     end;
 
     if not FStates.Contains(Transition.Target) then

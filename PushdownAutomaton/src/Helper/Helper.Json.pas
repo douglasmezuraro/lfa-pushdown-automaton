@@ -3,7 +3,7 @@ unit Helper.Json;
 interface
 
 uses
-  REST.Json, System.Classes, System.IOUtils, System.SysUtils;
+  REST.Json, System.IOUtils, System.SysUtils;
 
 type
   TJsonHelper = class Helper for TJson
@@ -24,14 +24,10 @@ end;
 
 class procedure TJsonHelper.SaveToFile<T>(const AObject: T; const FileName: string);
 var
-  Stream: TStringStream;
+  Json: string;
 begin
-  Stream := TStringStream.Create(ObjectToJsonString(AObject));
-  try
-    Stream.SaveToFile(FileName);
-  finally
-    Stream.Free;
-  end;
+  Json := ObjectToJsonString(AObject);
+  TFile.WriteAllText(FileName, Json);
 end;
 
 end.
